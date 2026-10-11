@@ -1,0 +1,6 @@
+import {
+  "wangzh12023/moonwalk/src/instrument",
+  "moonbitlang/core/string",
+  "moonbitlang/core/json",
+  "moonbitlang/core/debug",
+}
