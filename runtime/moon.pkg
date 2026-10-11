@@ -1,0 +1,6 @@
+import {
+  "moonbitlang/core/env",
+  "moonbitlang/core/debug",
+  "moonbitlang/core/string",
+  "moonbitlang/core/json",
+}
