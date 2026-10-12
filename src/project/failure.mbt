@@ -203,7 +203,7 @@ fn decode_assert_failure(
       }
     None => ("", "assert")
   }
-  Some({ file, line: l1, subject, expected, actual, call })
+  Some({ file, line: l1, subject, expected, actual, call, })
 }
 
 ///|
