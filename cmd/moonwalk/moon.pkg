@@ -1,0 +1,16 @@
+import {
+  "wangzh12023/moonwalk/src/project",
+  "wangzh12023/moonwalk/src/report",
+  "wangzh12023/moonwalk/src/embedded",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/x/sys",
+  "moonbitlang/core/argparse",
+  "moonbitlang/core/env",
+  "moonbitlang/core/string",
+  "moonbitlang/core/json",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "wasm"
