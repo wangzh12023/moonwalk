@@ -1,2 +1,8 @@
 * text=auto eol=lf
 *.png binary
+
+# Generated files (CI checks that they are fresh). They are left out of the
+# repository's language statistics, and the large viewer bundle out of diffs.
+src/html/assets/viewer.js linguist-generated=true -diff
+src/html/*.generated.mbt linguist-generated=true -diff
+src/embedded/*.generated.mbt linguist-generated=true
