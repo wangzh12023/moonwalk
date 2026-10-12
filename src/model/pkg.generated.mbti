@@ -38,6 +38,8 @@ pub(all) enum SiteKind {
   Return
   Test
 } derive(Eq, @debug.Debug)
+pub fn SiteKind::code(Self) -> Int
+pub fn SiteKind::from_code(Int) -> Self?
 pub fn SiteKind::from_tag(String) -> Self?
 pub fn SiteKind::tag(Self) -> String
 

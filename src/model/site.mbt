@@ -199,10 +199,75 @@ pub fn SiteTable::to_json(self : SiteTable) -> Json {
     "pkg": f.pkg.to_json(),
     "text": f.text.to_json(),
   })
+  // Version 2: one array per site instead of an object, with the read set
+  // as indices into a shared string table. Sites dominate the size of a
+  // recording (every probe of every file), so this roughly thirds it.
+  let names : Map[String, Int] = Map([])
+  let strings : Array[Json] = []
+  fn intern(s : String) -> Int {
+    match names.get(s) {
+      Some(i) => i
+      None => {
+        let i = strings.length()
+        names[s] = i
+        strings.push(Json::string(s))
+        i
+      }
+    }
+  }
+
+  let rows : Array[Json] = self.sites.map(s => {
+    Json::array([
+      s.kind.code().to_json(),
+      s.file.to_json(),
+      s.start.to_json(),
+      s.end.to_json(),
+      s.line.to_json(),
+      s.col.to_json(),
+      s.end_line.to_json(),
+      s.end_col.to_json(),
+      intern(s.name).to_json(),
+      s.func.to_json(),
+      Json::array(s.reads.map(r => intern(r).to_json())),
+      (s.region_start - s.start).to_json(),
+      (s.region_end - s.end).to_json(),
+    ])
+  })
   {
-    "version": (1).to_json(),
+    "version": (2).to_json(),
     "files": Json::array(files),
-    "sites": Json::array(self.sites.map(s => s.to_json())),
+    "strings": Json::array(strings),
+    "sites": Json::array(rows),
+  }
+}
+
+///|
+/// Compact numeric code of a site kind (JSON version 2).
+pub fn SiteKind::code(self : SiteKind) -> Int {
+  match self {
+    Step => 0
+    Enter => 1
+    Param => 2
+    Bind => 3
+    Branch => 4
+    Arm => 5
+    Return => 6
+    Test => 7
+  }
+}
+
+///|
+pub fn SiteKind::from_code(code : Int) -> SiteKind? {
+  match code {
+    0 => Some(Step)
+    1 => Some(Enter)
+    2 => Some(Param)
+    3 => Some(Bind)
+    4 => Some(Branch)
+    5 => Some(Arm)
+    6 => Some(Return)
+    7 => Some(Test)
+    _ => None
   }
 }
 
@@ -237,6 +302,48 @@ pub fn SiteTable::from_json(json : Json) -> SiteTable? {
       pkg: json_str(fo.get("pkg")),
       text: json_str(fo.get("text")),
     })
+  }
+  // Version 2: compact rows referring to a string table.
+  match obj.get("strings") {
+    Some(Array(strings)) => {
+      let str = (j : Json) => {
+        let i = json_int(Some(j), -1)
+        match strings.get(i) {
+          Some(String(s)) => s
+          _ => ""
+        }
+      }
+      for row in sites {
+        guard row is Array(r) && r.length() >= 13 else { return None }
+        guard SiteKind::from_code(json_int(Some(r[0]), -1)) is Some(kind) else {
+          return None
+        }
+        let start = json_int(Some(r[2]), 0)
+        let end = json_int(Some(r[3]), 0)
+        let reads = match r[10] {
+          Array(rs) => rs.map(str)
+          _ => []
+        }
+        table.sites.push({
+          id: table.sites.length(),
+          kind,
+          file: json_int(Some(r[1]), 0),
+          start,
+          end,
+          line: json_int(Some(r[4]), 0),
+          col: json_int(Some(r[5]), 0),
+          end_line: json_int(Some(r[6]), 0),
+          end_col: json_int(Some(r[7]), 0),
+          name: str(r[8]),
+          func: json_int(Some(r[9]), -1),
+          reads,
+          region_start: start + json_int(Some(r[11]), 0),
+          region_end: end + json_int(Some(r[12]), 0),
+        })
+      }
+      return Some(table)
+    }
+    _ => ()
   }
   for s in sites {
     guard s is Object(so) else { return None }

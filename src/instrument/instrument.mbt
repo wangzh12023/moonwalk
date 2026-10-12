@@ -69,7 +69,22 @@ pub(all) struct Instrumented {
 
 ///|
 fn quantifier_names(qs : @list.List[@syntax.TypeVarBinder]) -> Array[String] {
-  qs.iter().map(q => q.name).collect()
+  // A type variable bounded by `Debug` (`fn[T : Debug] ...`) can be
+  // rendered by a value probe; only the others are opaque.
+  qs
+  .iter()
+  .filter(q => {
+    !q.constraints
+    .iter()
+    .any(c => {
+      match c.trait_ {
+        Ident(name~) => name == "Debug"
+        Dot(id~, ..) => id == "Debug"
+      }
+    })
+  })
+  .map(q => q.name)
+  .collect()
 }
 
 ///|

@@ -40,15 +40,24 @@ pub fn render_text(rec : @project.Recording, limit? : Int = 200) -> String {
         continue
       }
       Step(..) => {
+        // The first line of the statement: a multi-line `match` or `if`
+        // would otherwise repeat its whole head at every step.
         let src = @model.SourceText::new(
           match sites.file(site.file) {
             Some(f) => f.text
             None => ""
           },
         )
-        src
-        .slice(site.start, site.end.min(site.start + 70))
-        .replace_all(old="\n", new=" ")
+        let line_end = match src.slice(site.start, site.end).find("\n") {
+          Some(i) => site.start + i
+          None => site.end
+        }
+        let text = src.slice(site.start, line_end.min(site.start + 80))
+        if line_end > site.start + 80 || line_end < site.end {
+          text.trim_end(chars=" {").to_owned() + " …"
+        } else {
+          text
+        }
       }
       Branch(taken~, ..) => if taken { "-> then" } else { "-> else" }
       Arm(..) => "-> arm"
