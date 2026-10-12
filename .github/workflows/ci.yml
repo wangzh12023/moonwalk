@@ -71,6 +71,11 @@ jobs:
           grep -q "fee_for" why.txt
           test -s bank.html
 
+      - name: End-to-end - MCP server answers like an agent expects
+        shell: bash
+        run: |
+          node scripts/mcp-smoke.mjs _build/wasm/release/build/cmd/moonwalk/moonwalk.wasm examples/inventory partially
+
       - name: End-to-end - every regression test records and still passes
         shell: bash
         run: |
