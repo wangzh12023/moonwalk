@@ -72,6 +72,7 @@ pub struct Timeline {
 }
 pub fn Timeline::build(@model.SiteTable, Array[Event]) -> Self
 pub fn Timeline::cut(Self) -> String?
+pub fn Timeline::explain(Self, Int, String, value? : String, depth? : Int) -> Cause?
 pub fn Timeline::frames(Self) -> Array[Frame]
 pub fn Timeline::history(Self, Int, String) -> Array[(Int, String)]
 pub fn Timeline::length(Self) -> Int
@@ -88,6 +89,7 @@ pub fn Timeline::step_over(Self, Int) -> Int?
 pub fn Timeline::steps(Self) -> Array[Step]
 pub fn Timeline::where_(Self, Int) -> String
 pub fn Timeline::why(Self, Int, String, depth? : Int) -> Cause?
+pub fn Timeline::why_expression(Self, Int, String, String, depth? : Int) -> Cause?
 
 // Type aliases
 

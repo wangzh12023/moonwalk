@@ -342,6 +342,70 @@ pub fn Timeline::why(
 }
 
 ///|
+/// Explain a subject at a step: a variable or field path when one with
+/// that name was assigned, otherwise the expression evaluated by the
+/// statement at `step` (with `value` as its observed result).
+pub fn Timeline::explain(
+  self : Timeline,
+  step : Int,
+  subject : String,
+  value? : String = "?",
+  depth? : Int = 6,
+) -> Cause? {
+  match self.why(step, subject, depth~) {
+    Some(c) => Some(c)
+    None => self.why_expression(step, subject, value, depth~)
+  }
+}
+
+///|
+/// Explain the value of the expression evaluated by the statement at
+/// `step` (for example `order_total(stock, items)` inside an `inspect`):
+/// the calls the statement made, and the variables it read.
+pub fn Timeline::why_expression(
+  self : Timeline,
+  step : Int,
+  label : String,
+  value : String,
+  depth? : Int = 6,
+) -> Cause? {
+  guard self.steps.get(step) is Some(st) else { return None }
+  guard self.sites.get(st.site) is Some(info) else { return None }
+  // Steps of the statement: from its probe to the next statement probe of
+  // the same frame (calls made by the statement sit in between).
+  let mut end = self.steps.length() - 1
+  for i = step + 1; i < self.steps.length(); i = i + 1 {
+    let s = self.steps[i]
+    if s.frame == st.frame && s.event is Step(..) {
+      end = i - 1
+      break
+    }
+    if s.frame == st.frame && s.event is (Leave(..) | TestEnd(..)) {
+      end = i
+      break
+    }
+  }
+  let causes = []
+  for f in self.calls_between(st.frame, step, end) {
+    causes.push(self.explain_call(f, depth - 1))
+  }
+  for r in info.reads {
+    let shadowed = info.reads.iter().any(o => o != r && o.has_prefix(r + "."))
+    if shadowed {
+      continue
+    }
+    match self.last_write(st.frame, r, step) {
+      Some(rw) => causes.push(self.explain_write(rw, depth - 1))
+      None => ()
+    }
+  }
+  if causes.is_empty() {
+    return None
+  }
+  Some(Assigned(step~, name=label, value~, reads=causes))
+}
+
+///|
 /// Inputs of the statement that produced step `at`: the variables it read
 /// (as of `at`), the calls it made, and the decision guarding it.
 fn Timeline::explain_inputs(

@@ -311,7 +311,11 @@ async fn cmd_why(
       )
     None => ()
   }
-  match tl.why(at, name, depth~) {
+  let actual = match check {
+    Some(c) => c.actual
+    None => "?"
+  }
+  match tl.explain(at, name, value=actual, depth~) {
     Some(cause) => {
       println("why is \{name} what it is at step #\{at}?\n")
       println(tl.render_cause(cause))

@@ -341,7 +341,11 @@ fn locals_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
 fn why_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
   guard model.why is Some(name) else { return nothing }
   let tl = t.timeline
-  let body = match tl.why(model.why_step, name) {
+  let actual = match t.check {
+    Some(c) if c.subject == name => c.actual
+    _ => "?"
+  }
+  let body = match tl.explain(model.why_step, name, value=actual) {
     Some(cause) => {
       let rows = @vm.cause_rows(tl, cause).map(r => {
         let cls = if r.repeat { "cause repeat" } else { "cause" }
