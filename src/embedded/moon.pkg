@@ -1,0 +1,9 @@
+options(
+  "pre-build": [
+    {
+      "command": ":embed -i $input -o $output --name runtime_source --text",
+      "input": "../../runtime/runtime.mbt",
+      "output": "runtime_source.generated.mbt",
+    },
+  ],
+)

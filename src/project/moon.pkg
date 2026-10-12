@@ -1,0 +1,13 @@
+import {
+  "wangzh12023/moonwalk/src/instrument",
+  "wangzh12023/moonwalk/src/trace",
+  "moonbitlang/moon_config",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/process",
+  "moonbitlang/core/set",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/json",
+  "moonbitlang/core/string",
+  "moonbitlang/core/debug",
+}
