@@ -1,0 +1,87 @@
+name: Pages
+
+# Publishes the demo site: site/index.html plus real recordings made by
+# MoonWalk from this commit. The starlark-mbt bug only reproduces on
+# Windows, so the recordings are made there.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  # The starlark-mbt commit the case study was written against.
+  STARLARK_REV: 55f9db412a28b171383b591c6235c7abfda80ee3
+
+jobs:
+  record:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install MoonBit
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Build MoonWalk
+        shell: bash
+        run: |
+          moon update
+          moon build cmd/moonwalk --target wasm --release
+
+      - name: Record the demos
+        shell: bash
+        run: |
+          MW="$PWD/_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm"
+          mkdir -p site/demos
+          moonrun "$MW" -- -C examples/bank -q record --steps 0 --html site/demos/bank.html
+          moonrun "$MW" -- -C examples/inventory -q record --steps 0 --html site/demos/inventory.html
+          git init -q "$RUNNER_TEMP/starlark"
+          cd "$RUNNER_TEMP/starlark"
+          git remote add origin https://github.com/connect0459/starlark-mbt
+          git fetch -q --depth 1 origin "$STARLARK_REV"
+          git checkout -q FETCH_HEAD
+          cd "$GITHUB_WORKSPACE"
+          moonrun "$MW" -- -C "$RUNNER_TEMP/starlark" -q record "repl_wbtest.mbt:14" --steps 0 --html site/demos/starlark.html
+          ls -la site/demos
+
+      - name: Check the demos in a browser
+        shell: bash
+        run: |
+          for f in site/demos/*.html; do
+            echo "== $f"
+            node scripts/viewer-check.mjs "$f"
+          done
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: record
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

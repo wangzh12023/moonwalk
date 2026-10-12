@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoonWalk: a time-travel debugger for MoonBit</title>
+<meta name="description" content="Record a failing MoonBit test once, step backwards and forwards through it, and ask why any value is what it is.">
+<style>
+:root {
+  --bg: #0d1017; --panel: #141923; --line: #232a3a; --fg: #d9dee8; --muted: #8a93a8;
+  --accent: #7cb7ff; --moon: #ffd479; --bad: #ff7b7b; --ok: #7ee2a8;
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); line-height: 1.55; }
+a { color: var(--accent); }
+main { max-width: 64rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+header h1 { font-size: 2.4rem; margin: 0 0 .25rem; letter-spacing: .01em; }
+header h1 .moon { color: var(--moon); }
+header p.tag { font-size: 1.2rem; color: var(--muted); margin: 0 0 1.5rem; max-width: 46rem; }
+.links { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.links a { text-decoration: none; padding: .45rem .9rem; border: 1px solid #2f384c; border-radius: 8px;
+           background: #1a2030; color: var(--fg); }
+.links a:hover { border-color: var(--accent); }
+h2 { font-size: 1.35rem; margin: 2.5rem 0 1rem; }
+.demos { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
+.demo { display: flex; flex-direction: column; gap: .5rem; padding: 1.1rem 1.2rem; border: 1px solid var(--line);
+        border-radius: 12px; background: var(--panel); text-decoration: none; color: var(--fg); }
+.demo:hover { border-color: var(--moon); }
+.demo h3 { margin: 0; font-size: 1.05rem; }
+.demo .fail { font-family: ui-monospace, Consolas, Menlo, monospace; font-size: .8rem; color: var(--bad); }
+.demo p { margin: 0; color: var(--muted); font-size: .92rem; }
+.demo .go { margin-top: auto; color: var(--moon); font-size: .9rem; }
+.badge { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ok);
+         border: 1px solid #2e5a44; border-radius: 4px; padding: 0 .35rem; align-self: flex-start; }
+pre { background: #0a0d13; border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.1rem;
+      overflow-x: auto; font: 13px/1.5 ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; }
+pre .c { color: #6b7591; } pre .y { color: var(--moon); } pre .r { color: var(--bad); }
+ul.how { padding-left: 1.2rem; } ul.how li { margin: .35rem 0; }
+kbd { font: 12px ui-monospace, Consolas, monospace; border: 1px solid #3a4358; border-bottom-width: 2px;
+      border-radius: 4px; padding: 0 .3rem; background: #1a2030; }
+footer { margin-top: 3rem; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1><span class="moon">◐</span> MoonWalk</h1>
+  <p class="tag">An omniscient, time-travel debugger for MoonBit. Record a failing test once, then step backwards and forwards through every step it took, and ask <em>why</em> any value is what it is.</p>
+  <div class="links">
+    <a href="https://github.com/wangzh12023/moonwalk">GitHub</a>
+    <a href="https://github.com/wangzh12023/moonwalk/blob/main/README.zh.md">中文说明</a>
+    <a href="https://github.com/wangzh12023/moonwalk/blob/main/docs/ARCHITECTURE.md">How it works</a>
+    <a href="https://github.com/wangzh12023/moonwalk/blob/main/docs/case-study-starlark.md">Case study</a>
+  </div>
+</header>
+
+<h2>Try it: real recordings, no install</h2>
+<p>Each page below is one file written by <code>moonwalk record --html</code>. It opens at the failing check with the explanation of the wrong value. Use <kbd>←</kbd> <kbd>→</kbd> to step, <kbd>↑</kbd> <kbd>↓</kbd> to step over calls, and <kbd>o</kbd> to step out. Click any variable to ask why it has its value.</p>
+<div class="demos">
+  <a class="demo" href="demos/starlark.html">
+    <span class="badge">real bug</span>
+    <h3>starlark-mbt fails on Windows</h3>
+    <span class="fail">assert_true(cache.get("/any.star") is Some(Err(_)))</span>
+    <p>A test of a 22-package Starlark interpreter fails on Windows only. The explanation follows the cache key into <code>resolve_load</code> and the branch that normalised <code>/</code> to <code>\</code>.</p>
+    <span class="go">Open the recording →</span>
+  </a>
+  <a class="demo" href="demos/inventory.html">
+    <h3>Inventory: billed for the wrong quantity</h3>
+    <span class="fail">expected 662, got 1102</span>
+    <p>Two packages, stock and pricing. The order total uses the requested quantity instead of the reserved one. The trace goes from the total, through <code>line_total</code>, to the loop.</p>
+    <span class="go">Open the recording →</span>
+  </a>
+  <a class="demo" href="demos/bank.html">
+    <h3>Bank: a fee charged twice</h3>
+    <span class="fail">expected 298, got 296</span>
+    <p>The smallest example. <code>why</code> follows <code>self.balance</code> into <code>withdraw</code> and the fee computation, including the <code>if</code> that chose the fee.</p>
+    <span class="go">Open the recording →</span>
+  </a>
+</div>
+
+<h2>The same answer in a terminal</h2>
+<pre><span class="c">$ moonwalk why -C examples/bank</span>
+bank_test.mbt:7: inspect(acc.balance) expected "298", got <span class="r">"296"</span>
+
+why is acc.balance what it is at step #39?
+
+<span class="y">self.balance = 296</span>
+    #32 bank.mbt:37  self.balance = self.balance - amount - fee * 2
+  self = { owner: "ada", balance: 500, history: [500] }  (argument)
+  amount = 200  (argument)
+  fee = 2
+      #28 bank.mbt:33  let fee = fee_for(amount)
+    fee_for(...) returned 2
+        #26 bank.mbt:24  amount / 100
+      because this condition was true
+          #24 bank.mbt:23  if amount > 100 {</pre>
+
+<h2>Install</h2>
+<pre><span class="c"># with the MoonBit toolchain (and a C compiler; MSVC on Windows)</span>
+moon install https://github.com/wangzh12023/moonwalk.git cmd/moonwalk --branch main
+
+<span class="c"># inside any MoonBit module</span>
+moonwalk why                          <span class="c"># explain the failing check</span>
+moonwalk record TEST --html run.html  <span class="c"># write a viewer like the ones above</span>
+moonwalk mcp                          <span class="c"># serve the history to AI coding agents</span></pre>
+
+<h2>What it does</h2>
+<ul class="how">
+  <li><strong>Record once, explore forever.</strong> Every statement, call, argument, return value, branch and assignment of the test is recorded. You can step forwards and backwards, step over and out, and jump to any moment.</li>
+  <li><strong>Ask why.</strong> MoonWalk computes the dynamic slice of a value: the assignment that produced it, the variables and calls it depended on, and the decisions that made it happen, across function boundaries.</li>
+  <li><strong>No setup.</strong> It works on any MoonBit module without changing it. It instruments a shadow copy of the source, so it needs no compiler plug-in and no debug symbols. It runs on every backend <code>moon test</code> supports.</li>
+  <li><strong>For people and for AI agents.</strong> It has a terminal transcript, these standalone viewers, and an MCP server so Claude Code, Cursor or Codex can query the execution instead of guessing.</li>
+  <li><strong>Written in MoonBit.</strong> The instrumenter uses the official parser. The trace engine, the CLI, the MCP server and this viewer (with rabbita) are MoonBit, and the viewer runs the same <code>why</code> engine compiled to JavaScript.</li>
+</ul>
+
+<footer>MoonWalk is open source under the Apache-2.0 license. These recordings are made by CI from this repository's examples, and from <a href="https://github.com/connect0459/starlark-mbt">connect0459/starlark-mbt</a> at a fixed commit. starlark-mbt is the work of its authors, used under the <a href="https://github.com/connect0459/starlark-mbt/blob/main/LICENSE">Apache-2.0 license</a>; its recording shows the five source files the test went through, unmodified.</footer>
+</main>
+</body>
+</html>

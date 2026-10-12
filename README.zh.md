@@ -3,6 +3,8 @@
 **给 MoonBit 做的全知调试器（omniscient debugger）。**
 失败的测试只需录制一次。之后可以在它执行过的每一步之间前进、后退，还能问任何一个值：**它为什么是这个值？**
 
+**在线试用（无需安装）：<https://wangzh12023.github.io/moonwalk/>**，打开真实录制的查看器，包括 starlark-mbt 只在 Windows 上出现的 bug。
+
 [English](README.md) · [架构设计](docs/ARCHITECTURE.md) · [真实案例：starlark-mbt 的跨平台 bug](docs/case-study-starlark.md) · [开发日志](docs/DEVLOG.md) · [示例](examples/)
 
 ![MoonWalk 浏览器查看器：解释一个失败的测试](docs/images/viewer-inventory.png)

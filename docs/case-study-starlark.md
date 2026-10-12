@@ -52,6 +52,8 @@ The cause is visible in four lines:
 
 MoonWalk recorded the test once, in about 40 seconds on a 22-package module. It then followed the data flow backwards: from the failing assertion to the write into the cache, from there to the key, and from the key into the callee and the branch that decided it. No code was changed and no prints were added.
 
+**Explore this recording in your browser:** <https://wangzh12023.github.io/moonwalk/demos/starlark.html>. CI records it on Windows from a fixed commit of starlark-mbt.
+
 ## How to reproduce
 
 ```bash
