@@ -68,6 +68,8 @@ pub struct SourceText {
 }
 pub fn SourceText::after_closing_brace(Self, Int) -> Int
 pub fn SourceText::char_at(Self, Int) -> Char
+pub fn SourceText::in_line_tail(Self, Int) -> Bool
+pub fn SourceText::indent_of(Self, Int) -> String
 pub fn SourceText::length(Self) -> Int
 pub fn SourceText::line_count(Self) -> Int
 pub fn SourceText::line_of(Self, Int) -> Int

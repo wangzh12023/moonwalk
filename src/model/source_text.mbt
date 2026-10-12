@@ -123,3 +123,60 @@ pub fn SourceText::after_closing_brace(self : SourceText, offset : Int) -> Int {
     offset
   }
 }
+
+///|
+/// Whether text inserted at `offset` would be swallowed by a construct
+/// that runs to the end of the line: a `//` comment or a `#|`/`$|`
+/// multi-line string segment that starts before `offset` on the same line.
+pub fn SourceText::in_line_tail(self : SourceText, offset : Int) -> Bool {
+  let line = self.line_of(offset)
+  let start = self.line_starts[line - 1]
+  let mut i = start
+  let mut in_str = false
+  let mut in_char = false
+  while i < offset && i < self.chars.length() {
+    let c = self.chars[i]
+    if in_str || in_char {
+      if c == '\\' {
+        i = i + 2
+        continue
+      }
+      if in_str && c == '"' {
+        in_str = false
+      } else if in_char && c == '\'' {
+        in_char = false
+      }
+      i = i + 1
+      continue
+    }
+    match c {
+      '"' => in_str = true
+      '\'' =>
+        // A char literal like 'a' or '\n' (not a lifetime-like quote).
+        if i + 2 < self.chars.length() &&
+          (self.chars[i + 2] == '\'' || self.chars[i + 1] == '\\') {
+          in_char = true
+        }
+      '/' if i + 1 < self.chars.length() && self.chars[i + 1] == '/' =>
+        return true
+      '#' | '$' if i + 1 < self.chars.length() && self.chars[i + 1] == '|' =>
+        return true
+      _ => ()
+    }
+    i = i + 1
+  }
+  false
+}
+
+///|
+/// Indentation (leading spaces and tabs) of the line containing `offset`.
+pub fn SourceText::indent_of(self : SourceText, offset : Int) -> String {
+  let line = self.line_of(offset)
+  let start = self.line_starts[line - 1]
+  let mut i = start
+  while i < self.chars.length() &&
+        (self.chars[i] == ' ' || self.chars[i] == '\t') {
+    i = i + 1
+  }
+  self.slice(start, i)
+}

@@ -61,6 +61,22 @@ pub fn ProbeText::prefixed(self : ProbeText, prefix : String) -> ProbeText {
 }
 
 ///|
+/// A copy of this text without its first `n` code points (which must not
+/// overlap a probe span).
+pub fn ProbeText::dropped(self : ProbeText, n : Int) -> ProbeText {
+  let s = self.sb.to_string()
+  let cut = s.offset_of_nth_char(n).unwrap_or(s.length())
+  let t = ProbeText::new()
+  t.add(s.view(start_offset=cut).to_owned())
+  for sp in self.spans {
+    if sp.0 >= n {
+      t.spans.push((sp.0 - n, sp.1 - n, sp.2))
+    }
+  }
+  t
+}
+
+///|
 /// A pending insertion of `text` at code-point offset `at`.
 ///
 /// Insertions behave like properly nested brackets. At one offset, closing

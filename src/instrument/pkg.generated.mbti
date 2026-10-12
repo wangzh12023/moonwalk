@@ -66,6 +66,7 @@ pub struct ProbeText {
 }
 pub fn ProbeText::add(Self, String) -> Unit
 pub fn ProbeText::append(Self, Self) -> Unit
+pub fn ProbeText::dropped(Self, Int) -> Self
 pub fn ProbeText::is_empty(Self) -> Bool
 pub fn ProbeText::new() -> Self
 pub fn ProbeText::prefixed(Self, String) -> Self

@@ -19,6 +19,9 @@ priv struct FnCtx {
   ret_site : Int
   /// Generic type parameters in scope.
   generics : Array[String]
+  /// Source text of the declared return type, used to keep the expected
+  /// type of wrapped expressions (`ret(R, (e : T))`).
+  ret_text : String
 }
 
 ///|
@@ -43,6 +46,9 @@ priv struct Walker {
   opaque_vars : Array[String]
   /// Current bracket nesting depth for edits.
   mut depth : Int
+  /// Source text of the receiver type of the method being instrumented,
+  /// replacing `Self` in ascriptions written inside its body.
+  mut self_type : String
 }
 
 ///|
@@ -69,6 +75,14 @@ fn Walker::cur_fn(self : Walker) -> Int {
 }
 
 ///|
+fn Walker::ret_text(self : Walker) -> String {
+  match self.fns.last() {
+    Some(f) => f.ret_text
+    None => ""
+  }
+}
+
+///|
 fn Walker::generics(self : Walker) -> Array[String] {
   match self.fns.last() {
     Some(f) => f.generics
@@ -78,6 +92,7 @@ fn Walker::generics(self : Walker) -> Array[String] {
 
 ///|
 fn Walker::open_text(self : Walker, at : Int, text : ProbeText) -> Unit {
+  let (at, text) = self.line_safe(at, text, closing=false)
   self.edits.add(at, text, depth=self.depth, closing=false)
 }
 
@@ -88,7 +103,49 @@ fn Walker::open(self : Walker, at : Int, text : String) -> Unit {
 
 ///|
 fn Walker::close(self : Walker, at : Int, text : String) -> Unit {
-  self.edits.add(at, self.plain(text), depth=self.depth, closing=true)
+  let (at, text) = self.line_safe(at, self.plain(text), closing=true)
+  self.edits.add(at, text, depth=self.depth, closing=true)
+}
+
+///|
+/// Text inserted where a `#|` multi-line string (or a `//` comment) runs
+/// to the end of the line would become part of that string or comment.
+/// Such an insertion is moved forward, past the line break and any
+/// comments, to just before the next token. Insertions are only separators,
+/// brackets and probe calls, so moving them over whitespace does not change
+/// the program, and no line break is ever added: line numbers stay intact.
+///
+/// The line break used to separate what came before from the next token,
+/// so the moved text has to provide that separation itself: a leading
+/// `; ` becomes a trailing one, and a moved closing bracket is followed by
+/// `; ` unless the next token closes or continues an enclosing construct.
+fn Walker::line_safe(
+  self : Walker,
+  at : Int,
+  text : ProbeText,
+  closing~ : Bool,
+) -> (Int, ProbeText) {
+  if !self.src.in_line_tail(at) {
+    return (at, text)
+  }
+  let moved = self.src.skip_trivia(at)
+  let next = self.src.char_at(moved)
+  let continues = next is ('}' | ')' | ']' | ',' | ';' | '\u{0}')
+  let s = text.text()
+  if s.has_prefix("; ") {
+    let t = text.dropped(2)
+    if !continues {
+      t.add("; ")
+    }
+    (moved, t)
+  } else if closing && !continues {
+    let t = ProbeText::new()
+    t.append(text)
+    t.add("; ")
+    (moved, t)
+  } else {
+    (moved, text)
+  }
 }
 
 ///|
@@ -491,6 +548,83 @@ fn Walker::binds_after(
 }
 
 ///|
+/// Replace the word `Self` in a type's source text by `self_type` (a type
+/// annotation inside a method body cannot mention `Self`).
+fn replace_self(ty : String, self_type : String) -> String {
+  if self_type == "" || !ty.contains("Self") {
+    return ty
+  }
+  let sb = StringBuilder()
+  let chars = ty.iter().collect()
+  let n = chars.length()
+  let mut i = 0
+  while i < n {
+    let word = i + 4 <= n &&
+      chars[i] == 'S' &&
+      chars[i + 1] == 'e' &&
+      chars[i + 2] == 'l' &&
+      chars[i + 3] == 'f' &&
+      (i == 0 || !is_word_char(chars[i - 1])) &&
+      (i + 4 == n || !is_word_char(chars[i + 4]))
+    if word {
+      sb.write_string(self_type)
+      i = i + 4
+    } else {
+      sb.write_char(chars[i])
+      i = i + 1
+    }
+  }
+  sb.to_string()
+}
+
+///|
+fn is_word_char(c : Char) -> Bool {
+  c.is_ascii_alphabetic() || c.is_ascii_digit() || c == '_'
+}
+
+///|
+/// Start offset of an expression.
+///
+/// The parser's location of a postfix `catch` (`(f)(5) catch { .. }`) or
+/// of an application whose callee is parenthesised can start inside the
+/// expression; the true start is the smallest start among its parts.
+fn expr_start(e : @syntax.Expr) -> Int {
+  let mut s = start_of(e.loc())
+  match e {
+    Try(body~, has_try=false, ..) => s = s.min(expr_start(body))
+    Apply(func~, ..) => s = s.min(expr_start(func))
+    DotApply(self~, ..) | Field(record=self, ..) => s = s.min(expr_start(self))
+    Infix(lhs~, ..) => s = s.min(expr_start(lhs))
+    Pipe(lhs~, ..) => s = s.min(expr_start(lhs))
+    ArrayGet(array~, ..) | ArrayGetSlice(array~, ..) =>
+      s = s.min(expr_start(array))
+    _ => ()
+  }
+  s
+}
+
+///|
+/// Start offset of a statement chain (`let`s, sequences, ...): the start of
+/// its first statement.
+fn chain_start(e : @syntax.Expr) -> Int {
+  match e {
+    Sequence(exprs~, last_expr~, ..) =>
+      match exprs.head() {
+        Some(first) => chain_start(first).min(start_of(e.loc()))
+        None => chain_start(last_expr).min(start_of(e.loc()))
+      }
+    Let(..)
+    | LetMut(..)
+    | LetFn(..)
+    | LetAnd(..)
+    | Guard(..)
+    | Defer(..)
+    | ErrDefer(..) => start_of(e.loc())
+    _ => expr_start(e)
+  }
+}
+
+///|
 /// A statement inside a block.
 fn Walker::statement(self : Walker, e : @syntax.Expr) -> Unit {
   let loc = e.loc()
@@ -560,7 +694,7 @@ fn Walker::statement(self : Walker, e : @syntax.Expr) -> Unit {
       }
     }
     _ => {
-      self.step(start_of(loc), end_of(loc), reads_of(e))
+      self.step(expr_start(e), end_of(loc), reads_of(e))
       self.expr(e)
     }
   }
@@ -651,6 +785,28 @@ priv struct SubExprs {
 }
 
 ///|
+/// `..if c { xs }` in an array literal: the `if` has no `else`, but its
+/// value is spread, so it is not Unit and a synthesized `else` would not
+/// type-check. Only the branches inside are instrumented, not the decision.
+impl @syntax.IterVisitor for SubExprs with fn visit_Expr_ArraySpread(
+  self,
+  elems~,
+  is_iter~,
+  loc~,
+) {
+  ignore((is_iter, loc))
+  for elem in elems {
+    match elem {
+      Regular(e) => @syntax.IterVisitor::visit_Expr(self, e)
+      // Push the branch as a block so its statements get probes.
+      Spread(expr=If(ifso~, ifnot=None, loc~, ..), ..) =>
+        self.out.push(Group(expr=ifso, group=Brace, loc~))
+      Spread(expr~, ..) => @syntax.IterVisitor::visit_Expr(self, expr)
+    }
+  }
+}
+
+///|
 impl @syntax.IterVisitor for SubExprs with fn visit_Expr(self, e) {
   match e {
     Function(..)
@@ -677,9 +833,9 @@ fn Walker::return_(self : Walker, value : @syntax.Expr?) -> Unit {
           if f.ret_site >= 0 && !is_diverging(v) {
             self.depth += 1
             let t = ProbeText::new()
-            t.probe("\{self.rt()}.ret(\{f.ret_site}, ", return_key(f.ret_site))
+            t.probe("\{self.rt()}.ret(\{f.ret_site}, (", return_key(f.ret_site))
             self.open_text(start_of(v.loc()), t)
-            self.close(end_of(v.loc()), ")")
+            self.close(end_of(v.loc()), " : \{f.ret_text}))")
             self.depth -= 1
           }
         None => ()
@@ -706,7 +862,7 @@ fn Walker::braced_body(
     }
   } else {
     if !probe.is_empty() {
-      self.open_text(start_of(body.loc()), probe)
+      self.open_text(chain_start(body), probe)
     }
     self.block(body)
   }
@@ -738,7 +894,7 @@ fn Walker::bare_body(
         self.expr(body)
       } else {
         self.depth += 1
-        self.open_text(start_of(body.loc()), probe.prefixed("{ "))
+        self.open_text(expr_start(body), probe.prefixed("{ "))
         self.expr(body)
         self.close(end_of(body.loc()), " }")
         self.depth -= 1
@@ -805,6 +961,9 @@ fn Walker::if_(
   match ifnot {
     Some(If(cond=c2, ifso=s2, ifnot=n2, loc=l2)) => {
       // `else if`: wrap the nested `if` so the decision is recorded first.
+      // The wrapper's closing brace must hug the nested `if`, so the nested
+      // `if` may not grow an `else` of its own after that brace: a missing
+      // final `else` is synthesized inside the wrapper instead.
       self.depth += 1
       self.open(start_of(l2), "{ \{self.rt()}.branch(\{b}, false); ")
       self.if_(c2, s2, n2, l2)
@@ -815,9 +974,13 @@ fn Walker::if_(
       self.braced_body(x, self.plain("\{self.rt()}.branch(\{b}, false); "))
     None =>
       // An `if` without `else` has type Unit, so a synthesized `else` that
-      // records the decision is well-typed. `end_of(ifso)` may stop before
-      // the closing brace, so anchor at the end of the whole `if`.
-      self.open(end_of(loc), " else { \{self.rt()}.branch(\{b}, false) }")
+      // records the decision is well-typed. It is placed right after the
+      // then-block's closing brace (as a closing edit at the current depth,
+      // so wrappers that end at the same offset close after it).
+      self.close(
+        self.src.after_closing_brace(end_of(ifso.loc())),
+        " else { \{self.rt()}.branch(\{b}, false) }",
+      )
   }
 }
 
@@ -960,7 +1123,7 @@ fn Walker::fn_body(
     name~,
     region=(head, end_of(body.loc())),
   )
-  self.fns.push({ enter, ret_site: -1, generics, })
+  self.fns.push({ enter, ret_site: -1, generics, ret_text: "", })
   let saved_opaque = self.opaque_vars.length()
   for p in params {
     let (n, ty) = p
@@ -997,7 +1160,15 @@ fn Walker::fn_body(
     None => -1
   }
   ignore(self.fns.pop())
-  self.fns.push({ enter, ret_site, generics, })
+  let ret_text = match ret_ty {
+    Some(t) if ret_site >= 0 =>
+      replace_self(
+        self.src.slice(start_of(t.loc()), end_of(t.loc())),
+        self.self_type,
+      )
+    _ => ""
+  }
+  self.fns.push({ enter, ret_site, generics, ret_text, })
   let prologue = ProbeText::new()
   let call = if kind == Test { "test_enter" } else { "enter" }
   prologue.add("\{self.rt()}.\{call}(\{enter}); ")
@@ -1024,12 +1195,12 @@ fn Walker::fn_body(
     (Arrow, None) => {
       let t = prologue.prefixed("{ ")
       if ret_site >= 0 {
-        t.probe("\{self.rt()}.ret(\{ret_site}, ", return_key(ret_site))
+        t.probe("\{self.rt()}.ret(\{ret_site}, (", return_key(ret_site))
       }
-      self.open_text(start_of(body.loc()), t)
+      self.open_text(expr_start(body), t)
       self.expr(body)
       if ret_site >= 0 {
-        self.close(end_of(body.loc()), ")")
+        self.close(end_of(body.loc()), " : \{self.ret_text()}))")
       }
       self.close(end_of(body.loc()), " }")
     }
@@ -1052,14 +1223,14 @@ fn Walker::wrap_statements(
     self.open_text(start_of(body.loc()) + 1, prologue.prefixed(" "))
     return
   }
-  self.open_text(start_of(body.loc()), prologue)
+  self.open_text(chain_start(body), prologue)
   if ret_site >= 0 {
     self.depth += 1
     let t = ProbeText::new()
-    t.probe("\{self.rt()}.ret(\{ret_site}, { ", return_key(ret_site))
-    self.open_text(start_of(body.loc()), t)
+    t.probe("\{self.rt()}.ret(\{ret_site}, ({ ", return_key(ret_site))
+    self.open_text(chain_start(body), t)
     self.block(body)
-    self.close(end_of(body.loc()), " })")
+    self.close(end_of(body.loc()), " } : \{self.ret_text()}))")
     self.depth -= 1
   } else {
     self.block(body)

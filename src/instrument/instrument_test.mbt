@@ -29,7 +29,7 @@ test "functions, lets and returns" {
   debug_inspect(
     show_instrumented(src),
     content=(
-      #|"fn add(a : Int, b : Int) -> Int {\n  @__mw.enter(0); @__mw.bind(2, @__mw.v(a)); @__mw.bind(3, @__mw.v(b)); defer @__mw.leave(0); @__mw.ret(1, { @__mw.step(4); let s = a + b; @__mw.bind(5, @__mw.v(s))\n  @__mw.step(6); s })\n}"
+      #|"fn add(a : Int, b : Int) -> Int {\n  @__mw.enter(0); @__mw.bind(2, @__mw.v(a)); @__mw.bind(3, @__mw.v(b)); defer @__mw.leave(0); @__mw.ret(1, ({ @__mw.step(4); let s = a + b; @__mw.bind(5, @__mw.v(s))\n  @__mw.step(6); s } : Int))\n}"
     ),
   )
 }
@@ -95,7 +95,7 @@ test "else-if chains record each decision before the next condition" {
   debug_inspect(
     out[1],
     content=(
-      #|"  @__mw.enter(0); @__mw.bind(2, @__mw.v(x)); defer @__mw.leave(0); @__mw.ret(1, { @__mw.step(3); if x > 9 { @__mw.branch(4, true); @__mw.step(5); 2 } else { @__mw.branch(4, false); if x > 0 { @__mw.branch(6, true); @__mw.step(7); 1 } else { @__mw.branch(6, false); @__mw.step(8); 0 } } })"
+      #|"  @__mw.enter(0); @__mw.bind(2, @__mw.v(x)); defer @__mw.leave(0); @__mw.ret(1, ({ @__mw.step(3); if x > 9 { @__mw.branch(4, true); @__mw.step(5); 2 } else { @__mw.branch(4, false); if x > 0 { @__mw.branch(6, true); @__mw.step(7); 1 } else { @__mw.branch(6, false); @__mw.step(8); 0 } } } : Int))"
     ),
   )
 }
@@ -113,7 +113,7 @@ test "guard records both outcomes and the bound variables" {
   debug_inspect(
     out[1],
     content=(
-      #|"  @__mw.enter(0); @__mw.bind(2, @__mw.v(xs)); defer @__mw.leave(0); @__mw.ret(1, { @__mw.step(3); guard xs is [first, ..] else { @__mw.branch(4, false); @__mw.step(5); return @__mw.ret(1, 0) }; @__mw.branch(4, true); @__mw.bind(6, @__mw.v(first))"
+      #|"  @__mw.enter(0); @__mw.bind(2, @__mw.v(xs)); defer @__mw.leave(0); @__mw.ret(1, ({ @__mw.step(3); guard xs is [first, ..] else { @__mw.branch(4, false); @__mw.step(5); return @__mw.ret(1, (0 : Int)) }; @__mw.branch(4, true); @__mw.bind(6, @__mw.v(first))"
     ),
   )
 }
@@ -338,7 +338,7 @@ test "non-ASCII source keeps code-point offsets" {
   debug_inspect(
     out[1],
     content=(
-      #|"  @__mw.enter(0); defer @__mw.leave(0); @__mw.ret(1, { @__mw.step(2); let s = \"中文😀\"; @__mw.bind(3, @__mw.v(s)); @__mw.step(4); let t = s + \"!\"; @__mw.bind(5, @__mw.v(t))"
+      #|"  @__mw.enter(0); defer @__mw.leave(0); @__mw.ret(1, ({ @__mw.step(2); let s = \"中文😀\"; @__mw.bind(3, @__mw.v(s)); @__mw.step(4); let t = s + \"!\"; @__mw.bind(5, @__mw.v(t))"
     ),
   )
 }

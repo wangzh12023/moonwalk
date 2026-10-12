@@ -40,6 +40,7 @@ pub fn instrument_file(
     fns: [],
     opaque_vars: [],
     depth: 0,
+    self_type: "",
   }
   for item in impls {
     w.item(item)
@@ -81,6 +82,7 @@ fn self_type_name(t : @syntax.TypeName?) -> String {
 
 ///|
 fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
+  self.self_type = ""
   match item {
     TopFuncDef(fun_decl~, decl_body=DeclBody(expr~), ..) => {
       // `extern` stubs and declarations have no body to instrument.
@@ -89,6 +91,10 @@ fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
       let params = param_binders(fun_decl.decl_params)
       // `self` parameters of methods on generic types are generic as well.
       let quantifiers = quantifier_names(fun_decl.quantifiers)
+      self.self_type = match fun_decl.type_name {
+        Some(tn) => self.src.slice(start_of(tn.loc), end_of(tn.loc))
+        None => ""
+      }
       self.fn_body(
         Enter,
         name,
@@ -115,6 +121,10 @@ fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
         Some(Name(constr_id~, ..)) => type_name_of(constr_id.id) + "::"
         _ => ""
       }
+      self.self_type = match self_ty {
+        Some(t) => self.src.slice(start_of(t.loc()), end_of(t.loc()))
+        None => ""
+      }
       let name = owner + method_name.name
       let generics = quantifier_names(quantifiers)
       generics.append(quantifier_names(method_quantifiers))
@@ -132,7 +142,12 @@ fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
           _ => p
         }
       })
-      ignore(trait_)
+      // Methods that render values (`Debug::to_repr`, `Show::output`, ...)
+      // are called by the value probes themselves; probing them would
+      // recurse forever. Their bodies are left untouched.
+      if is_rendering_trait(type_name_of(trait_.name)) {
+        return
+      }
       self.fn_body(
         Enter,
         name,
@@ -168,6 +183,12 @@ fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
       self.expr(expr)
     _ => ()
   }
+}
+
+///|
+/// Traits whose methods the probe runtime calls to render values.
+fn is_rendering_trait(name : String) -> Bool {
+  name == "Debug" || name == "Show" || name == "ToJson" || name == "Hash"
 }
 
 ///|
