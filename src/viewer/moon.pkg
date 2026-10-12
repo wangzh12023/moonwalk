@@ -4,3 +4,8 @@ import {
   "moonbitlang/core/json",
   "moonbitlang/core/set",
 }
+
+import {
+  "wangzh12023/moonwalk/src/viewer" @vm,
+  "wangzh12023/moonwalk/src/instrument",
+} for "test"
