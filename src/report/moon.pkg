@@ -1,5 +1,6 @@
 import {
   "wangzh12023/moonwalk/src/model",
+  "wangzh12023/moonwalk/src/trace",
   "wangzh12023/moonwalk/src/project",
   "moonbitlang/core/json",
 }

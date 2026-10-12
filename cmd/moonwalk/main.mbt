@@ -67,6 +67,11 @@ fn cli() -> @argparse.Command {
         ],
       ),
       @argparse.Command(
+        "mcp",
+        about="Serve MoonWalk to AI coding agents (Model Context Protocol over stdio)",
+        options=[common_opts[0], common_opts[1], common_opts[2]],
+      ),
+      @argparse.Command(
         "why",
         about="Explain how a value was computed (default: the value a failing inspect checked)",
         options=[
@@ -159,6 +164,15 @@ async fn main {
         depth=int_value(m, "depth", 6),
         quiet~,
       )
+    }
+    Some(("mcp", m)) => {
+      let options : @project.RecordOptions = {
+        ..@project.RecordOptions::default(),
+        target: first(m, "target", "wasm-gc"),
+        max_events: int_value(m, "max-events", 200_000),
+        timeout_ms: int_value(m, "timeout", 60) * 1000,
+      }
+      serve_mcp(root, options)
     }
     _ => println(cli().render_help())
   }

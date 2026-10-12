@@ -198,7 +198,10 @@ pub async fn build_shadow(
       let text = @fs.read_file(legacy).text()
       match add_runtime_import_json(text, project.name) {
         Some(patched) =>
-          sync_file(join([root, pkg.dir, "moon.pkg.json"]), @utf8.encode(patched))
+          sync_file(
+            join([root, pkg.dir, "moon.pkg.json"]),
+            @utf8.encode(patched),
+          )
         None => skipped.push(join([pkg.dir, "moon.pkg.json"]))
       }
     }

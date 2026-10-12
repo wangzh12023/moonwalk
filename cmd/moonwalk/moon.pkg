@@ -5,10 +5,12 @@ import {
   "wangzh12023/moonwalk/src/html",
   "moonbitlang/async",
   "moonbitlang/async/fs",
+  "moonbitlang/async/stdio",
   "moonbitlang/x/sys",
   "moonbitlang/core/argparse",
   "moonbitlang/core/env",
   "moonbitlang/core/string",
+  "moonbitlang/core/json",
 }
 
 pkgtype(kind: "executable")
