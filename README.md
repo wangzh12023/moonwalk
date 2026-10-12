@@ -6,7 +6,7 @@ Record a failing test once, then move backwards and forwards through every step 
 [![CI](https://github.com/wangzh12023/moonwalk/actions/workflows/ci.yml/badge.svg)](https://github.com/wangzh12023/moonwalk/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-[中文说明](README.zh.md) · [Architecture](docs/ARCHITECTURE.md) · [Examples](examples/)
+[中文说明](README.zh.md) · [Architecture](docs/ARCHITECTURE.md) · [Case study: a real bug in starlark-mbt](docs/case-study-starlark.md) · [Examples](examples/)
 
 ![MoonWalk viewer explaining a failing test](docs/images/viewer-inventory.png)
 
@@ -144,6 +144,8 @@ MoonWalk was run against these open-source MoonBit modules. For each one, a test
 | V1GreenSummer/moonbit-petgraph | graph algorithms | Dijkstra (1 170, 143) |
 | Luna-Flow/autodiff | automatic differentiation, generic-heavy | gradients (488, 87) |
 | moonbit-community/trie | legacy `moon.mod.json` | anonymous test (476, 44) |
+
+On one of them, MoonWalk explained a test that really fails on Windows. The cause is a path-normalisation mismatch between a cache key and its lookup; see [the case study](docs/case-study-starlark.md).
 
 The constructs these modules exposed now have regression tests in `src/instrument/regression_test.mbt` and in `examples/regressions`, which CI records end to end. Among them:
 
