@@ -125,14 +125,47 @@ your module ──moonbitlang/parser──▶ instrumented shadow copy ──moo
 
 More detail is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+## Tested on real projects
+
+MoonWalk was run against these open-source MoonBit modules. For each one, a test was recorded with `moonwalk record`, and the instrumented copy compiled and passed exactly as the original did.
+
+| Module | What it is | Recorded test (steps, calls) |
+|---|---|---|
+| moonbitlang/x | official extended library, 25 packages | bcrypt vectors (200 000 steps, event budget) |
+| moonbitlang/async | official async runtime (moon.work) | `with_timeout` tests |
+| moonbitlang/quickcheck | property testing | rose-tree shrinking (169, 28) |
+| moonbit-community/yaml.mbt | YAML 1.2 parser | multi-document tags (10 752, 1 209) |
+| moonbit-community/cmark.mbt | CommonMark | text utilities (80, 3) |
+| mizchi/markdown.mbt | Markdown, 28 packages | wikilinks (559, 38) |
+| connect0459/starlark-mbt | Starlark interpreter, 22 packages | argument unpacking (161, 11) |
+| FlyCloudC/scheme | Scheme VM | "OOP" program (21 308, 2 376) |
+| moonbit-community/lisp_interpreter | Lisp interpreter | parser errors (118, 11) |
+| moonbit-community/toml-parser | TOML (moon.work) | serializer (144, 4) |
+| V1GreenSummer/moonbit-petgraph | graph algorithms | Dijkstra (1 170, 143) |
+| Luna-Flow/autodiff | automatic differentiation, generic-heavy | gradients (488, 87) |
+| moonbit-community/trie | legacy `moon.mod.json` | anonymous test (476, 44) |
+
+The constructs these modules exposed now have regression tests in `src/instrument/regression_test.mbt` and in `examples/regressions`, which CI records end to end. Among them:
+
+* `else if` without `else`;
+* `if` in expression position;
+* return-type context;
+* multi-line strings;
+* `(f)(x) catch`;
+* user `Debug` implementations;
+* cyclic values;
+* closures that write captured variables.
+
 ## Limits
 
 These are deliberate scope boundaries:
 
 * MoonWalk records **tests**. Programs with `fn main` work through a test that calls them.
 * It traces the code of the **module being debugged**. Calls into dependencies, including `moonbitlang/core`, appear as single steps whose results are recorded.
-* Values are snapshots rendered with `Debug`, at depth 6 by default. Closures, values of generic types, and types without `Debug` are shown as `<hidden>`.
+* Values are snapshots rendered with `Debug`, at depth 6 by default. Closures, values of generic types, and types without `Debug` are shown as `<hidden>`. If rendering a value crashes, typically on a cyclic structure, the test is recorded again without values, and the control flow is kept.
 * Aliasing is tracked by variable and field paths. A mutation reached through another alias, such as an element pulled out of an array and mutated elsewhere, is explained up to that alias.
+* Files that `moonbitlang/parser` cannot parse still run but are not recorded. MoonWalk prints a note for each one.
+* Async tests are recorded on the `js` backend (`--target js`). On wasm-gc, `moon test` itself does not run async tests.
 * Recording costs roughly 2–5× test run time, plus one extra compilation of the module.
 
 ## Development
