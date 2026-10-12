@@ -234,3 +234,139 @@ test "render markers are not events" {
   let events = @trace.parse_output(with_prefix("MWv\nMWS 1\n"))
   debug_inspect(events, content="[Step(site=1)]")
 }
+
+///|
+let methods_source : String =
+  #|///|
+  #|pub struct Account {
+  #|  mut balance : Int
+  #|} derive(Debug)
+  #|
+  #|///|
+  #|pub fn Account::deposit(self : Account, amount : Int) -> Unit {
+  #|  self.balance = self.balance + amount
+  #|}
+  #|
+  #|///|
+  #|pub fn fee_for(amount : Int) -> Int {
+  #|  if amount > 100 {
+  #|    amount / 100
+  #|  } else {
+  #|    0
+  #|  }
+  #|}
+  #|
+  #|///|
+  #|pub fn Account::withdraw(self : Account, amount : Int) -> Unit {
+  #|  let fee = fee_for(amount)
+  #|  self.balance = self.balance - amount - fee * 2
+  #|}
+  #|
+  #|///|
+  #|test "withdraw" {
+  #|  let acc : Account = { balance: 0 }
+  #|  acc.deposit(500)
+  #|  acc.withdraw(200)
+  #|  inspect(acc.balance, content="298")
+  #|}
+
+///|
+/// The instrumented `methods_source` recorded with the real toolchain:
+/// `withdraw` charges the fee twice (296 instead of 298).
+let methods_stdout : String =
+  #|MWT 19
+  #|MWS 20
+  #|MWV 21 "{ balance: 0 }"
+  #|MWS 22
+  #|MWE 0
+  #|MWV 1 "{ balance: 0 }"
+  #|MWV 2 "500"
+  #|MWS 3
+  #|MWV 4 "500"
+  #|MWL 0
+  #|MWS 23
+  #|MWE 12
+  #|MWV 13 "{ balance: 500 }"
+  #|MWV 14 "200"
+  #|MWS 15
+  #|MWE 5
+  #|MWV 7 "200"
+  #|MWS 8
+  #|MWB 9 1
+  #|MWS 10
+  #|MWR 6 "2"
+  #|MWL 5
+  #|MWV 16 "2"
+  #|MWS 17
+  #|MWV 18 "296"
+  #|MWL 12
+  #|MWS 24
+  #|MWt 19
+
+///|
+test "why follows field writes through method receivers across calls" {
+  let tl = replay(methods_source, with_prefix(methods_stdout))
+  let last = tl.length() - 1
+  // `acc.balance` in the test was last written as `self.balance` inside
+  // `withdraw`, called with `acc` as its receiver.
+  guard tl.why(last, "acc.balance") is Some(Assigned(name~, value~, reads~, ..)) else {
+    fail("expected the write inside withdraw")
+  }
+  inspect(name, content="self.balance")
+  inspect(value, content="296")
+  let summary = reads.map(c => {
+    match c {
+      Assigned(name~, value~, ..) => "assigned \{name}=\{value}"
+      Parameter(name~, value~, ..) => "argument \{name}=\{value}"
+      Returned(name~, value~, ..) => "returned \{name}=\{value}"
+      Decided(taken~, ..) => "decided \{taken}"
+      Truncated(name~, ..) => "truncated \{name}"
+    }
+  })
+  debug_inspect(
+    summary,
+    content=(
+      #|[
+      #|  "argument self={ balance: 500 }",
+      #|  "argument amount=200",
+      #|  "assigned fee=2",
+      #|]
+    ),
+  )
+  // The fee came back from `fee_for`, whose branch decided the value.
+  guard reads[2] is Assigned(reads=fee_reads, ..) else { fail("fee") }
+  assert_true(
+    fee_reads.iter().any(c => c is Returned(name="fee_for", value="2", ..)),
+  )
+  // And `self` at the call is the value `deposit` left behind.
+  guard reads[0] is Parameter(from~, ..) else { fail("receiver") }
+  assert_true(
+    from.iter().any(c => c is Assigned(name="self.balance", value="500", ..)),
+  )
+}
+
+///|
+test "rendered explanations point at source lines" {
+  let tl = replay(methods_source, with_prefix(methods_stdout))
+  guard tl.why(tl.length() - 1, "acc.balance") is Some(cause) else {
+    fail("no cause")
+  }
+  let text = tl.render_cause(cause)
+  assert_true(text.contains("self.balance = self.balance - amount - fee * 2"))
+  assert_true(text.contains("fee_for(...) returned 2"))
+  assert_true(text.contains("because this condition was true"))
+}
+
+///|
+test "navigation helpers on a multi-call recording" {
+  let tl = replay(methods_source, with_prefix(methods_stdout))
+  debug_inspect(tl.location(-1), content="None")
+  debug_inspect(tl.stack(16).map(f => f.id), content="[0, 2, 3]")
+  // History of the receiver's field inside the frame of `withdraw`.
+  debug_inspect(tl.history(24, "self.balance"), content="[(24, \"296\")]")
+  // Stepping out of `fee_for` lands back in `withdraw`.
+  match tl.step_out(18) {
+    Some(s) => inspect(tl.steps()[s].frame, content="2")
+    None => fail("step out")
+  }
+}

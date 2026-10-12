@@ -1,3 +1,7 @@
+import {
+  "moonbitlang/core/json",
+} for "test"
+
 options(
   "pre-build": [
     {
