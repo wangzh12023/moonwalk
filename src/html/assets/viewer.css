@@ -105,10 +105,24 @@ ul { list-style: none; margin: 0; padding: 0; }
   .main { grid-template-columns: 1fr; grid-template-rows: 55% 45%; }
   .code { border-right: 0; border-bottom: 1px solid var(--line); }
 }
+@media (max-width: 600px) {
+  .mw, .main, .code, .side, .bar, .scrub { min-width: 0; max-width: 100vw; }
+  .bar { gap: .4rem; padding: .4rem .5rem; }
+  .tests { flex: 1 1 100%; max-width: none; min-width: 0; }
+  .nav { gap: .15rem; }
+  .nav button { min-width: 1.9rem; padding: .2rem .35rem; }
+  .src { font-size: 12px; }
+  .ln .no { width: 4.5ch; padding-right: 1ch; }
+}
 .causes li { position: relative; }
 .causes .drill { position: absolute; top: .2rem; right: .25rem; font-size: .7rem; min-width: 0;
                  padding: .05rem .4rem; opacity: 0; }
 .causes li:hover .drill { opacity: 1; }
+/* touch screens have no hover: keep the "why?" affordances visible */
+@media (hover: none) {
+  .causes .drill { opacity: .8; }
+  .locals .ask { opacity: .8; color: var(--moon); }
+}
 /* cause kinds: the colour of the left rule tells what produced the value */
 .causes li.k-assign { border-left-color: #5b8def; }
 .causes li.k-arg { border-left-color: #8a6bd1; }
