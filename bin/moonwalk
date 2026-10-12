@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# MoonWalk launcher: builds the CLI on first use, then runs it with moonrun.
+# Put this directory on PATH (or symlink this file) to get a `moonwalk` command.
+set -e
+here="$(cd "$(dirname "$0")/.." && pwd)"
+wasm="$here/_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm"
+if [ ! -f "$wasm" ]; then
+  echo "moonwalk: building the CLI (first run)..." >&2
+  (cd "$here" && moon build cmd/moonwalk --target wasm --release >&2)
+fi
+exec moonrun "$wasm" -- "$@"
