@@ -160,15 +160,29 @@ fn decode_assert_failure(
     Some(i) => after.view(end_offset=i).to_owned()
     None => after.to_owned()
   }
+  // `a != b` (assert_eq), or `x` is not true / is not false.
   let (actual, expected) = match pair.find(" != ") {
     Some(i) =>
       (
         pair.view(end_offset=i).to_owned(),
         pair.view(start_offset=i + 4).to_owned(),
       )
-    None => (pair, "")
+    None => {
+      let rest = msg.view(start_offset=fail_at + " FAILED: `".length())
+      let tail = match rest.find("`") {
+        Some(i) => rest.view(start_offset=i + 1)
+        None => "".view()
+      }
+      if tail.has_prefix(" is not true") {
+        (pair, "true")
+      } else if tail.has_prefix(" is not false") {
+        (pair, "false")
+      } else {
+        (pair, "")
+      }
+    }
   }
-  let subject = match module_path(shadow.sites, pkg, file) {
+  let (subject, call) = match module_path(shadow.sites, pkg, file) {
     Some(path) =>
       match
         (
@@ -182,13 +196,31 @@ fn decode_assert_failure(
           let original = @instrument.SourceText::new(
             shadow.sites.files()[fi].text,
           )
-          first_argument(original.slice(start, end))
+          let text = original.slice(start, end)
+          (first_argument(text), callee_name(text))
         }
-        _ => ""
+        _ => ("", "assert")
       }
-    None => ""
+    None => ("", "assert")
   }
-  Some({ file, line: l1, subject, expected, actual, call: "assert_eq", })
+  Some({ file, line: l1, subject, expected, actual, call })
+}
+
+///|
+/// The function called by `f(...)` or `@pkg.f(...)`: `assert_eq`,
+/// `assert_true`, ...
+fn callee_name(call : String) -> String {
+  guard call.find("(") is Some(open) else { return "assert" }
+  let head = call.view(end_offset=open).trim(chars=" \t")
+  let name = match head.rev_find(".") {
+    Some(i) => head.view(start_offset=i + 1)
+    None => head
+  }
+  if name.is_empty() {
+    "assert"
+  } else {
+    name.to_owned()
+  }
 }
 
 ///|

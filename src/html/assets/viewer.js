@@ -18087,7 +18087,7 @@ function _M0MP411wangzh120238moonwalk3src5trace8Timeline13explain__call(self, fr
       const _s = _Some$2;
       name = _s.name;
     }
-    const value = _M0MPC16option6Option10unwrap__orGsE(_f.result, "<unit>");
+    const value = _M0MPC16option6Option10unwrap__orGsE(_f.result, "<not recorded>");
     let ret = -1;
     let _tmp$2 = _f.last;
     while (true) {

@@ -716,7 +716,9 @@ fn Timeline::explain_call(self : Timeline, frame : Int, depth : Int) -> Cause {
     Some(s) => s.name
     None => "?"
   }
-  let value = f.result.unwrap_or("<unit>")
+  // No recorded result: the function returns Unit, or its result type
+  // cannot be rendered (generic, closure, no `Debug`).
+  let value = f.result.unwrap_or("<not recorded>")
   // Find the `Return` event of this frame.
   let mut ret = -1
   for i = f.last; i >= f.first; i = i - 1 {
