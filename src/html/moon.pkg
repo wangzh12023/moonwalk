@@ -1,0 +1,14 @@
+options(
+  "pre-build": [
+    {
+      "command": ":embed -i $input -o $output --name viewer_css --text",
+      "input": "assets/viewer.css",
+      "output": "viewer_css.generated.mbt",
+    },
+    {
+      "command": ":embed -i $input -o $output --name viewer_js --text",
+      "input": "assets/viewer.js",
+      "output": "viewer_js.generated.mbt",
+    },
+  ],
+)
