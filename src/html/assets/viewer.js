@@ -1503,7 +1503,7 @@ function _M0TPB9ArrayViewGUiRPB5ArrayGUssEEEE(param0, param1, param2) {
   this.start = param1;
   this.end = param2;
 }
-function _M0TP411wangzh120238moonwalk3src6viewer8CauseRow(param0, param1, param2, param3, param4, param5, param6) {
+function _M0TP411wangzh120238moonwalk3src6viewer8CauseRow(param0, param1, param2, param3, param4, param5, param6, param7) {
   this.indent = param0;
   this.label = param1;
   this.step = param2;
@@ -1511,6 +1511,7 @@ function _M0TP411wangzh120238moonwalk3src6viewer8CauseRow(param0, param1, param2
   this.source = param4;
   this.repeat = param5;
   this.name = param6;
+  this.kind = param7;
 }
 function _M0TPB9ArrayViewGUiRPB5ArrayGsEEE(param0, param1, param2) {
   this.buf = param0;
@@ -1822,31 +1823,31 @@ const _M0MP411wangzh120238moonwalk3src5trace8Timeline14argument__textN7_2abindS9
 const _M0MP411wangzh120238moonwalk3src5trace8Timeline14argument__textN7_2abindS971 = " \t\n";
 const _M0MP411wangzh120238moonwalk3src5trace8Timeline14argument__textN7_2abindS972 = " \t\n";
 const _M0MP411wangzh120238moonwalk3src5trace8Timeline12source__lineN7_2abindS1232 = " \t";
-const _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS197 = "\n";
-const _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198 = " ";
-const _M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS227 = ", ";
+const _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198 = "\n";
+const _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS199 = " ";
+const _M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS228 = ", ";
 const _M0FP411wangzh120238moonwalk3src6viewer13failure__textN6prefixS45 = "@EXPECT_FAILED ";
-const _M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS352 = "\n";
-const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS475 = "recording: missing tests";
-const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS483 = "recording: malformed sites";
-const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489 = "recording: missing sites";
-const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS495 = "recording: expected an object";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS315 = "\n";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS458 = 7;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS459 = 3;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS460 = 2;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS461 = 1;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS462 = 0;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS463 = 4;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS464 = 5;
-const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS465 = 6;
+const _M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS366 = "\n";
+const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489 = "recording: missing tests";
+const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS497 = "recording: malformed sites";
+const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS503 = "recording: missing sites";
+const _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS509 = "recording: expected an object";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS317 = "\n";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS460 = 7;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS461 = 3;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS462 = 2;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS463 = 1;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS464 = 0;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS465 = 4;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS466 = 5;
+const _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS467 = 6;
 const _M0FPB4seed = _M0FPB12random__seed();
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS428 = "frame";
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS429 = "jump to the call";
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS430 = "fn";
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS431 = "loc";
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS432 = "panel";
-const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS433 = "stack";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS430 = "frame";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS431 = "jump to the call";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS432 = "fn";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS433 = "loc";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS434 = "panel";
+const _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS435 = "stack";
 const _M0FP419moonbit_2dcommunity7rabbita8internal6duplix14global__scopes = _M0MP419moonbit_2dcommunity7rabbita8internal7slotmap7SlotMap7SlotMapGRP419moonbit_2dcommunity7rabbita8internal7runtime5StoreE();
 const _M0FP419moonbit_2dcommunity7rabbita8internal6duplix12dummy__scope = _M0MP419moonbit_2dcommunity7rabbita8internal7slotmap7SlotMap14allocate__withGRP419moonbit_2dcommunity7rabbita8internal6duplix5ScopeE(_M0FP419moonbit_2dcommunity7rabbita8internal6duplix14global__scopes, (id) => {
   const _bind = [];
@@ -1857,8 +1858,8 @@ const _M0FP419moonbit_2dcommunity7rabbita8internal6duplix5clock = _M0MPC13ref3Re
 const _M0FP419moonbit_2dcommunity7rabbita8internal6duplix4uuid = _M0MPC13ref3Ref3RefGiE(0);
 const _p = [];
 const _M0FP319moonbit_2dcommunity7rabbita4html7nothing = new _M0DTP419moonbit_2dcommunity7rabbita8internal4vdom5VNode4Frag(_p);
-const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS450 = "panel";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS451 = "out";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS452 = "panel";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS453 = "out";
 const _M0FP319moonbit_2dcommunity7rabbita3cmd16default__handler = new _M0TP319moonbit_2dcommunity7rabbita3cmd2Op(_M0FP319moonbit_2dcommunity7rabbita3cmd16default__handlerN7_2abindS108, _M0FP319moonbit_2dcommunity7rabbita3cmd16default__handlerN7_2abindS101, _M0FP319moonbit_2dcommunity7rabbita3cmd16default__handlerN7_2abindS98, _M0FP319moonbit_2dcommunity7rabbita3cmd16default__handlerN7_2abindS103, _M0FP319moonbit_2dcommunity7rabbita3cmd16default__handlerN7_2abindS105);
 const _M0FP419moonbit_2dcommunity7rabbita8internal7runtime2op = _M0MP319moonbit_2dcommunity7rabbita3cmd2Op2Op();
 const _M0FP419moonbit_2dcommunity7rabbita8internal7runtime13ambient__host = _M0MPC13ref3Ref3RefGRP419moonbit_2dcommunity7rabbita8internal7runtime4HostE({ self: new _M0TP419moonbit_2dcommunity7rabbita8internal7runtime9DummyHost(_M0MP419moonbit_2dcommunity7rabbita8internal7slotmap7SlotMap7SlotMapGRP419moonbit_2dcommunity7rabbita8internal7runtime5StoreE()), method_table: _M0FP0130moonbit_2dcommunity_2frabbita_2finternal_2fruntime_2fDummyHost_24as_24_40moonbit_2dcommunity_2frabbita_2finternal_2fruntime_2eHost });
@@ -1870,80 +1871,80 @@ const _M0FP411moonbitlang5async8internal9coroutine22suspend__check__cancelN6cons
 const _self = _M0MP319moonbit_2dcommunity7rabbita3cmd2Op2Op();
 _M0MP319moonbit_2dcommunity7rabbita3cmd2Op10on__invoke(_self, _M0FP319moonbit_2dcommunity7rabbita3cmd10on__invoke);
 const _M0FP319moonbit_2dcommunity7rabbita3cmd2op = _self;
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS389 = "bar";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS390 = "brand";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS391 = "moon";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS392 = "tests";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS393 = "Recorded tests";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS394 = "nav";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS395 = "First step (Home)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS396 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(5);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS397 = "Step back over calls (↑ / Shift+←)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS398 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(2);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS399 = "Step back (←)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS400 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(0);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS401 = "Step forward (→)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS402 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(1);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS403 = "Step forward over calls (↓ / Shift+→)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS404 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(3);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS405 = "Step out of the current call (o)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS406 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(4);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS407 = "Last step (End)";
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS408 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(6);
-const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS409 = "label";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS391 = "bar";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS392 = "brand";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS393 = "moon";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS394 = "tests";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS395 = "Recorded tests";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS396 = "nav";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS397 = "First step (Home)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS398 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(5);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS399 = "Step back over calls (↑ / Shift+←)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS400 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(2);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS401 = "Step back (←)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS402 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(0);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS403 = "Step forward (→)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS404 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(1);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS405 = "Step forward over calls (↓ / Shift+→)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS406 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(3);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS407 = "Step out of the current call (o)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS408 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(4);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS409 = "Last step (End)";
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS410 = new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg3Nav(6);
+const _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS411 = "label";
 const _M0MPC16string10StringView4findN6constrS9919 = 0;
 const _M0MP411wangzh120238moonwalk3src5trace8Timeline13explain__callN6constrS1636 = new _M0DTP411wangzh120238moonwalk3src5trace5Cause9Truncated(-1, "?", "");
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS440 = "what";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS441 = "where";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS442 = "src-line";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS443 = "drill";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS444 = "causes";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS445 = "empty";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS446 = "panel why";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS447 = "why-head";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS448 = "close";
-const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS449 = "close";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS452 = "status ok";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS453 = "status fail";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS454 = "x";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS442 = "what";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS443 = "where";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS444 = "src-line";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS445 = "drill";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS446 = "causes";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS447 = "empty";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS448 = "panel why";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS449 = "why-head";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS450 = "close";
+const _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS451 = "close";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS454 = "status ok";
 const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS455 = "status fail";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS456 = "note";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS457 = "status-box";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS410 = "fail-mark";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS411 = "the failing check";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS412 = "scrub";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS413 = "track";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS414 = "cursor";
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS415 = 13;
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS416 = 0;
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS417 = 1;
-const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS418 = "range";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS434 = "vn";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS435 = "vv";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS436 = "ask";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS437 = "empty";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS438 = "locals";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS439 = "panel";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS456 = "x";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS457 = "status fail";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS458 = "note";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS459 = "status-box";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS412 = "fail-mark";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS413 = "the failing check";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS414 = "scrub";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS415 = "track";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS416 = "cursor";
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS417 = 13;
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS418 = 0;
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS419 = 1;
+const _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS420 = "range";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS436 = "vn";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS437 = "vv";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS438 = "ask";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS439 = "empty";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS440 = "locals";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS441 = "panel";
 const _M0FP411wangzh120238moonwalk3src9highlight8keywordsN7_2abindS42 = ["fn", "let", "mut", "if", "else", "match", "while", "for", "in", "return", "break", "continue", "struct", "enum", "type", "trait", "impl", "with", "pub", "priv", "test", "guard", "is", "try", "catch", "raise", "noraise", "async", "extern", "derive", "using", "loop", "nobreak", "as", "suberror", "defer", "true", "false", "self", "Self", "all", "open", "readonly"];
 const _M0FP411wangzh120238moonwalk3src9highlight8keywords = _M0MPC13set3Set3SetGsE(new _M0TPB9ArrayViewGsE(_M0FP411wangzh120238moonwalk3src9highlight8keywordsN7_2abindS42, 0, 43), undefined);
-const _M0FP411wangzh120238moonwalk3src6viewer14step__locationN5tupleS501 = { _0: -1, _1: 0 };
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS419 = "iv";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS420 = "no";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS421 = "code";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS422 = "tab";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS423 = "path";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS424 = "pkg";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS425 = "src";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS426 = "code";
-const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS427 = "empty";
-const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS466 = "mw";
-const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS467 = "main";
-const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS468 = "side";
-const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS469 = "foot";
-const _M0FP411wangzh120238moonwalk3cmd6viewer10error__appN6constrS470 = "mw error";
+const _M0FP411wangzh120238moonwalk3src6viewer14step__locationN5tupleS515 = { _0: -1, _1: 0 };
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS421 = "iv";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS422 = "no";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS423 = "code";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS424 = "tab";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS425 = "path";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS426 = "pkg";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS427 = "src";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS428 = "code";
+const _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS429 = "empty";
+const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS468 = "mw";
+const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS469 = "main";
+const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS470 = "side";
+const _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS471 = "foot";
+const _M0FP411wangzh120238moonwalk3cmd6viewer10error__appN6constrS472 = "mw error";
 const _M0FPC28internal7strconv17check__underscoreN25_2atransition__table__222S230 = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5, 5, 5, 5, 0, 1, 2, 5];
 const _M0FPC28internal7strconv15parse__inf__nanN25_2atransition__table__304S312 = [14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 4, 14, 14, 14, 14, 14, 14, 14, 7, 14, 14, 14, 14, 5, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 6, 14, 14, 14, 0, 14, 14, 14, 14, 14, 14, 14, 14, 14, 8, 14, 14, 14, 14, 14, 1, 14, 14, 9, 14, 14, 14, 14, 14, 14, 14, 14, 10, 14, 14, 14, 14, 14, 14, 11, 14, 14, 14, 14, 14, 14, 14, 14, 14, 12, 14, 14, 14, 14, 14, 14, 14, 14, 13, 14, 1, 14, 14, 14, 14, 14, 14, 14];
-const _M0FP411wangzh120238moonwalk3cmd6viewer7_2amainN6constrS471 = new _M0DTPC16result6ResultGRP411wangzh120238moonwalk3src6viewer9RecordingsE3Err("the recording has no tests");
+const _M0FP411wangzh120238moonwalk3cmd6viewer7_2amainN6constrS473 = new _M0DTPC16result6ResultGRP411wangzh120238moonwalk3src6viewer9RecordingsE3Err("the recording has no tests");
 function _M0MPB6Logger13write__objectGsE(self, obj) {
   _M0IP016_24default__implPB4Show6outputGsE(obj, self);
 }
@@ -18877,7 +18878,7 @@ function _M0MP411wangzh120238moonwalk3src5trace8Timeline9step__out(self, step) {
 function _M0FP411wangzh120238moonwalk3src6viewer14step__location(tl, step) {
   const _bind$3 = _M0MP411wangzh120238moonwalk3src5trace8Timeline8location(tl, step);
   if (_bind$3 === undefined) {
-    return _M0FP411wangzh120238moonwalk3src6viewer14step__locationN5tupleS501;
+    return _M0FP411wangzh120238moonwalk3src6viewer14step__locationN5tupleS515;
   } else {
     const _Some = _bind$3;
     const _x = _Some;
@@ -18915,7 +18916,7 @@ function _M0FP411wangzh120238moonwalk3src6viewer10hit__lines(tl, file) {
   return out;
 }
 function _M0FP411wangzh120238moonwalk3src6viewer7shorten(s, max_len) {
-  const one = _M0MPC16string6String12replace__all(s, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS197, 0, _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS197.length), new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198, 0, _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198.length));
+  const one = _M0MPC16string6String12replace__all(s, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198, 0, _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS198.length), new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS199, 0, _M0FP411wangzh120238moonwalk3src6viewer7shortenN7_2abindS199.length));
   if (_M0MPC16string6String20char__length_2einner(one, 0, undefined) <= max_len) {
     return one;
   } else {
@@ -19026,7 +19027,7 @@ function _M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einner(tl, ste
               break;
             }
           }
-          const s = _M0MPC15array5Array4joinGsE(_p$2, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS227, 0, _M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS227.length));
+          const s = _M0MPC15array5Array4joinGsE(_p$2, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS228, 0, _M0FP411wangzh120238moonwalk3src6viewer22inline__values_2einnerN7_2abindS228.length));
           _M0MPB3Map3setGisE(out, _line, _M0FP411wangzh120238moonwalk3src6viewer7shorten(s, max_len));
           continue;
         }
@@ -19138,6 +19139,28 @@ function _M0FP411wangzh120238moonwalk3src6viewer11cause__rowsN2goS84(_env, c, in
   } else {
     repeat = false;
   }
+  let kind;
+  switch (c.$tag) {
+    case 0: {
+      kind = "assign";
+      break;
+    }
+    case 1: {
+      kind = "arg";
+      break;
+    }
+    case 2: {
+      kind = "return";
+      break;
+    }
+    case 3: {
+      kind = "decision";
+      break;
+    }
+    default: {
+      kind = "more";
+    }
+  }
   let name;
   _L$2: {
     _L$3: {
@@ -19177,8 +19200,25 @@ function _M0FP411wangzh120238moonwalk3src6viewer11cause__rowsN2goS84(_env, c, in
   }
   const _bind$3 = _M0FP411wangzh120238moonwalk3src6viewer7shorten(label, 120);
   const _bind$4 = step >= 0 ? _M0MP411wangzh120238moonwalk3src5trace8Timeline7where__(tl, step) : "";
-  const _bind$5 = step >= 0 ? _M0MP411wangzh120238moonwalk3src5trace8Timeline12source__line(tl, step) : "";
-  _M0MPC15array5Array4pushGRP411wangzh120238moonwalk3src6viewer5VTestE(rows, new _M0TP411wangzh120238moonwalk3src6viewer8CauseRow(indent, _bind$3, step, _bind$4, _bind$5, repeat, name));
+  let _bind$5;
+  let _tmp$2;
+  if (step >= 0) {
+    let _tmp$3;
+    if (c.$tag === 1) {
+      _tmp$3 = true;
+    } else {
+      _tmp$3 = false;
+    }
+    _tmp$2 = !_tmp$3;
+  } else {
+    _tmp$2 = false;
+  }
+  if (_tmp$2) {
+    _bind$5 = _M0MP411wangzh120238moonwalk3src5trace8Timeline12source__line(tl, step);
+  } else {
+    _bind$5 = "";
+  }
+  _M0MPC15array5Array4pushGRP411wangzh120238moonwalk3src6viewer5VTestE(rows, new _M0TP411wangzh120238moonwalk3src6viewer8CauseRow(indent, _bind$3, step, _bind$4, _bind$5, repeat, name, kind));
   if (repeat) {
     return undefined;
   }
@@ -19186,13 +19226,13 @@ function _M0FP411wangzh120238moonwalk3src6viewer11cause__rowsN2goS84(_env, c, in
     _M0MPC13set3Set3addGiE(seen, step);
   }
   const _p$2 = children.length;
-  let _tmp$2 = 0;
+  let _tmp$3 = 0;
   while (true) {
-    const _p$3 = _tmp$2;
+    const _p$3 = _tmp$3;
     if (_p$3 < _p$2) {
       const _p$4 = children[_p$3];
       _M0FP411wangzh120238moonwalk3src6viewer11cause__rowsN2goS84(_env, _p$4, indent + 1 | 0);
-      _tmp$2 = _p$3 + 1 | 0;
+      _tmp$3 = _p$3 + 1 | 0;
       continue;
     } else {
       return;
@@ -19421,7 +19461,7 @@ function _M0FP411wangzh120238moonwalk3src6viewer13failure__text(j) {
             return _string_builder.val;
           }
         }
-        const _bind$3 = _M0MPC16string6String4find(msg, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS352, 0, _M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS352.length));
+        const _bind$3 = _M0MPC16string6String4find(msg, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS366, 0, _M0FP411wangzh120238moonwalk3src6viewer13failure__textN7_2abindS366.length));
         if (_bind$3 === undefined) {
           return msg;
         } else {
@@ -19611,13 +19651,13 @@ function _M0FP411wangzh120238moonwalk3src6viewer6decode(json) {
     const _root = _Object._0;
     const _bind$3 = _M0MPB3Map3getGsRPB4JsonE(_root, "sites");
     if (_bind$3 === undefined) {
-      return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489.length), "src/viewer/data.mbt:141:5-141:37@wangzh12023/moonwalk");
+      return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS503, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS503.length), "src/viewer/data.mbt:141:5-141:37@wangzh12023/moonwalk");
     } else {
       const _Some = _bind$3;
       const _sites_json = _Some;
       const _bind$4 = _M0MP411wangzh120238moonwalk3src5model9SiteTable10from__json(_sites_json);
       if (_bind$4 === undefined) {
-        return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS483, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS483.length), "src/viewer/data.mbt:144:5-144:39@wangzh12023/moonwalk");
+        return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS497, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS497.length), "src/viewer/data.mbt:144:5-144:39@wangzh12023/moonwalk");
       } else {
         const _Some$2 = _bind$4;
         const _sites = _Some$2;
@@ -19803,11 +19843,11 @@ function _M0FP411wangzh120238moonwalk3src6viewer6decode(json) {
             }
           }
         }
-        return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS475, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS475.length), "src/viewer/data.mbt:147:5-147:37@wangzh12023/moonwalk");
+        return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS489.length), "src/viewer/data.mbt:147:5-147:37@wangzh12023/moonwalk");
       }
     }
   } else {
-    return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS495, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS495.length), "src/viewer/data.mbt:139:37-139:74@wangzh12023/moonwalk");
+    return _M0FPB4failGRP411wangzh120238moonwalk3src6viewer9RecordingE(new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS509, 0, _M0FP411wangzh120238moonwalk3src6viewer6decodeN7_2abindS509.length), "src/viewer/data.mbt:139:37-139:74@wangzh12023/moonwalk");
   }
 }
 function _M0IP411wangzh120238moonwalk3cmd6viewer5ModelPB2Eq5equal(_x_157, _x_158) {
@@ -20067,35 +20107,35 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer7toolbar(rec, emit, model) {
     }
     tests = _p$5;
   }
-  const _tmp$2 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS390, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS391, undefined, -1, undefined, "◐"), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(" MoonWalk")]);
-  const _tmp$3 = _M0FP319moonbit_2dcommunity7rabbita4html6selectGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS392, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS393, -1, -1, undefined, -1, undefined, -1, -1, _M0MP319moonbit_2dcommunity7rabbita3cmd4Emit3mapGRP411wangzh120238moonwalk3cmd6viewer3MsgsE(emit, (s) => new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg10SelectTest(s)), undefined, tests);
+  const _tmp$2 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS392, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS393, undefined, -1, undefined, "◐"), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(" MoonWalk")]);
+  const _tmp$3 = _M0FP319moonbit_2dcommunity7rabbita4html6selectGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS394, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS395, -1, -1, undefined, -1, undefined, -1, -1, _M0MP319moonbit_2dcommunity7rabbita3cmd4Emit3mapGRP411wangzh120238moonwalk3cmd6viewer3MsgsE(emit, (s) => new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg10SelectTest(s)), undefined, tests);
   const _tmp$4 = model.step <= 0;
   const _func = emit;
-  const _tmp$5 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS395, -1, undefined, _tmp$4, undefined, undefined, -1, _func(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS396), undefined, "⏮");
+  const _tmp$5 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS397, -1, undefined, _tmp$4, undefined, undefined, -1, _func(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS398), undefined, "⏮");
   const _tmp$6 = model.step <= 0;
   const _func$2 = emit;
-  const _tmp$7 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS397, -1, undefined, _tmp$6, undefined, undefined, -1, _func$2(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS398), undefined, "⤺");
+  const _tmp$7 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS399, -1, undefined, _tmp$6, undefined, undefined, -1, _func$2(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS400), undefined, "⤺");
   const _tmp$8 = model.step <= 0;
   const _func$3 = emit;
-  const _tmp$9 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS399, -1, undefined, _tmp$8, undefined, undefined, -1, _func$3(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS400), undefined, "◀");
+  const _tmp$9 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS401, -1, undefined, _tmp$8, undefined, undefined, -1, _func$3(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS402), undefined, "◀");
   const _tmp$10 = model.step >= last;
   const _func$4 = emit;
-  const _tmp$11 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS401, -1, undefined, _tmp$10, undefined, undefined, -1, _func$4(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS402), undefined, "▶");
+  const _tmp$11 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS403, -1, undefined, _tmp$10, undefined, undefined, -1, _func$4(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS404), undefined, "▶");
   const _tmp$12 = model.step >= last;
   const _func$5 = emit;
-  const _tmp$13 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS403, -1, undefined, _tmp$12, undefined, undefined, -1, _func$5(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS404), undefined, "⤻");
+  const _tmp$13 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS405, -1, undefined, _tmp$12, undefined, undefined, -1, _func$5(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS406), undefined, "⤻");
   const _tmp$14 = model.step >= last;
   const _func$6 = emit;
-  const _tmp$15 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS405, -1, undefined, _tmp$14, undefined, undefined, -1, _func$6(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS406), undefined, "⏏");
+  const _tmp$15 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS407, -1, undefined, _tmp$14, undefined, undefined, -1, _func$6(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS408), undefined, "⏏");
   const _tmp$16 = model.step >= last;
   const _func$7 = emit;
-  const _tmp$17 = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS394, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$5, _tmp$7, _tmp$9, _tmp$11, _tmp$13, _tmp$15, _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS407, -1, undefined, _tmp$16, undefined, undefined, -1, _func$7(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS408), undefined, "⏭")]);
+  const _tmp$17 = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS396, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$5, _tmp$7, _tmp$9, _tmp$11, _tmp$13, _tmp$15, _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS409, -1, undefined, _tmp$16, undefined, undefined, -1, _func$7(_M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS410), undefined, "⏭")]);
   const _string_builder = _M0MPB13StringBuilder21StringBuilder_2einner(8);
   _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "step ");
   _M0MPB13StringBuilder13write__objectGiE(_string_builder, model.step);
   _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, " / ");
   _M0MPB13StringBuilder13write__objectGiE(_string_builder, last);
-  return _M0FP319moonbit_2dcommunity7rabbita4html6headerGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS389, undefined, -1, undefined, [_tmp$2, _tmp$3, _tmp$17, _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS409, undefined, -1, undefined, _string_builder.val)]);
+  return _M0FP319moonbit_2dcommunity7rabbita4html6headerGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS391, undefined, -1, undefined, [_tmp$2, _tmp$3, _tmp$17, _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer7toolbarN6constrS411, undefined, -1, undefined, _string_builder.val)]);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer3raw(cls, html) {
   return _M0FP319moonbit_2dcommunity7rabbita4html4spanGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, cls, undefined, -1, _M0MP319moonbit_2dcommunity7rabbita4html5Attrs11inner__html(_M0MP319moonbit_2dcommunity7rabbita4html5Attrs5build(), html), _M0FP319moonbit_2dcommunity7rabbita4html7nothing);
@@ -20121,7 +20161,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer8scrubber(t, emit, model) {
           _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "left: ");
           _M0MPB13StringBuilder13write__objectGdE(_string_builder, at);
           _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "%");
-          marker = _M0FP319moonbit_2dcommunity7rabbita4html11div_2einnerGRP319moonbit_2dcommunity7rabbita4html4HtmlE([_string_builder.val], undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS410, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS411, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP319moonbit_2dcommunity7rabbita4html7nothing);
+          marker = _M0FP319moonbit_2dcommunity7rabbita4html11div_2einnerGRP319moonbit_2dcommunity7rabbita4html4HtmlE([_string_builder.val], undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS412, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS413, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP319moonbit_2dcommunity7rabbita4html7nothing);
         } else {
           break _L$2;
         }
@@ -20135,7 +20175,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer8scrubber(t, emit, model) {
   _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "left: ");
   _M0MPB13StringBuilder13write__objectGdE(_string_builder, pct);
   _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "%");
-  return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS412, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS413, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, marker, _M0FP319moonbit_2dcommunity7rabbita4html11div_2einnerGRP319moonbit_2dcommunity7rabbita4html4HtmlE([_string_builder.val], undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS414, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP319moonbit_2dcommunity7rabbita4html7nothing)]), _M0FP319moonbit_2dcommunity7rabbita4html5input(_M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS415, undefined, _M0MPC13int3Int18to__string_2einner(model.step, 10), -1, -1, -1, undefined, undefined, undefined, _M0DTPC16option6OptionGRPB5ArrayGsEE4None__, last, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS416, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS417, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS418, undefined, -1, -1, -1, undefined, undefined, undefined, _M0MP319moonbit_2dcommunity7rabbita3cmd4Emit3mapGRP411wangzh120238moonwalk3cmd6viewer3MsgsE(emit, (s) => new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg7SetStep(s)), undefined)]);
+  return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS414, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS415, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, marker, _M0FP319moonbit_2dcommunity7rabbita4html11div_2einnerGRP319moonbit_2dcommunity7rabbita4html4HtmlE([_string_builder.val], undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS416, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP319moonbit_2dcommunity7rabbita4html7nothing)]), _M0FP319moonbit_2dcommunity7rabbita4html5input(_M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS417, undefined, _M0MPC13int3Int18to__string_2einner(model.step, 10), -1, -1, -1, undefined, undefined, undefined, _M0DTPC16option6OptionGRPB5ArrayGsEE4None__, last, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS418, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS419, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer8scrubberN6constrS420, undefined, -1, -1, -1, undefined, undefined, undefined, _M0MP319moonbit_2dcommunity7rabbita3cmd4Emit3mapGRP411wangzh120238moonwalk3cmd6viewer3MsgsE(emit, (s) => new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg7SetStep(s)), undefined)]);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, model) {
   const tl = t.timeline;
@@ -20144,7 +20184,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, mo
   const _line = _bind$3._1;
   const _bind$4 = _M0MP411wangzh120238moonwalk3src5model9SiteTable4file(rec.sites, _file);
   if (_bind$4 === undefined) {
-    return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS426, undefined, -1, undefined, _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS427, undefined, -1, undefined, "no source for this step"));
+    return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS428, undefined, -1, undefined, _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS429, undefined, -1, undefined, "no source for this step"));
   } else {
     const _Some = _bind$4;
     const _f = _Some;
@@ -20175,9 +20215,9 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, mo
             } else {
               const _p$11 = _p$9;
               const _p$12 = _p$11;
-              _p$10 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS419, undefined, -1, undefined, _p$12);
+              _p$10 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS421, undefined, -1, undefined, _p$12);
             }
-            _p$3[_p$5] = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _p$8, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS420, undefined, -1, undefined, _M0MPC13int3Int18to__string_2einner(_p$7, 10)), _M0FP411wangzh120238moonwalk3cmd6viewer3raw("tx", _p$6), _p$10]);
+            _p$3[_p$5] = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _p$8, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS422, undefined, -1, undefined, _M0MPC13int3Int18to__string_2einner(_p$7, 10)), _M0FP411wangzh120238moonwalk3cmd6viewer3raw("tx", _p$6), _p$10]);
             _tmp$2 = _p$5 + 1 | 0;
             continue;
           } else {
@@ -20189,7 +20229,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, mo
       }
       rows = _p$2;
     }
-    return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS421, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS422, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS423, undefined, -1, undefined, _f.path), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS424, undefined, -1, undefined, _f.pkg)]), _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS425, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, rows)]);
+    return _M0FP319moonbit_2dcommunity7rabbita4html7sectionGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS423, undefined, -1, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS424, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS425, undefined, -1, undefined, _f.path), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS426, undefined, -1, undefined, _f.pkg)]), _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12source__viewN6constrS427, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, rows)]);
   }
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer11stack__view(rec, t, emit, model) {
@@ -20225,7 +20265,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer11stack__view(rec, t, emit, mode
         _p$9 = _p$12.val;
       }
       const _p$10 = emit;
-      _p$2[_p$4] = _M0FP319moonbit_2dcommunity7rabbita4html2liGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS428, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS429, -1, _p$10(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg2Go(_p$5.first)), undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS430, undefined, -1, undefined, _p$7), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS431, undefined, -1, undefined, _p$9)]);
+      _p$2[_p$4] = _M0FP319moonbit_2dcommunity7rabbita4html2liGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS430, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS431, -1, _p$10(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg2Go(_p$5.first)), undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS432, undefined, -1, undefined, _p$7), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS433, undefined, -1, undefined, _p$9)]);
       _tmp$2 = _p$4 + 1 | 0;
       continue;
     } else {
@@ -20233,7 +20273,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer11stack__view(rec, t, emit, mode
     }
   }
   const items = _p$2;
-  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS432, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Call stack"), _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS433, undefined, -1, undefined, undefined, items)]);
+  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS434, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Call stack"), _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer11stack__viewN6constrS435, undefined, -1, undefined, undefined, items)]);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer12locals__view(t, emit, model) {
   const tl = t.timeline;
@@ -20276,7 +20316,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12locals__view(t, emit, model) {
       _M0IPB13StringBuilderPB6Logger13write__string(_p$8, " have this value?");
       const _tmp$3 = _p$8.val;
       const _p$9 = emit;
-      _p$2[_p$4] = _M0FP319moonbit_2dcommunity7rabbita4html2liGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _p$7, _tmp$3, -1, _p$9(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg7Explain(_p$5.name)), undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS434, undefined, -1, undefined, _p$5.name), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS435, undefined, -1, undefined, _M0FP411wangzh120238moonwalk3src6viewer7shorten(_p$5.value, 200)), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS436, undefined, -1, undefined, "why?")]);
+      _p$2[_p$4] = _M0FP319moonbit_2dcommunity7rabbita4html2liGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, _p$7, _tmp$3, -1, _p$9(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg7Explain(_p$5.name)), undefined, [_M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS436, undefined, -1, undefined, _p$5.name), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS437, undefined, -1, undefined, _M0FP411wangzh120238moonwalk3src6viewer7shorten(_p$5.value, 200)), _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS438, undefined, -1, undefined, "why?")]);
       _tmp$2 = _p$4 + 1 | 0;
       continue;
     } else {
@@ -20284,8 +20324,8 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12locals__view(t, emit, model) {
     }
   }
   const rows = _p$2;
-  const body = rows.length === 0 ? _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS437, undefined, -1, undefined, "no variables yet") : _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS438, undefined, -1, undefined, undefined, rows);
-  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS439, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Variables"), body]);
+  const body = rows.length === 0 ? _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS439, undefined, -1, undefined, "no variables yet") : _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS440, undefined, -1, undefined, undefined, rows);
+  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12locals__viewN6constrS441, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Variables"), body]);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
   const _bind$3 = model.why;
@@ -20311,7 +20351,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
       _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "no recorded assignment of ");
       _M0MPB13StringBuilder13write__objectGsE(_string_builder, _name);
       _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, " before this step");
-      body = _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS445, undefined, -1, undefined, _string_builder.val);
+      body = _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS447, undefined, -1, undefined, _string_builder.val);
     } else {
       const _Some$2 = _bind$5;
       const _cause = _Some$2;
@@ -20323,7 +20363,18 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
         const _p$5 = _tmp$2;
         if (_p$5 < _p$4) {
           const _p$6 = _p$2[_p$5];
-          const _p$7 = _p$6.repeat ? "cause repeat" : "cause";
+          let _p$7;
+          if (_p$6.repeat) {
+            const _p$8 = _M0MPB13StringBuilder21StringBuilder_2einner(15);
+            _M0IPB13StringBuilderPB6Logger13write__string(_p$8, "cause repeat k-");
+            _M0MPB13StringBuilder13write__objectGsE(_p$8, _p$6.kind);
+            _p$7 = _p$8.val;
+          } else {
+            const _p$8 = _M0MPB13StringBuilder21StringBuilder_2einner(8);
+            _M0IPB13StringBuilderPB6Logger13write__string(_p$8, "cause k-");
+            _M0MPB13StringBuilder13write__objectGsE(_p$8, _p$6.kind);
+            _p$7 = _p$8.val;
+          }
           const _p$8 = _M0MPB13StringBuilder21StringBuilder_2einner(16);
           _M0IPB13StringBuilderPB6Logger13write__string(_p$8, "padding-left: ");
           _M0MPB13StringBuilder13write__objectGiE(_p$8, (Math.imul(_p$6.indent, 14) | 0) + 6 | 0);
@@ -20347,7 +20398,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
             _tmp$6 = _M0FP319moonbit_2dcommunity7rabbita3cmd4none;
           }
           const _tmp$7 = _tmp$6;
-          const _tmp$8 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS440, undefined, -1, undefined, _p$6.label);
+          const _tmp$8 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS442, undefined, -1, undefined, _p$6.label);
           let _tmp$9;
           if (_p$6.step >= 0) {
             const _p$9 = _M0MPB13StringBuilder21StringBuilder_2einner(2);
@@ -20359,8 +20410,8 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
           } else {
             _tmp$9 = "";
           }
-          const _tmp$10 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS441, undefined, -1, undefined, _tmp$9);
-          const _tmp$11 = _p$6.repeat ? _M0FP319moonbit_2dcommunity7rabbita4html7nothing : _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS442, undefined, -1, undefined, _p$6.source);
+          const _tmp$10 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS443, undefined, -1, undefined, _tmp$9);
+          const _tmp$11 = _p$6.repeat || _p$6.source === "" ? _M0FP319moonbit_2dcommunity7rabbita4html7nothing : _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS444, undefined, -1, undefined, _p$6.source);
           let _tmp$12;
           _L: {
             _L$2: {
@@ -20378,7 +20429,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
                   _M0MPB13StringBuilder13write__objectGiE(_p$12, _p$6.step);
                   const _tmp$13 = _p$12.val;
                   const _p$13 = emit;
-                  _tmp$12 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS443, _tmp$13, -1, undefined, -1, undefined, undefined, -1, _p$13(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg9ExplainAt(_p$11, _p$6.step)), undefined, "why?");
+                  _tmp$12 = _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS445, _tmp$13, -1, undefined, -1, undefined, undefined, -1, _p$13(new _M0DTP411wangzh120238moonwalk3cmd6viewer3Msg9ExplainAt(_p$11, _p$6.step)), undefined, "why?");
                 } else {
                   break _L$2;
                 }
@@ -20395,7 +20446,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
         }
       }
       const rows = _p$3;
-      body = _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS444, undefined, -1, undefined, undefined, rows);
+      body = _M0FP319moonbit_2dcommunity7rabbita4html2ulGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS446, undefined, -1, undefined, undefined, rows);
     }
     const _string_builder = _M0MPB13StringBuilder21StringBuilder_2einner(19);
     _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "Why is ");
@@ -20403,7 +20454,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, emit, model) {
     _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, " what it is?");
     const _tmp$2 = _M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _string_builder.val);
     const _func = emit;
-    return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS446, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS447, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS448, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS449, -1, undefined, -1, undefined, undefined, -1, _func(_M0DTP411wangzh120238moonwalk3cmd6viewer3Msg8CloseWhy__), undefined, "×")]), body]);
+    return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS448, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS449, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, _M0FP319moonbit_2dcommunity7rabbita4html6buttonGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS450, _M0FP411wangzh120238moonwalk3cmd6viewer9why__viewN6constrS451, -1, undefined, -1, undefined, undefined, -1, _func(_M0DTP411wangzh120238moonwalk3cmd6viewer3Msg8CloseWhy__), undefined, "×")]), body]);
   }
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer12output__view(t, model) {
@@ -20411,26 +20462,26 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12output__view(t, model) {
   if (lines.length === 0) {
     return _M0FP319moonbit_2dcommunity7rabbita4html7nothing;
   }
-  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS450, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Output"), _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS451, undefined, -1, undefined, _M0MPC15array5Array4joinGsE(lines, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS315, 0, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS315.length)))]);
+  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS452, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "Output"), _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN6constrS453, undefined, -1, undefined, _M0MPC15array5Array4joinGsE(lines, new _M0TPC16string10StringView(_M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS317, 0, _M0FP411wangzh120238moonwalk3cmd6viewer12output__viewN7_2abindS317.length)))]);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer12status__view(t) {
   let head;
   if (t.passed) {
-    head = _M0FP319moonbit_2dcommunity7rabbita4html3divGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS452, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "✓ passed");
+    head = _M0FP319moonbit_2dcommunity7rabbita4html3divGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS454, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "✓ passed");
   } else {
     const _bind$3 = t.check;
     if (_bind$3 === undefined) {
-      head = _M0FP319moonbit_2dcommunity7rabbita4html3divGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS455, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, `✗ ${_M0MPC16option6Option10unwrap__orGsE(t.failure, "failed")}`);
+      head = _M0FP319moonbit_2dcommunity7rabbita4html3divGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS457, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, `✗ ${_M0MPC16option6Option10unwrap__orGsE(t.failure, "failed")}`);
     } else {
       const _Some = _bind$3;
       const _c = _Some;
-      const _tmp$2 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS454, undefined, -1, undefined, "✗ ");
+      const _tmp$2 = _M0FP319moonbit_2dcommunity7rabbita4html4spanGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS456, undefined, -1, undefined, "✗ ");
       const _string_builder = _M0MPB13StringBuilder21StringBuilder_2einner(2);
       _M0MPB13StringBuilder13write__objectGsE(_string_builder, _c.call);
       _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, "(");
       _M0MPB13StringBuilder13write__objectGsE(_string_builder, _c.subject);
       _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, ")");
-      head = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS453, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _string_builder.val), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(" expected "), _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _c.expected), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(", got "), _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _c.actual)]);
+      head = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS455, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$2, _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _string_builder.val), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(" expected "), _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _c.expected), _M0FP411wangzh120238moonwalk3cmd6viewer10text__node(", got "), _M0FP319moonbit_2dcommunity7rabbita4html4codeGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, _c.actual)]);
     }
   }
   const _p$2 = t.notes;
@@ -20441,7 +20492,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12status__view(t) {
     const _p$5 = _tmp$2;
     if (_p$5 < _p$4) {
       const _p$6 = _p$2[_p$5];
-      _p$3[_p$5] = _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS456, undefined, -1, undefined, _p$6);
+      _p$3[_p$5] = _M0FP319moonbit_2dcommunity7rabbita4html1pGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS458, undefined, -1, undefined, _p$6);
       _tmp$2 = _p$5 + 1 | 0;
       continue;
     } else {
@@ -20452,7 +20503,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12status__view(t) {
   const _self$2 = [];
   _M0MPC15array5Array4pushGRP411wangzh120238moonwalk3src6viewer5VTestE(_self$2, head);
   _M0MPC15array5Array10push__iterGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_self$2, _M0MPC15array5Array4iterGRP319moonbit_2dcommunity7rabbita4html4HtmlE(notes));
-  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS457, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _self$2);
+  return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer12status__viewN6constrS459, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, _self$2);
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer7fmt__ms(ms) {
   const t = _M0MPC16double6Double7to__int(ms * 10);
@@ -20512,13 +20563,13 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__of(key, shift) {
                 break _L$2;
               }
               case "o": {
-                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS463;
+                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS465;
               }
               case "Home": {
-                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS464;
+                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS466;
               }
               case "End": {
-                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS465;
+                return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS467;
               }
               case "w": {
                 break _L;
@@ -20531,15 +20582,15 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__of(key, shift) {
               }
             }
           }
-          return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS462;
+          return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS464;
         }
-        return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS461;
+        return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS463;
       }
-      return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS460;
+      return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS462;
     }
-    return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS459;
+    return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS461;
   }
-  return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS458;
+  return _M0FP411wangzh120238moonwalk3cmd6viewer12nav__key__ofN6constrS460;
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer17nav__keys__loader(payload, scheduler) {
   if (payload.$tag === 12) {
@@ -20634,7 +20685,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer3app(rec, parse_ms) {
     const t = _M0MPC15array5Array2atGRP411wangzh120238moonwalk3src6viewer5VTestE(rec.tests, m.sel);
     const _tmp$3 = _M0FP411wangzh120238moonwalk3cmd6viewer7toolbar(rec, _emit, m);
     const _tmp$4 = _M0FP411wangzh120238moonwalk3cmd6viewer8scrubber(t, _emit, m);
-    const _tmp$5 = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS467, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, m), _M0FP319moonbit_2dcommunity7rabbita4html5asideGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS468, undefined, -1, undefined, [_M0FP411wangzh120238moonwalk3cmd6viewer12status__view(t), _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer12locals__view(t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer11stack__view(rec, t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer12output__view(t, m)])]);
+    const _tmp$5 = _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS469, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP411wangzh120238moonwalk3cmd6viewer12source__view(rec, t, cache, m), _M0FP319moonbit_2dcommunity7rabbita4html5asideGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS470, undefined, -1, undefined, [_M0FP411wangzh120238moonwalk3cmd6viewer12status__view(t), _M0FP411wangzh120238moonwalk3cmd6viewer9why__view(t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer12locals__view(t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer11stack__view(rec, t, _emit, m), _M0FP411wangzh120238moonwalk3cmd6viewer12output__view(t, m)])]);
     const _string_builder = _M0MPB13StringBuilder21StringBuilder_2einner(115);
     const _p$4 = t.timeline;
     _M0MPB13StringBuilder13write__objectGiE(_string_builder, _p$4.steps.length);
@@ -20644,11 +20695,11 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer3app(rec, parse_ms) {
     _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, " calls · loaded in ");
     _M0MPB13StringBuilder13write__objectGsE(_string_builder, _M0FP411wangzh120238moonwalk3cmd6viewer7fmt__ms(parse_ms));
     _M0IPB13StringBuilderPB6Logger13write__string(_string_builder, " ms · ←/→ step · ↑/↓ step over · o step out · click a variable to ask why");
-    return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS466, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$3, _tmp$4, _tmp$5, _M0FP319moonbit_2dcommunity7rabbita4html6footerGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS469, undefined, -1, undefined, _string_builder.val)]);
+    return _M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS468, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_tmp$3, _tmp$4, _tmp$5, _M0FP319moonbit_2dcommunity7rabbita4html6footerGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer3appN6constrS471, undefined, -1, undefined, _string_builder.val)]);
   });
 }
 function _M0FP411wangzh120238moonwalk3cmd6viewer10error__app(message) {
-  return _M0MP219moonbit_2dcommunity7rabbita3Val8constantGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer10error__appN6constrS470, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "MoonWalk: cannot load the recording"), _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, message)]));
+  return _M0MP219moonbit_2dcommunity7rabbita3Val8constantGRP319moonbit_2dcommunity7rabbita4html4HtmlE(_M0FP319moonbit_2dcommunity7rabbita4html3divGRPB5ArrayGRP319moonbit_2dcommunity7rabbita4html4HtmlEE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, _M0FP411wangzh120238moonwalk3cmd6viewer10error__appN6constrS472, undefined, -1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, [_M0FP319moonbit_2dcommunity7rabbita4html2h2GsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, "MoonWalk: cannot load the recording"), _M0FP319moonbit_2dcommunity7rabbita4html3preGsE(_M0DTPC16option6OptionGRPB5ArrayGsEE4None__, undefined, undefined, undefined, -1, undefined, message)]));
 }
 (() => {
   const t0 = _M0FP411wangzh120238moonwalk3cmd6viewer7now__ms();
@@ -20679,7 +20730,7 @@ function _M0FP411wangzh120238moonwalk3cmd6viewer10error__app(message) {
       }
       const _p$2 = _bind$6.tests;
       if (_p$2.length === 0) {
-        loaded = _M0FP411wangzh120238moonwalk3cmd6viewer7_2amainN6constrS471;
+        loaded = _M0FP411wangzh120238moonwalk3cmd6viewer7_2amainN6constrS473;
       } else {
         loaded = new _M0DTPC16result6ResultGRP411wangzh120238moonwalk3src6viewer9RecordingsE2Ok(_bind$6);
       }

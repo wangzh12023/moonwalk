@@ -110,6 +110,8 @@ pub(all) struct CauseRow {
   repeat : Bool
   /// Variable the row is about, when asking "why" about it makes sense.
   name : String?
+  /// `assign`, `arg`, `return`, `decision` or `more`, for styling.
+  kind : String
 } derive(Eq, Debug)
 
 ///|
@@ -135,6 +137,13 @@ pub fn cause_rows(
         ("\{name} = \{value}  …", step, [])
     }
     let repeat = step >= 0 && seen.contains(step) && !(c is Truncated(..))
+    let kind = match c {
+      Assigned(..) => "assign"
+      Parameter(..) => "arg"
+      Returned(..) => "return"
+      Decided(..) => "decision"
+      Truncated(..) => "more"
+    }
     let name = match c {
       Assigned(name~, ..) | Parameter(name~, ..) | Truncated(name~, ..) =>
         if name == "?" {
@@ -149,12 +158,15 @@ pub fn cause_rows(
       label: shorten(label, 120),
       step,
       name,
+      kind,
       location: if step >= 0 {
         tl.where_(step)
       } else {
         ""
       },
-      source: if step >= 0 {
+      // An argument's "source" would be the callee's signature; the
+      // interesting text is the caller's argument, shown as its child.
+      source: if step >= 0 && !(c is Parameter(..)) {
         tl.source_line(step)
       } else {
         ""

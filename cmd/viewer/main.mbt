@@ -351,7 +351,11 @@ fn why_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
   let body = match tl.explain(model.why_step, name, value=actual) {
     Some(cause) => {
       let rows = @vm.cause_rows(tl, cause).map(r => {
-        let cls = if r.repeat { "cause repeat" } else { "cause" }
+        let cls = if r.repeat {
+          "cause repeat k-\{r.kind}"
+        } else {
+          "cause k-\{r.kind}"
+        }
         li(
           class=cls,
           style=["padding-left: \{r.indent * 14 + 6}px"],
@@ -367,7 +371,7 @@ fn why_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
                 ""
               },
             ),
-            if r.repeat {
+            if r.repeat || r.source == "" {
               nothing
             } else {
               pre(class="src-line", r.source)

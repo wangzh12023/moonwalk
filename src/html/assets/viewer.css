@@ -109,3 +109,12 @@ ul { list-style: none; margin: 0; padding: 0; }
 .causes .drill { position: absolute; top: .2rem; right: .25rem; font-size: .7rem; min-width: 0;
                  padding: .05rem .4rem; opacity: 0; }
 .causes li:hover .drill { opacity: 1; }
+/* cause kinds: the colour of the left rule tells what produced the value */
+.causes li.k-assign { border-left-color: #5b8def; }
+.causes li.k-arg { border-left-color: #8a6bd1; }
+.causes li.k-return { border-left-color: #3fb68b; }
+.causes li.k-decision { border-left-color: #e0a84a; }
+.causes li.k-decision .what { color: #f3d08a; }
+.causes li.k-more { border-left-style: dashed; }
+.causes li:first-child { background: #1a2335; }
+.causes li:first-child .what { font-weight: 600; }

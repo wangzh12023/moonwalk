@@ -42,6 +42,7 @@ pub(all) struct CauseRow {
   source : String
   repeat : Bool
   name : String?
+  kind : String
 } derive(Eq, @debug.Debug)
 
 pub struct Recording {
