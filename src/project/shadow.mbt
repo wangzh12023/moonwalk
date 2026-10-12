@@ -130,18 +130,51 @@ async fn sync_file(path : String, content : Bytes) -> Unit {
 
 ///|
 /// Mirror `src` into `dst` recursively, skipping build outputs and VCS data.
-async fn copy_tree(src : String, dst : String) -> Unit {
+async fn copy_tree(src : String, dst : String, top~ : Bool) -> Unit {
   @fs.mkdir(dst, recursive=true, allow_exist=true)
-  for e in @fs.readdir(src, sort=true) {
-    if e == ".git" || e == "_build" || e == "target" || e == ".moonwalk" {
+  let entries = @fs.readdir(src, sort=true)
+  // Nested modules (workspace members, bundled examples) are not part of
+  // the module being debugged.
+  if !top && (entries.contains("moon.mod") || entries.contains("moon.mod.json")) {
+    return
+  }
+  let kept : @set.Set[String] = Set([])
+  for e in entries {
+    if e == ".git" ||
+      e == "_build" ||
+      e == "target" ||
+      e == ".moonwalk" ||
+      e == "node_modules" ||
+      e == runtime_dir {
       continue
     }
     let from = join([src, e])
     let to = join([dst, e])
     match @fs.kind(from) {
-      Directory => copy_tree(from, to)
-      Regular => sync_file(to, @fs.read_file(from).binary())
+      Directory => {
+        kept.add(e)
+        copy_tree(from, to, top=false)
+      }
+      Regular => {
+        kept.add(e)
+        sync_file(to, @fs.read_file(from).binary())
+      }
       _ => ()
+    }
+  }
+  // Remove what no longer exists in the source: a deleted or renamed file
+  // or package would otherwise still be compiled in the shadow.
+  for e in @fs.readdir(dst, sort=true) {
+    if kept.contains(e) ||
+      e == "_build" ||
+      e == ".mooncakes" ||
+      e == runtime_dir {
+      continue
+    }
+    let path = join([dst, e])
+    match @fs.kind(path) {
+      Directory => @fs.rmdir(path, recursive=true)
+      _ => @fs.remove(path)
     }
   }
 }
@@ -163,7 +196,7 @@ pub async fn build_shadow(
   let root = slashes(dir)
   // The shadow is updated in place (not deleted and recreated): unchanged
   // files keep their timestamps, so `moon` only recompiles what changed.
-  copy_tree(project.root, root)
+  copy_tree(project.root, root, top=true)
   let sites = @instrument.SiteTable::new()
   let skipped = []
   let rewrites = Map([])

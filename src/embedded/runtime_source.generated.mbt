@@ -49,11 +49,22 @@ let runtime_source : String =
   #|}
   #|
   #|///|
+  #|/// Whether values are rendered at all (`MOONWALK_VALUES=0` turns rendering
+  #|/// off; used when a value cannot be rendered, e.g. a cyclic structure).
+  #|let values_on : Ref[Bool] = Ref(true)
+  #|
+  #|///|
+  #|/// Nesting of `v` calls: user `Debug` implementations may call functions
+  #|/// that are themselves instrumented, which would render values recursively.
+  #|let rendering : Ref[Int] = Ref(0)
+  #|
+  #|///|
   #|fn start() -> Unit {
   #|  if !started.val {
   #|    started.val = true
   #|    budget.val = env_int("MOONWALK_MAX_EVENTS", budget.val)
   #|    depth.val = env_int("MOONWALK_VALUE_DEPTH", depth.val)
+  #|    values_on.val = env_int("MOONWALK_VALUES", 1) != 0
   #|  }
   #|}
   #|
@@ -87,7 +98,21 @@ let runtime_source : String =
   #|  if cut.val {
   #|    return ""
   #|  }
-  #|  @debug.render(Repr(x), max_depth=depth.val)
+  #|  if !values_on.val {
+  #|    return "<not recorded>"
+  #|  }
+  #|  if rendering.val > 0 {
+  #|    // Called from inside a `Debug` implementation being rendered.
+  #|    return "<rendering>"
+  #|  }
+  #|  rendering.val += 1
+  #|  // Announce the attempt: if rendering never returns (a cyclic value
+  #|  // overflows the stack), the recorder sees this marker as the last event
+  #|  // and records the test again without values.
+  #|  println("\u{1}MWv")
+  #|  let s = @debug.render(Repr(x), max_depth=depth.val)
+  #|  rendering.val -= 1
+  #|  s
   #|}
   #|
   #|///|

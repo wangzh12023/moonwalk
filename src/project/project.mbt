@@ -127,7 +127,10 @@ pub fn parse_package_imports(text : String) -> Array[(ImportKind, String)] {
 ///|
 /// Discover the packages of the module rooted at `root`.
 pub async fn load_project(root : String) -> Project {
-  let root = slashes(root)
+  // Work with the canonical absolute path: moon reports diagnostics with
+  // absolute paths, and `readdir("")` fails for an empty relative root.
+  let given = if root == "" { "." } else { root }
+  let root = slashes(@fs.realpath(given)).trim_end(chars="/").to_owned()
   let (name, source) = if @fs.exists(join([root, "moon.mod"])) {
     let manifest = @fs.read_file(join([root, "moon.mod"])).text()
     guard parse_module_manifest(manifest) is Some(r) else {
@@ -147,6 +150,12 @@ pub async fn load_project(root : String) -> Project {
   async fn scan(rel : String) -> Unit {
     let abs = join([root, rel])
     let entries = @fs.readdir(abs, sort=true)
+    // A nested directory with its own `moon.mod` is a different module
+    // (e.g. a `moon.work` member or a bundled example); it is not ours.
+    if rel != source &&
+      (entries.contains("moon.mod") || entries.contains("moon.mod.json")) {
+      return
+    }
     let has_pkg = entries.contains("moon.pkg") ||
       entries.contains("moon.pkg.json")
     if has_pkg {
@@ -159,6 +168,8 @@ pub async fn load_project(root : String) -> Project {
       } else {
         rel
       }
+      // Only regular source files: not tests run by `moon test` alone
+      // (`.mbt.md`), nor generated files the build will produce again.
       let files = entries
         .filter(e => e.has_suffix(".mbt"))
         .map(e => join([rel, e]))

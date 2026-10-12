@@ -19,10 +19,12 @@ pub fn parse_outline(text : String) -> Array[TestCase] {
   let out = []
   for raw in text.split("\n") {
     let line = raw.trim(chars=" \t\r")
+    // `  3. user/mod/pkg file_test.mbt:12 index=2 name="does a thing"`;
+    // anonymous tests have no `name=` field.
     guard line.find(". ") is Some(dot) else { continue }
     let rest = line.view(start_offset=dot + 2)
     let parts = rest.split(" ").collect()
-    guard parts.length() >= 4 else { continue }
+    guard parts.length() >= 3 else { continue }
     let pkg = parts[0].to_owned()
     let loc = parts[1]
     guard loc.rev_find(":") is Some(colon) else { continue }
@@ -81,10 +83,9 @@ pub fn parse_diagnostics(text : String, root : String) -> Array[CompileError] {
       Some(String(p)) => slashes(p)
       _ => continue
     }
-    let file = if path.has_prefix(root) {
-      path.view(start_offset=root.length()).to_owned()
-    } else {
-      path
+    let file = match relative_to(path, root) {
+      Some(rel) => rel
+      None => path
     }
     let (l1, c1, l2, c2) = match o.get("loc") {
       Some(String(loc)) => parse_loc(loc)
@@ -97,6 +98,21 @@ pub fn parse_diagnostics(text : String, root : String) -> Array[CompileError] {
     out.push({ file, line: l1, col: c1, end_line: l2, end_col: c2, message, })
   }
   out
+}
+
+///|
+/// `path` relative to directory `root` (which ends with `/`), comparing
+/// case-insensitively on Windows drive letters and paths (`d:/x` and
+/// `D:/x` are the same directory).
+pub fn relative_to(path : String, root : String) -> String? {
+  if path.has_prefix(root) {
+    return Some(path.view(start_offset=root.length()).to_owned())
+  }
+  let is_drive = root.length() > 1 && root.code_unit_at(1) == ':'
+  if is_drive && path.to_lower().has_prefix(root.to_lower()) {
+    return Some(path.view(start_offset=root.length()).to_owned())
+  }
+  None
 }
 
 ///|
