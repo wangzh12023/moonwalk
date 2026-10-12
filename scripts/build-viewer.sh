@@ -9,16 +9,20 @@ cd "$(dirname "$0")/.."
 moon build cmd/viewer --target js --release
 JS=_build/js/release/build/cmd/viewer/viewer.js
 DEST=src/html/assets/viewer.js
+
+# moonc prints float literals with the C runtime's exponent format, which is
+# `1e+012` on Windows and `1e+12` elsewhere. Store and compare the bundle in
+# the portable form.
+normalize() { sed -E 's/e\+0+([0-9])/e+\1/g' "$1"; }
+
 if [ "${1:-}" = "--check" ]; then
-  if ! cmp -s "$JS" "$DEST"; then
+  if ! cmp -s <(normalize "$JS") "$DEST"; then
     echo "src/html/assets/viewer.js is stale: run scripts/build-viewer.sh" >&2
-    diff <(tr ';' '
-' < "$DEST") <(tr ';' '
-' < "$JS") | head -40 >&2 || true
+    diff <(tr ';' '\n' < "$DEST") <(normalize "$JS" | tr ';' '\n') | head -40 >&2 || true
     exit 1
   fi
   echo "viewer bundle is up to date"
   exit 0
 fi
-cp "$JS" "$DEST"
+normalize "$JS" > "$DEST"
 echo "updated $DEST ($(wc -c < "$DEST") bytes)"

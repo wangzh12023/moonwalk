@@ -2,7 +2,7 @@ name = "wangzh12023/moonwalk"
 
 version = "0.1.0"
 
-readme = "README.mbt.md"
+readme = "README.md"
 
 repository = "https://github.com/wangzh12023/moonwalk"
 
