@@ -12,6 +12,9 @@ DEST=src/html/assets/viewer.js
 if [ "${1:-}" = "--check" ]; then
   if ! cmp -s "$JS" "$DEST"; then
     echo "src/html/assets/viewer.js is stale: run scripts/build-viewer.sh" >&2
+    diff <(tr ';' '
+' < "$DEST") <(tr ';' '
+' < "$JS") | head -40 >&2 || true
     exit 1
   fi
   echo "viewer bundle is up to date"
