@@ -51,9 +51,8 @@ self.balance = 296
 
 ```bash
 git clone https://github.com/wangzh12023/moonwalk
-cd moonwalk
-moon build cmd/moonwalk --target wasm --release
-alias moonwalk="moonrun $PWD/_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm --"
+export PATH="$PWD/moonwalk/bin:$PATH"     # Windows：把 moonwalk\bin 加入 PATH
+moonwalk --help                           # 首次运行时自动编译
 ```
 
 MoonWalk 本身也是用 MoonBit 写的，编译成 WebAssembly 后由工具链自带的 `moonrun` 运行。Linux、macOS 和 Windows 都能用。

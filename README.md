@@ -51,13 +51,11 @@ Requires the [MoonBit toolchain](https://www.moonbitlang.com/download).
 
 ```bash
 git clone https://github.com/wangzh12023/moonwalk
-cd moonwalk
-moon build cmd/moonwalk --target wasm --release
-# Optional alias:
-alias moonwalk="moonrun $PWD/_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm --"
+export PATH="$PWD/moonwalk/bin:$PATH"     # Windows: add moonwalk\bin to PATH
+moonwalk --help                           # builds the CLI on first use
 ```
 
-MoonWalk is a MoonBit program compiled to WebAssembly and run by `moonrun`, which ships with the toolchain. It runs on Linux, macOS and Windows.
+MoonWalk is a MoonBit program compiled to WebAssembly and run by `moonrun`, which ships with the toolchain. It runs on Linux, macOS and Windows. The launchers `bin/moonwalk` and `bin/moonwalk.cmd` build it on first use. You can also build it yourself with `moon build cmd/moonwalk --target wasm --release`.
 
 ## Usage
 
