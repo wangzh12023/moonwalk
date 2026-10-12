@@ -66,7 +66,9 @@ After the first end-to-end version, MoonWalk was run on real repositories, with 
   * tests on wasm-gc, wasm and js;
   * formatting and `.mbti` interfaces;
   * a freshness check of the embedded viewer bundle;
-  * end-to-end recordings.
+  * end-to-end recordings;
+  * the MCP server, driven over stdio by a client that speaks JSON-RPC like an agent (`scripts/mcp-smoke.mjs`);
+  * the generated viewer, driven in headless Chrome over the DevTools protocol (`scripts/viewer-check.mjs`): it opens at the failing check with its explanation, the keys step through time, clicking a cause or a variable explains it, switching tests works, and the page makes no network request and logs no error.
 * The viewer bundle is normalised because moonc prints float literals with a platform-dependent exponent format (`1e+012` on Windows), which made CI's freshness check fail on Linux (`5aef3cd`).
 * A pre-commit hook runs `moon check` and `moon fmt --check` (`0bdd105`).
 * At the time of writing there are 60 tests, and line coverage is about 80% over the pure packages (`moon coverage`).

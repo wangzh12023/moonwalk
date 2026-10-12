@@ -105,7 +105,7 @@ test "site tables round-trip through both JSON versions" {
     ),
   )
   let step = v2.sites()[2]
-  inspect((step.region_start, step.region_end), content="(0, 28)")
+  debug_inspect((step.region_start, step.region_end), content="(0, 28)")
   // Version 1 (one object per site) is still accepted.
   let v1_sites : Array[Json] = table.sites().map(s => s.to_json())
   let v1 : Json = {

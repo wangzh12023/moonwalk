@@ -284,7 +284,7 @@ test "sites carry names, kinds and reads" {
   let binds = table
     .sites()
     .filter(s => s.kind == Bind)
-    .map(s => "\{s.name}<-\{s.reads}")
+    .map(s => "\{s.name}<-[\{s.reads.join(", ")}]")
   debug_inspect(
     binds,
     content=(

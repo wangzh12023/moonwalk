@@ -2,6 +2,10 @@ import {
   "moonbitlang/core/json",
 } for "test"
 
+// The embedded viewer bundle is one long generated text segment.
+
+warnings = "-implicit_impl_as_method-text_segment_excceed"
+
 options(
   "pre-build": [
     {

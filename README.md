@@ -177,6 +177,8 @@ moon check --target all
 moon test --target wasm-gc        # also: --target wasm, --target js
 scripts/build-viewer.sh           # after changing cmd/viewer or the viewer model
 moon run cmd/mw-instr -- file.mbt # print the instrumented form of a file
+node scripts/viewer-check.mjs run.html   # drive a recorded viewer in headless Chrome/Edge
+node scripts/mcp-smoke.mjs MW.wasm examples/inventory partially   # talk to the MCP server
 ```
 
 The module is split into packages:

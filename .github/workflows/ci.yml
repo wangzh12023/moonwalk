@@ -20,6 +20,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # The end-to-end scripts use Node's built-in fetch and WebSocket.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Install MoonBit (Unix)
         if: runner.os != 'Windows'
         run: |
@@ -70,6 +75,10 @@ jobs:
           grep -q "self.balance = 296" why.txt
           grep -q "fee_for" why.txt
           test -s bank.html
+
+      - name: End-to-end - the viewer works in a real browser
+        shell: bash
+        run: node scripts/viewer-check.mjs bank.html
 
       - name: End-to-end - MCP server answers like an agent expects
         shell: bash
