@@ -48,7 +48,7 @@ pub(all) struct Binding {
 ///|
 /// A recorded execution, indexed for navigation and queries.
 pub struct Timeline {
-  sites : @instrument.SiteTable
+  sites : @model.SiteTable
   steps : Array[Step]
   frames : Array[Frame]
   /// Output lines printed by the program, with the step they follow.
@@ -68,7 +68,7 @@ pub fn Timeline::frames(self : Timeline) -> Array[Frame] {
 }
 
 ///|
-pub fn Timeline::sites(self : Timeline) -> @instrument.SiteTable {
+pub fn Timeline::sites(self : Timeline) -> @model.SiteTable {
   self.sites
 }
 
@@ -110,7 +110,7 @@ fn event_site(e : Event) -> Int {
 /// budget leave frames open; those are closed at the end and marked
 /// `unwound`. Events that refer to unknown sites are dropped.
 pub fn Timeline::build(
-  sites : @instrument.SiteTable,
+  sites : @model.SiteTable,
   events : Array[Event],
 ) -> Timeline {
   let steps : Array[Step] = []

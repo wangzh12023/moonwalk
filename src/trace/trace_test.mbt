@@ -2,7 +2,7 @@
 /// Instrument `source`, then replay `stdout` (the output of running the
 /// instrumented test) into a timeline.
 fn replay(source : String, stdout : String) -> @trace.Timeline {
-  let table = @instrument.SiteTable::new()
+  let table = @model.SiteTable::new()
   let _ = @instrument.instrument_file(table, "bank.mbt", "demo/bank", source)
   @trace.Timeline::build(table, @trace.parse_output(stdout))
 }

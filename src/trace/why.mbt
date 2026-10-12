@@ -133,7 +133,7 @@ fn Timeline::param_bound_to(
     return false
   }
   guard self.sites.file(call.file) is Some(file) else { return false }
-  let text = @instrument.SourceText::new(file.text).slice(call.start, call.end)
+  let text = @model.SourceText::new(file.text).slice(call.start, call.end)
   // Unqualified method or function name: `withdraw` for `Account::withdraw`.
   let method = match callee.name.rev_find("::") {
     Some(i) => callee.name.view(start_offset=i + 2).to_owned()
@@ -481,7 +481,7 @@ fn Timeline::argument_text(
     return None
   }
   guard self.sites.file(call.file) is Some(file) else { return None }
-  let text = @instrument.SourceText::new(file.text).slice(call.start, call.end)
+  let text = @model.SourceText::new(file.text).slice(call.start, call.end)
   let method = match callee.name.rev_find("::") {
     Some(i) => callee.name.view(start_offset=i + 2).to_owned()
     None => callee.name
@@ -628,7 +628,7 @@ pub fn Timeline::source_line(self : Timeline, step : Int) -> String {
   }
   guard self.sites.get(site_id) is Some(site) else { return "" }
   guard self.sites.file(site.file) is Some(f) else { return "" }
-  @instrument.SourceText::new(f.text).line_text(site.line).trim(chars=" 	").to_owned()
+  @model.SourceText::new(f.text).line_text(site.line).trim(chars=" 	").to_owned()
 }
 
 ///|

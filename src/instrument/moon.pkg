@@ -1,4 +1,5 @@
 import {
+  "wangzh12023/moonwalk/src/model",
   "moonbitlang/parser",
   "moonbitlang/parser/syntax",
   "moonbitlang/lexer/basic",

@@ -37,7 +37,7 @@ pub fn render_text(rec : @project.Recording, limit? : Int = 200) -> String {
         continue
       }
       Step(..) => {
-        let src = @instrument.SourceText::new(
+        let src = @model.SourceText::new(
           match sites.file(site.file) {
             Some(f) => f.text
             None => ""
