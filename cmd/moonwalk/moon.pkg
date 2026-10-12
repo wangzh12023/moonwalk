@@ -2,6 +2,7 @@ import {
   "wangzh12023/moonwalk/src/project",
   "wangzh12023/moonwalk/src/report",
   "wangzh12023/moonwalk/src/embedded",
+  "wangzh12023/moonwalk/src/html",
   "moonbitlang/async",
   "moonbitlang/async/fs",
   "moonbitlang/x/sys",

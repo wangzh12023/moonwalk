@@ -54,6 +54,10 @@ fn cli() -> @argparse.Command {
             about="Also write the recording as JSON to this file",
           ),
           @argparse.OptionArg(
+            "html",
+            about="Also write a standalone time-travel viewer to this HTML file",
+          ),
+          @argparse.OptionArg(
             "steps",
             about="Number of steps to print",
             default_values=["200"],
@@ -138,6 +142,7 @@ async fn main {
         first(m, "test", ""),
         options,
         json_out=first(m, "json", ""),
+        html_out=first(m, "html", ""),
         steps=int_value(m, "steps", 200),
         quiet~,
       )
@@ -230,18 +235,34 @@ async fn cmd_record(
   filter : String,
   options : @project.RecordOptions,
   json_out~ : String,
+  html_out~ : String,
   steps~ : Int,
   quiet~ : Bool,
 ) -> Unit {
   let recordings = record_all(root, filter, options, quiet~)
-  for rec in recordings {
-    println(@report.render_text(rec, limit=steps))
+  if steps > 0 {
+    for rec in recordings {
+      println(@report.render_text(rec, limit=steps))
+    }
   }
+  if json_out == "" && html_out == "" {
+    return
+  }
+  let doc = @report.to_json(recordings).stringify()
   if json_out != "" {
-    let doc = @report.to_json(recordings)
-    @fs.write_file(json_out, doc.stringify())
+    @fs.write_file(json_out, doc)
     if !quiet {
       println("moonwalk: wrote \{json_out}")
+    }
+  }
+  if html_out != "" {
+    let title = match recordings {
+      [r] => "MoonWalk · \{r.case_.name}"
+      _ => "MoonWalk · \{recordings.length()} tests"
+    }
+    @fs.write_file(html_out, @html.page(title, doc))
+    if !quiet {
+      println("moonwalk: wrote \{html_out} (open it in a browser)")
     }
   }
 }

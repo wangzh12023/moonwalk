@@ -59,6 +59,18 @@ pub fn to_json(recordings : Array[@project.Recording]) -> Json {
         Some(f) => f
         None => Json::null()
       },
+      "check": match r.check {
+        Some(c) =>
+          {
+            "file": c.file.to_json(),
+            "line": c.line.to_json(),
+            "subject": c.subject.to_json(),
+            "expected": c.expected.to_json(),
+            "actual": c.actual.to_json(),
+            "step": @project.check_step(r, c).unwrap_or(-1).to_json(),
+          }
+        None => Json::null()
+      },
       "notes": r.notes.to_json(),
       "cut": match tl.cut() {
         Some(c) => Json::string(c)
