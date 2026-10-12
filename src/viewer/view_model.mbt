@@ -108,6 +108,8 @@ pub(all) struct CauseRow {
   source : String
   /// Whether this row repeats a cause shown above.
   repeat : Bool
+  /// Variable the row is about, when asking "why" about it makes sense.
+  name : String?
 } derive(Eq, Debug)
 
 ///|
@@ -128,13 +130,25 @@ pub fn cause_rows(
         ("\{name}(…) returned \{value}", step, reads)
       Decided(step~, taken~, reads~) =>
         ("because this condition was \{taken}", step, reads)
-      Truncated(name~) => ("\{name} …", -1, [])
+      Truncated(step~, name~, value~) =>
+        // Clicking it jumps there; asking "why" again continues the chain.
+        ("\{name} = \{value}  …", step, [])
     }
-    let repeat = step >= 0 && seen.contains(step)
+    let repeat = step >= 0 && seen.contains(step) && !(c is Truncated(..))
+    let name = match c {
+      Assigned(name~, ..) | Parameter(name~, ..) | Truncated(name~, ..) =>
+        if name == "?" {
+          None
+        } else {
+          Some(name)
+        }
+      Returned(..) | Decided(..) => None
+    }
     rows.push({
       indent,
       label: shorten(label, 120),
       step,
+      name,
       location: if step >= 0 {
         tl.where_(step)
       } else {

@@ -13,8 +13,9 @@ pub(all) enum Cause {
   Returned(step~ : Int, name~ : String, value~ : String, reads~ : Array[Cause])
   /// The step ran only because a decision went this way.
   Decided(step~ : Int, taken~ : Bool, reads~ : Array[Cause])
-  /// The causal chain continues but was not expanded further.
-  Truncated(name~ : String)
+  /// The causal chain continues at `step` but was not expanded further
+  /// (depth limit); ask again from that step to continue.
+  Truncated(step~ : Int, name~ : String, value~ : String)
 } derive(Debug)
 
 ///|
@@ -445,10 +446,14 @@ fn Timeline::explain_inputs(
 ///|
 fn Timeline::explain_write(self : Timeline, w : Int, depth : Int) -> Cause {
   let st = self.steps[w]
-  guard st.event is Bind(site~, value~) else { return Truncated(name="?") }
-  guard self.sites.get(site) is Some(info) else { return Truncated(name="?") }
+  guard st.event is Bind(site~, value~) else {
+    return Truncated(step=w, name="?", value="")
+  }
+  guard self.sites.get(site) is Some(info) else {
+    return Truncated(step=w, name="?", value~)
+  }
   if depth <= 0 {
-    return Truncated(name=info.name)
+    return Truncated(step=w, name=info.name, value~)
   }
   if info.kind == Param {
     return Parameter(
@@ -591,7 +596,9 @@ fn Timeline::argument_text(
 ///|
 /// Explain the value returned by a call: the callee's final statement.
 fn Timeline::explain_call(self : Timeline, frame : Int, depth : Int) -> Cause {
-  guard self.frames.get(frame) is Some(f) else { return Truncated(name="?") }
+  guard self.frames.get(frame) is Some(f) else {
+    return Truncated(step=-1, name="?", value="")
+  }
   let name = match self.sites.get(f.site) {
     Some(s) => s.name
     None => "?"
@@ -748,7 +755,7 @@ pub fn Timeline::render_cause(self : Timeline, cause : Cause) -> String {
           "\{name} = \{value}"
         Returned(name~, value~, ..) => "\{name}(...) returned \{value}"
         Decided(taken~, ..) => "condition was \{taken}"
-        Truncated(name~) => name
+        Truncated(name~, ..) => name
       }
       sb.write_string("\{pad}\{what}  (see #\{step} above)\n")
       return
@@ -774,7 +781,16 @@ pub fn Timeline::render_cause(self : Timeline, cause : Cause) -> String {
         line(indent, "because this condition was \{which}", step)
         reads.each(r => go(r, indent + 1))
       }
-      Truncated(name~) => sb.write_string("\{"  ".repeat(indent)}\{name} ...\n")
+      Truncated(step~, name~, value~) => {
+        let pad = "  ".repeat(indent)
+        if step >= 0 {
+          sb.write_string(
+            "\{pad}\{name} = \{value}  … (continue with --var \{name} --step \{step})\n",
+          )
+        } else {
+          sb.write_string("\{pad}\{name} …\n")
+        }
+      }
     }
   }
 

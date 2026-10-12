@@ -124,7 +124,7 @@ test "why: trace a wrong balance back to the fee decision" {
       Assigned(name~, ..)
       | Parameter(name~, ..)
       | Returned(name~, ..)
-      | Truncated(name~) => name
+      | Truncated(name~, ..) => name
       Decided(..) => "<decision>"
     }
   })

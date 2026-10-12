@@ -42,6 +42,7 @@ priv enum Msg {
   SelectTest(String)
   Nav(NavKey)
   Explain(String)
+  ExplainAt(String, Int)
   CloseWhy
 }
 
@@ -112,6 +113,8 @@ fn update(rec : @vm.Recording, model : Model, msg : Msg) -> (Model, Cmd) {
         None => model
       }
     Explain(name) => { ..model, why: Some(name), why_step: model.step, }
+    ExplainAt(name, at) =>
+      { ..model, why: Some(name), why_step: at, step: clamp(at, 0, last), }
     CloseWhy => { ..model, why: None, }
   }
   if next == model {
@@ -368,6 +371,16 @@ fn why_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
               nothing
             } else {
               pre(class="src-line", r.source)
+            },
+            match r.name {
+              Some(n) if r.step >= 0 && !r.repeat =>
+                button(
+                  class="drill",
+                  title="explain \{n} from step \{r.step}",
+                  on_click=emit(ExplainAt(n, r.step)),
+                  "why?",
+                )
+              _ => nothing
             },
           ],
         )

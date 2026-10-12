@@ -28,7 +28,7 @@ pub(all) enum Cause {
   Parameter(step~ : Int, name~ : String, value~ : String, from~ : Array[Cause])
   Returned(step~ : Int, name~ : String, value~ : String, reads~ : Array[Cause])
   Decided(step~ : Int, taken~ : Bool, reads~ : Array[Cause])
-  Truncated(name~ : String)
+  Truncated(step~ : Int, name~ : String, value~ : String)
 } derive(@debug.Debug)
 
 pub(all) enum Event {

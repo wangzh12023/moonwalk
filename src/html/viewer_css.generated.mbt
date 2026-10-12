@@ -109,4 +109,8 @@ let viewer_css : String =
   #|  .main { grid-template-columns: 1fr; grid-template-rows: 55% 45%; }
   #|  .code { border-right: 0; border-bottom: 1px solid var(--line); }
   #|}
+  #|.causes li { position: relative; }
+  #|.causes .drill { position: absolute; top: .2rem; right: .25rem; font-size: .7rem; min-width: 0;
+  #|                 padding: .05rem .4rem; opacity: 0; }
+  #|.causes li:hover .drill { opacity: 1; }
   #|
