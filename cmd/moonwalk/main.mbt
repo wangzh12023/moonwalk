@@ -62,7 +62,7 @@ fn cli() -> @argparse.Command {
         positionals=[
           @argparse.PositionArg(
             "test",
-            about="Test name (substring) or file:line; default: all failing tests",
+            about="Test name (or a unique part of it), or file:line; default: every test",
           ),
         ],
       ),
@@ -257,10 +257,9 @@ async fn cmd_record(
   quiet~ : Bool,
 ) -> Unit {
   let recordings = record_all(root, filter, options, quiet~)
-  if steps > 0 {
-    for rec in recordings {
-      println(@report.render_text(rec, limit=steps))
-    }
+  // `--steps 0` keeps the summary of each test, without the transcript.
+  for rec in recordings {
+    println(@report.render_text(rec, limit=steps))
   }
   if json_out == "" && html_out == "" {
     return
@@ -328,7 +327,7 @@ async fn cmd_why(
   match check {
     Some(c) =>
       println(
-        "\{c.file}:\{c.line}: inspect(\{c.subject}) expected \{Json::string(c.expected).stringify()}, got \{Json::string(c.actual).stringify()}\n",
+        "\{c.file}:\{c.line}: \{c.call}(\{c.subject}) expected \{Json::string(c.expected).stringify()}, got \{Json::string(c.actual).stringify()}\n",
       )
     None => ()
   }
@@ -336,7 +335,15 @@ async fn cmd_why(
     Some(c) => c.actual
     None => "?"
   }
-  match tl.explain(at, name, value=actual, depth~) {
+  // A variable named with --var must have been recorded; only the checked
+  // expression of a failing assertion may fall back to explaining the
+  // statement that evaluated it.
+  let cause = if variable != "" {
+    tl.why(at, name, depth~)
+  } else {
+    tl.explain(at, name, value=actual, depth~)
+  }
+  match cause {
     Some(cause) => {
       println("why is \{name} what it is at step #\{at}?\n")
       println(tl.render_cause(cause))

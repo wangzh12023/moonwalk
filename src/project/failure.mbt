@@ -9,6 +9,8 @@ pub(all) struct FailedCheck {
   subject : String
   expected : String
   actual : String
+  /// The failing call: `inspect` or `assert_eq`.
+  call : String
 } derive(Debug)
 
 ///|
@@ -57,7 +59,9 @@ pub fn decode_failed_check(
   guard failure is Some(Object(f)) else { return None }
   let msg = json_text(f.get("message"))
   let prefix = "@EXPECT_FAILED "
-  guard msg.has_prefix(prefix) else { return None }
+  guard msg.has_prefix(prefix) else {
+    return decode_assert_failure(msg, pkg, shadow)
+  }
   let body = @json.parse(msg.view(start_offset=prefix.length())) catch {
     _ => return None
   }
@@ -102,6 +106,7 @@ pub fn decode_failed_check(
     subject,
     expected: json_text(o.get("expect")),
     actual: json_text(o.get("actual")),
+    call: "inspect",
   })
 }
 
@@ -121,4 +126,110 @@ pub fn check_step(rec : Recording, check : FailedCheck) -> Int? {
     }
   }
   best
+}
+
+///|
+/// Decode the failure of `assert_eq(a, b)` (and similar assertions), whose
+/// message reads ``pkg/dir/file.mbt:61:3-61:18@mod FAILED: `6 != 7` ``.
+///
+/// The location refers to the instrumented copy; it is mapped back to the
+/// original file, where the call is parsed to recover its first argument.
+fn decode_assert_failure(
+  msg : String,
+  pkg : String,
+  shadow : Shadow,
+) -> FailedCheck? {
+  guard msg.find(" FAILED: `") is Some(fail_at) else { return None }
+  let head = msg.view(end_offset=fail_at)
+  // `head` is `path:l1:c1-l2:c2@module`.
+  let loc_part = match head.rev_find("@") {
+    Some(i) => head.view(end_offset=i)
+    None => head
+  }
+  guard loc_part.find(":") is Some(colon) else { return None }
+  let shown_path = loc_part.view(end_offset=colon).to_owned()
+  let nums = loc_part.view(start_offset=colon + 1).to_owned()
+  let (l1, c1, l2, c2) = parse_loc(nums)
+  let file = match shown_path.rev_find("/") {
+    Some(i) => shown_path.view(start_offset=i + 1).to_owned()
+    None => shown_path
+  }
+  // `a != b`: the two sides as moon rendered them.
+  let after = msg.view(start_offset=fail_at + " FAILED: `".length())
+  let pair = match after.find("`") {
+    Some(i) => after.view(end_offset=i).to_owned()
+    None => after.to_owned()
+  }
+  let (actual, expected) = match pair.find(" != ") {
+    Some(i) =>
+      (
+        pair.view(end_offset=i).to_owned(),
+        pair.view(start_offset=i + 4).to_owned(),
+      )
+    None => (pair, "")
+  }
+  let subject = match module_path(shadow.sites, pkg, file) {
+    Some(path) =>
+      match
+        (
+          shadow.rewrites.get(path),
+          shadow.sites.files().search_by(f => f.path == path),
+        ) {
+        (Some(rw), Some(fi)) => {
+          let out = @instrument.SourceText::new(rw.text)
+          let start = rw.original_offset(out.offset_of(l1, c1))
+          let end = rw.original_offset(out.offset_of(l2, c2))
+          let original = @instrument.SourceText::new(
+            shadow.sites.files()[fi].text,
+          )
+          first_argument(original.slice(start, end))
+        }
+        _ => ""
+      }
+    None => ""
+  }
+  Some({ file, line: l1, subject, expected, actual, call: "assert_eq", })
+}
+
+///|
+/// The first argument of a call written as `f(a, b, ...)`.
+fn first_argument(call : String) -> String {
+  guard call.find("(") is Some(open) else { return "" }
+  let mut depth = 0
+  let mut in_str = false
+  let mut escaped = false
+  let sb = StringBuilder()
+  for c in call.view(start_offset=open + 1) {
+    if in_str {
+      sb.write_char(c)
+      if escaped {
+        escaped = false
+      } else if c == '\\' {
+        escaped = true
+      } else if c == '"' {
+        in_str = false
+      }
+      continue
+    }
+    match c {
+      '"' => {
+        in_str = true
+        sb.write_char(c)
+      }
+      '(' | '[' | '{' => {
+        depth += 1
+        sb.write_char(c)
+      }
+      ')' | ']' | '}' => {
+        if depth == 0 {
+          break
+        }
+        depth -= 1
+        sb.write_char(c)
+      }
+      ',' if depth == 0 => break
+      _ => sb.write_char(c)
+    }
+  }
+  sb.to_string().trim(chars=" \t\n").to_owned()
 }

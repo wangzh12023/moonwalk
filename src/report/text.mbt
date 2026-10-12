@@ -16,6 +16,9 @@ pub fn render_text(rec : @project.Recording, limit? : Int = 200) -> String {
     Some(s) => sb.write_string(s)
     None => ()
   }
+  if limit <= 0 {
+    return sb.to_string()
+  }
   sb.write_string("\n")
   let mut shown = 0
   for st in tl.steps() {

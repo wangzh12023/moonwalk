@@ -169,3 +169,68 @@ test "truncated traces close open frames" {
   debug_inspect(tl.cut(), content="Some(\"budget\")")
   debug_inspect(tl.frames().map(f => f.unwound), content="[true, true]")
 }
+
+///|
+let closure_source : String =
+  #|test "closure" {
+  #|  let mut total = 0
+  #|  let add = (x : Int) => total = total + x
+  #|  add(2)
+  #|  add(3)
+  #|  inspect(total, content="6")
+  #|}
+
+///|
+/// Recorded from the instrumented `closure_source` with the real toolchain
+/// (`MWv` lines are the runtime's render markers).
+let closure_stdout : String =
+  #|MWT 0
+  #|MWS 1
+  #|MWv
+  #|MWV 2 "0"
+  #|MWS 3
+  #|MWS 8
+  #|MWE 4
+  #|MWv
+  #|MWV 5 "2"
+  #|MWS 6
+  #|MWv
+  #|MWV 7 "2"
+  #|MWL 4
+  #|MWS 9
+  #|MWE 4
+  #|MWv
+  #|MWV 5 "3"
+  #|MWS 6
+  #|MWv
+  #|MWV 7 "5"
+  #|MWL 4
+  #|MWS 10
+  #|MWt 0
+
+///|
+test "why follows writes to captured variables inside closures" {
+  let tl = replay(closure_source, with_prefix(closure_stdout))
+  // The last step is `inspect(total, ...)`.
+  let last = tl.length() - 1
+  guard tl.why(last, "total") is Some(Assigned(value~, reads~, ..)) else {
+    fail("expected the closure's assignment")
+  }
+  // total = 5, written by the second call of `add`, which read the
+  // previous total (2, from the first call) and its argument x = 3.
+  inspect(value, content="5")
+  let seen = reads.map(c => {
+    match c {
+      Assigned(name~, value~, ..) | Parameter(name~, value~, ..) =>
+        "\{name}=\{value}"
+      _ => "?"
+    }
+  })
+  debug_inspect(seen, content="[\"total=2\", \"x=3\"]")
+}
+
+///|
+test "render markers are not events" {
+  let events = @trace.parse_output(with_prefix("MWv\nMWS 1\n"))
+  debug_inspect(events, content="[Step(site=1)]")
+}

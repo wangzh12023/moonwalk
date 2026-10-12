@@ -417,7 +417,7 @@ fn status_view(t : @vm.VTest) -> Html {
       Some(c) =>
         div(class="status fail", [
           span(class="x", "✗ "),
-          @html.code("inspect(\{c.subject})"),
+          @html.code("\{c.call}(\{c.subject})"),
           text_node(" expected "),
           @html.code(c.expected),
           text_node(", got "),

@@ -21,7 +21,7 @@ pub fn summary(rec : @project.Recording, max_calls? : Int = 60) -> String {
   match rec.check {
     Some(c) =>
       sb.write_string(
-        "failing check: \{c.file}:\{c.line} inspect(\{c.subject}) expected \{quote(c.expected)}, got \{quote(c.actual)}\n",
+        "failing check: \{c.file}:\{c.line} \{c.call}(\{c.subject}) expected \{quote(c.expected)}, got \{quote(c.actual)}\n",
       )
     None =>
       match failure_summary(rec) {

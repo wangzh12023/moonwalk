@@ -544,7 +544,12 @@ fn Walker::binds_after(
     t.add("; ")
     self.bind_into(t, id, n)
   }
-  self.open_text(at, t)
+  // The probe belongs to the statement that just ended, so it is emitted
+  // as a closing edit at the current depth: it stays inside any wrapper
+  // that ends at the same offset (e.g. the braces added around an arrow
+  // body `x => total = total + x`).
+  let (at, t) = self.line_safe(at, t, closing=false)
+  self.edits.add(at, t, depth=self.depth, closing=true)
 }
 
 ///|
@@ -1198,7 +1203,19 @@ fn Walker::fn_body(
         t.probe("\{self.rt()}.ret(\{ret_site}, (", return_key(ret_site))
       }
       self.open_text(expr_start(body), t)
-      self.expr(body)
+      // An arrow body is an expression, but it may be a statement such as
+      // `total = total + x`; treat it like the last statement of a block
+      // so assignments and mutations are recorded.
+      if ret_site < 0 &&
+        body is (Assign(..) | Mutate(..) | ArraySet(..) | ArrayAugmentedSet(..)) {
+        // One level deeper, so the bind probe after the assignment closes
+        // before the wrapper's ` }` at the same offset.
+        self.depth += 1
+        self.statement(body)
+        self.depth -= 1
+      } else {
+        self.expr(body)
+      }
       if ret_site >= 0 {
         self.close(end_of(body.loc()), " : \{self.ret_text()}))")
       }

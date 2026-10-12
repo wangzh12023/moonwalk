@@ -9,6 +9,8 @@ pub(all) struct VCheck {
   actual : String
   /// Step just before the check ran, or -1.
   step : Int
+  /// The failing call: `inspect` or `assert_eq`.
+  call : String
 } derive(Eq, Debug)
 
 ///|
@@ -172,6 +174,10 @@ pub fn decode(json : Json) -> Recording raise {
           file: text(c.get("file")),
           line: num(c.get("line"), 0),
           subject: text(c.get("subject")),
+          call: match text(c.get("call")) {
+            "" => "inspect"
+            k => k
+          },
           expected: text(c.get("expected")),
           actual: text(c.get("actual")),
           step: num(c.get("step"), -1),

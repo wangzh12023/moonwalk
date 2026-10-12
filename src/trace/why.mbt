@@ -96,9 +96,20 @@ fn Timeline::last_write(
     let st = self.steps[i]
     guard st.event is Bind(site~, ..) else { continue }
     guard self.sites.get(site) is Some(info) else { continue }
-    guard info.name.contains(".") else { continue }
-    // The callee frame must be a direct callee of `frame`.
     guard self.frames.get(st.frame) is Some(callee) else { continue }
+    // A closure called from `frame` that assigns a variable it did not
+    // bind itself is assigning a captured variable of the caller
+    // (`let add = x => total = total + x`).
+    if !info.name.contains(".") {
+      if self.is_closure(callee.id) &&
+        self.is_descendant(callee.id, frame) &&
+        info.name == root &&
+        !self.binds_locally(callee.id, info.name, i) {
+        return Some(i)
+      }
+      continue
+    }
+    // The callee frame must be a direct callee of `frame`.
     guard callee.parent == frame else { continue }
     // Which parameter of the callee holds the caller's `root`?
     guard self.call_statement(callee.id) is Some(stmt) else { continue }
@@ -116,6 +127,108 @@ fn Timeline::last_write(
     }
   }
   found
+}
+
+///|
+/// The write that a read of `name` in `frame` before step `before`
+/// observes. Inside a closure, a name it did not bind is a captured
+/// variable: the latest write anywhere in the closure's calling frames
+/// (including earlier activations of the closure itself) is the one seen.
+fn Timeline::write_visible_from(
+  self : Timeline,
+  frame : Int,
+  name : String,
+  before : Int,
+) -> Int? {
+  match self.last_write(frame, name, before) {
+    Some(w) => return Some(w)
+    None => ()
+  }
+  guard self.is_closure(frame) else { return None }
+  // Walk the calling frames outward; the variable belongs to one of them.
+  let mut f = match self.frames.get(frame) {
+    Some(fr) => fr.parent
+    None => -1
+  }
+  while f >= 0 {
+    match self.last_write(f, name, before) {
+      Some(w) => return Some(w)
+      None => ()
+    }
+    f = match self.frames.get(f) {
+      Some(fr) => fr.parent
+      None => -1
+    }
+  }
+  None
+}
+
+///|
+/// Whether `frame` is an activation of a lambda.
+fn Timeline::is_closure(self : Timeline, frame : Int) -> Bool {
+  match self.frames.get(frame) {
+    Some(f) =>
+      match self.sites.get(f.site) {
+        Some(s) => s.name == "<lambda>"
+        None => false
+      }
+    None => false
+  }
+}
+
+///|
+/// Whether `frame` runs (directly or transitively) inside `ancestor`.
+fn Timeline::is_descendant(
+  self : Timeline,
+  frame : Int,
+  ancestor : Int,
+) -> Bool {
+  let mut f = frame
+  while f >= 0 {
+    match self.frames.get(f) {
+      Some(fr) => {
+        if fr.parent == ancestor {
+          return true
+        }
+        f = fr.parent
+      }
+      None => return false
+    }
+  }
+  false
+}
+
+///|
+/// Whether `name` is a parameter or `let` of `frame` bound before step
+/// `before` (rather than a captured variable).
+fn Timeline::binds_locally(
+  self : Timeline,
+  frame : Int,
+  name : String,
+  before : Int,
+) -> Bool {
+  guard self.frames.get(frame) is Some(f) else { return false }
+  for i = f.first; i < before; i = i + 1 {
+    let st = self.steps[i]
+    if st.frame != frame {
+      continue
+    }
+    match st.event {
+      Bind(site~, ..) =>
+        match self.sites.get(site) {
+          Some(info) =>
+            // A parameter, or a `let` (whose read set does not mention
+            // the name itself, unlike an assignment `x = x + 1`).
+            if info.name == name &&
+              (info.kind == Param || !info.reads.contains(name)) {
+              return true
+            }
+          None => ()
+        }
+      _ => ()
+    }
+  }
+  false
 }
 
 ///|
@@ -423,7 +536,7 @@ fn Timeline::explain_inputs(
     if shadowed {
       continue
     }
-    match self.last_write(st.frame, r, at) {
+    match self.write_visible_from(st.frame, r, at) {
       Some(rw) => causes.push(self.explain_write(rw, depth - 1))
       None => ()
     }

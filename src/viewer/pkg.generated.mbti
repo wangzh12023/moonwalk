@@ -56,6 +56,7 @@ pub(all) struct VCheck {
   expected : String
   actual : String
   step : Int
+  call : String
 } derive(Eq, @debug.Debug)
 
 pub struct VTest {

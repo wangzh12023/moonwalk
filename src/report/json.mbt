@@ -65,6 +65,7 @@ pub fn to_json(recordings : Array[@project.Recording]) -> Json {
             "file": c.file.to_json(),
             "line": c.line.to_json(),
             "subject": c.subject.to_json(),
+            "call": c.call.to_json(),
             "expected": c.expected.to_json(),
             "actual": c.actual.to_json(),
             "step": @project.check_step(r, c).unwrap_or(-1).to_json(),
