@@ -1,0 +1,95 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/instrument"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/set",
+  "wangzh12023/moonwalk/src/model",
+}
+
+// Values
+pub fn instrument_file(@model.SiteTable, String, String, String, options? : Options, opaque_keys? : @set.Set[String]) -> Instrumented
+
+pub fn return_key(Int) -> String
+
+pub fn value_key(Int, String) -> String
+
+// Errors
+
+// Types and methods
+pub struct Edit {
+  at : Int
+  depth : Int
+  closing : Bool
+  seq : Int
+  text : String
+  spans : Array[(Int, Int, String)]
+}
+
+pub struct EditSet {
+  edits : Array[Edit]
+}
+pub fn EditSet::add(Self, Int, ProbeText, depth~ : Int, closing~ : Bool) -> Unit
+pub fn EditSet::apply(Self, @model.SourceText) -> Rewrite
+pub fn EditSet::length(Self) -> Int
+pub fn EditSet::new() -> Self
+
+pub(all) struct Instrumented {
+  file : Int
+  text : String
+  edits : Int
+  diagnostics : Array[String]
+  rewrite : Rewrite
+} derive(@debug.Debug)
+
+pub(all) struct Options {
+  runtime_alias : String
+} derive(@debug.Debug)
+pub fn Options::default() -> Self
+
+pub(all) struct Placement {
+  at : Int
+  out_start : Int
+  out_end : Int
+} derive(@debug.Debug)
+
+pub(all) struct ProbeSpan {
+  out_start : Int
+  out_end : Int
+  key : String
+} derive(@debug.Debug)
+
+pub struct ProbeText {
+  sb : StringBuilder
+  mut len : Int
+  spans : Array[(Int, Int, String)]
+}
+pub fn ProbeText::add(Self, String) -> Unit
+pub fn ProbeText::append(Self, Self) -> Unit
+pub fn ProbeText::is_empty(Self) -> Bool
+pub fn ProbeText::new() -> Self
+pub fn ProbeText::prefixed(Self, String) -> Self
+pub fn ProbeText::probe(Self, String, String) -> Unit
+pub fn ProbeText::text(Self) -> String
+
+pub(all) struct Rewrite {
+  text : String
+  placements : Array[Placement]
+  probes : Array[ProbeSpan]
+} derive(@debug.Debug)
+pub fn Rewrite::is_inserted(Self, Int) -> Bool
+pub fn Rewrite::original_offset(Self, Int) -> Int
+pub fn Rewrite::probe_at(Self, Int) -> String?
+
+// Type aliases
+pub using @model {type Site}
+
+pub using @model {type SiteKind}
+
+pub using @model {type SiteTable}
+
+pub using @model {type SourceFile}
+
+pub using @model {type SourceText}
+
+// Traits

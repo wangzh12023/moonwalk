@@ -56,7 +56,7 @@ pub fn parse_module_manifest(text : String) -> (String, String)? {
   if reports.iter().any(r => r.msg != "" && r.loc.start.lnum < 0) {
     return None
   }
-  match ast.to_json() {
+  match ToJson::to_json(ast) {
     Object(obj) => {
       let name = match obj.get("name") {
         Some(String(n)) => n
@@ -85,12 +85,13 @@ pub(all) enum ImportKind {
 pub fn parse_package_imports(text : String) -> Array[(ImportKind, String)] {
   let (ast, _) = @moon_config.parse_moon_pkg(text)
   let out = []
-  guard ast.to_json() is Object(obj) else { return out }
-  for key_kind in [
-    ("import", ImportKind::Normal),
-    ("test-import", ForTest),
-    ("wbtest-import", ForWbtest),
-  ] {
+  guard ToJson::to_json(ast) is Object(obj) else { return out }
+  for
+    key_kind in [
+      ("import", ImportKind::Normal),
+      ("test-import", ForTest),
+      ("wbtest-import", ForWbtest),
+    ] {
     match obj.get(key_kind.0) {
       Some(Array(items)) =>
         for it in items {
@@ -137,7 +138,7 @@ pub async fn load_project(root : String) -> Project {
       let files = entries
         .filter(e => e.has_suffix(".mbt"))
         .map(e => join([rel, e]))
-      packages.push({ dir: rel, path: join([name, pkg_rel]), files })
+      packages.push({ dir: rel, path: join([name, pkg_rel]), files, })
     }
     for e in entries {
       if skip_dir(e) {
@@ -151,7 +152,7 @@ pub async fn load_project(root : String) -> Project {
   }
 
   scan(source)
-  { root, name, source, packages }
+  { root, name, source, packages, }
 }
 
 ///|
@@ -163,8 +164,8 @@ pub fn Project::package_of(self : Project, file : String) -> Package? {
     let inside = p.dir == "" || file.has_prefix(p.dir + "/")
     let direct = inside &&
       !file
-        .view(start_offset=if p.dir == "" { 0 } else { p.dir.length() + 1 })
-        .contains("/")
+      .view(start_offset=if p.dir == "" { 0 } else { p.dir.length() + 1 })
+      .contains("/")
     if direct {
       best = Some(p)
     }

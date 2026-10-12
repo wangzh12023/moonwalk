@@ -31,7 +31,7 @@ pub let probe_prefix : String = "\u{1}MW"
 
 ///|
 fn parse_int_field(s : StringView) -> Int? {
-  @string.parse_int(s) catch {
+  try @string.parse_int(s) catch {
     _ => None
   } noraise {
     n => Some(n)
@@ -40,7 +40,7 @@ fn parse_int_field(s : StringView) -> Int? {
 
 ///|
 fn parse_json_string(s : StringView) -> String? {
-  @json.parse(s) catch {
+  try @json.parse(s) catch {
     _ => None
   } noraise {
     String(v) => Some(v)
@@ -60,7 +60,8 @@ pub fn parse_event(line : StringView) -> Event? {
     None => (rest, "".view())
   }
   match tag {
-    Some('X') => Some(Cut(reason=parse_json_string(rest).unwrap_or(rest.to_owned())))
+    Some('X') =>
+      Some(Cut(reason=parse_json_string(rest).unwrap_or(rest.to_owned())))
     Some(c) => {
       guard parse_int_field(site_text) is Some(site) else { return None }
       match c {

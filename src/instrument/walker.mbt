@@ -7,7 +7,7 @@ pub(all) struct Options {
 
 ///|
 pub fn Options::default() -> Options {
-  { runtime_alias: "__mw" }
+  { runtime_alias: "__mw", }
 }
 
 ///|
@@ -184,8 +184,7 @@ fn pattern_binders(p : @syntax.Pattern, out : Array[String]) -> Unit {
       pattern_binders(pat, out)
       out.push(alias_.name)
     }
-    Any(..) | Constant(..) | ConstrAny(..) | ConstrUnknown(..) | Range(..) =>
-      ()
+    Any(..) | Constant(..) | ConstrAny(..) | ConstrUnknown(..) | Range(..) => ()
     Array(pats~, ..) => {
       fn one(ap : @syntax.ArrayPattern) {
         match ap {
@@ -318,7 +317,7 @@ impl @syntax.IterVisitor for ReadCollector with fn visit_Expr(self, e) {
 
 ///|
 fn reads_of(e : @syntax.Expr) -> Array[String] {
-  let c : ReadCollector = { out: [] }
+  let c : ReadCollector = { out: [], }
   @syntax.IterVisitor::visit_Expr(c, e)
   c.out
 }
@@ -518,7 +517,10 @@ fn Walker::statement(self : Walker, e : @syntax.Expr) -> Unit {
       self.step(start_of(loc), end_of(loc), reads)
       self.expr(expr)
       match target {
-        Some(t) => if !is_diverging(expr) { self.binds_after(end_of(loc), [t], reads) }
+        Some(t) =>
+          if !is_diverging(expr) {
+            self.binds_after(end_of(loc), [t], reads)
+          }
         None => ()
       }
     }
@@ -628,7 +630,7 @@ fn Walker::expr(self : Walker, e : @syntax.Expr) -> Unit {
     Return(return_value~, ..) => self.return_(return_value)
     _ => {
       // Look for closures and control flow nested in sub-expressions.
-      let finder : SubExprs = { out: [] }
+      let finder : SubExprs = { out: [], }
       @syntax.IterVisitor::visit_Expr(@syntax.IterVisitor::base(finder), e)
       finder.out.each(x => self.expr(x))
     }
@@ -951,19 +953,22 @@ fn Walker::fn_body(
 ) -> Unit {
   let generics = self.generics().copy()
   generics.append(quantifiers)
-  let enter = self.add_site(kind, head, head, name~, region=(
+  let enter = self.add_site(
+    kind,
     head,
-    end_of(body.loc()),
-  ))
-  self.fns.push({ enter, ret_site: -1, generics })
+    head,
+    name~,
+    region=(head, end_of(body.loc())),
+  )
+  self.fns.push({ enter, ret_site: -1, generics, })
   let saved_opaque = self.opaque_vars.length()
   for p in params {
     let (n, ty) = p
-    let opaque = match ty {
+    let is_opaque = match ty {
       Some(t) => self.type_is_opaque(t)
       None => kind == Test
     }
-    if opaque {
+    if is_opaque {
       self.opaque_vars.push(n)
     }
   }
@@ -992,7 +997,7 @@ fn Walker::fn_body(
     None => -1
   }
   ignore(self.fns.pop())
-  self.fns.push({ enter, ret_site, generics })
+  self.fns.push({ enter, ret_site, generics, })
   let prologue = ProbeText::new()
   let call = if kind == Test { "test_enter" } else { "enter" }
   prologue.add("\{self.rt()}.\{call}(\{enter}); ")

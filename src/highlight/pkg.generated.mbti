@@ -1,0 +1,19 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/highlight"
+
+// Values
+pub fn escape_html(StringView) -> String
+
+pub fn highlight_line(String) -> String
+
+pub fn highlight_source(String) -> Array[String]
+
+pub fn split_lines(String) -> Array[String]
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

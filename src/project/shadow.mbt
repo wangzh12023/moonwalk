@@ -66,10 +66,7 @@ pub fn add_runtime_import(text : String, module_name : String) -> String {
           let after = src.skip_trivia(close + 1)
           let is_for = src.slice(after, after + 3) == "for"
           if !is_for {
-            return src.slice(0, open + 1) +
-              "\n" +
-              line +
-              src.slice(open + 1, n)
+            return src.slice(0, open + 1) + "\n" + line + src.slice(open + 1, n)
           }
         }
       }
@@ -181,5 +178,5 @@ pub async fn build_shadow(
   @fs.mkdir(rt, recursive=true, allow_exist=true)
   sync_file(join([rt, "moon.pkg"]), @utf8.encode(runtime_pkg))
   sync_file(join([rt, "runtime.mbt"]), @utf8.encode(runtime_source))
-  { root, sites, skipped, rewrites }
+  { root, sites, skipped, rewrites, }
 }

@@ -96,7 +96,7 @@ pub struct SiteTable {
 
 ///|
 pub fn SiteTable::new() -> SiteTable {
-  { files: [], sites: [] }
+  { files: [], sites: [], }
 }
 
 ///|
@@ -107,7 +107,7 @@ pub fn SiteTable::add_file(
   text : String,
 ) -> Int {
   let id = self.files.length()
-  self.files.push({ id, path, pkg, text })
+  self.files.push({ id, path, pkg, text, })
   id
 }
 
@@ -245,9 +245,11 @@ pub fn SiteTable::from_json(json : Json) -> SiteTable? {
     }
     let reads = match so.get("reads") {
       Some(Array(rs)) =>
-        rs.filter_map(r => match r {
-          String(x) => Some(x)
-          _ => None
+        rs.filter_map(r => {
+          match r {
+            String(x) => Some(x)
+            _ => None
+          }
         })
       _ => []
     }

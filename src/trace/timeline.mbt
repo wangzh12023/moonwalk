@@ -124,7 +124,7 @@ pub fn Timeline::build(
       None => -1
     }
     let index = steps.length()
-    steps.push({ index, site, event: e, frame, depth: stack.length() })
+    steps.push({ index, site, event: e, frame, depth: stack.length(), })
     match frames.get(frame) {
       Some(f) => f.last = index
       None => ()
@@ -199,7 +199,7 @@ pub fn Timeline::build(
   while stack.pop() is Some(top) {
     frames[top].unwound = true
   }
-  { sites, steps, frames, output, cut }
+  { sites, steps, frames, output, cut, }
 }
 
 ///|
@@ -244,7 +244,7 @@ pub fn Timeline::locals(self : Timeline, step : Int) -> Array[Binding] {
             if !latest.contains(info.name) {
               order.push(info.name)
             }
-            latest[info.name] = { name: info.name, value, step: i, frame }
+            latest[info.name] = { name: info.name, value, step: i, frame, }
           }
           None => ()
         }

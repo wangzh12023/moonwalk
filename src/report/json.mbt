@@ -81,9 +81,5 @@ pub fn to_json(recordings : Array[@project.Recording]) -> Json {
       "output": Json::array(output),
     }
   })
-  {
-    "moonwalk": "0.1.0".to_json(),
-    "sites": sites,
-    "tests": Json::array(tests),
-  }
+  { "moonwalk": "0.1.0".to_json(), "sites": sites, "tests": Json::array(tests) }
 }

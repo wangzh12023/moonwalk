@@ -112,12 +112,16 @@ pub(all) struct CauseRow {
 
 ///|
 /// Flatten a cause tree into rows, showing each step once.
-pub fn cause_rows(tl : @trace.Timeline, cause : @trace.Cause) -> Array[CauseRow] {
+pub fn cause_rows(
+  tl : @trace.Timeline,
+  cause : @trace.Cause,
+) -> Array[CauseRow] {
   let rows = []
   let seen : @set.Set[Int] = Set([])
   fn go(c : @trace.Cause, indent : Int) -> Unit {
     let (label, step, children) : (String, Int, Array[@trace.Cause]) = match c {
-      Assigned(step~, name~, value~, reads~) => ("\{name} = \{value}", step, reads)
+      Assigned(step~, name~, value~, reads~) =>
+        ("\{name} = \{value}", step, reads)
       Parameter(step~, name~, value~, from~) =>
         ("\{name} = \{value}  (argument)", step, from)
       Returned(step~, name~, value~, reads~) =>
@@ -131,8 +135,16 @@ pub fn cause_rows(tl : @trace.Timeline, cause : @trace.Cause) -> Array[CauseRow]
       indent,
       label: shorten(label, 120),
       step,
-      location: if step >= 0 { tl.where_(step) } else { "" },
-      source: if step >= 0 { tl.source_line(step) } else { "" },
+      location: if step >= 0 {
+        tl.where_(step)
+      } else {
+        ""
+      },
+      source: if step >= 0 {
+        tl.source_line(step)
+      } else {
+        ""
+      },
       repeat,
     })
     if repeat {
@@ -151,7 +163,11 @@ pub fn cause_rows(tl : @trace.Timeline, cause : @trace.Cause) -> Array[CauseRow]
 ///|
 /// Call depth over time as an SVG area chart (`width` x `height` units),
 /// downsampled to at most `width` columns. Returns the SVG markup.
-pub fn depth_svg(tl : @trace.Timeline, width? : Int = 1000, height? : Int = 28) -> String {
+pub fn depth_svg(
+  tl : @trace.Timeline,
+  width? : Int = 1000,
+  height? : Int = 28,
+) -> String {
   let n = tl.length()
   if n == 0 {
     return "<svg viewBox=\"0 0 \{width} \{height}\"></svg>"
@@ -174,7 +190,7 @@ pub fn depth_svg(tl : @trace.Timeline, width? : Int = 1000, height? : Int = 28) 
   )
   let col_w = width.to_double() / cols.to_double()
   for c = 0; c < cols; c = c + 1 {
-    let y = height - (depth[c] * (height - 2) / max_depth)
+    let y = height - depth[c] * (height - 2) / max_depth
     let x0 = (c.to_double() * col_w).to_int()
     let x1 = ((c + 1).to_double() * col_w).to_int()
     sb.write_string(" L\{x0} \{y} L\{x1} \{y}")

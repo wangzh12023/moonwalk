@@ -25,7 +25,7 @@ pub fn instrument_file(
       text,
       edits: 0,
       diagnostics: reports.map(r => "\{path}: \{r.loc}: \{r.msg}"),
-      rewrite: { text, placements: [], probes: [] },
+      rewrite: { text, placements: [], probes: [], },
     }
   }
   let src = SourceText::new(text)
@@ -125,9 +125,12 @@ fn Walker::item(self : Walker, item : @syntax.Impl) -> Unit {
         Some(t) => self.type_is_opaque(t) || !generics.is_empty()
         None => true
       }
-      let ps = param_binders(Some(params)).map(p => match p {
-        (n, None) if self_opaque => (n, Some(@syntax.Type::Any(loc=method_name.loc)))
-        _ => p
+      let ps = param_binders(Some(params)).map(p => {
+        match p {
+          (n, None) if self_opaque =>
+            (n, Some(@syntax.Type::Any(loc=method_name.loc)))
+          _ => p
+        }
       })
       ignore(trait_)
       self.fn_body(

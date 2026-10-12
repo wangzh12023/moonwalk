@@ -17194,44 +17194,44 @@ let viewer_js : String =
   #|            const _file = _Some$5;
   #|            const text = _M0MP411wangzh120238moonwalk3src5model10SourceText5slice(_M0MP411wangzh120238moonwalk3src5model10SourceText3new(_file.text), _call.start, _call.end);
   #|            const _bind$8 = _M0MPC16string6String9rev__find(_callee.name, new _M0TPC16string10StringView(_M0MP411wangzh120238moonwalk3src5trace8Timeline16param__bound__toN7_2abindS735, 0, _M0MP411wangzh120238moonwalk3src5trace8Timeline16param__bound__toN7_2abindS735.length));
-  #|            let method;
+  #|            let callee_fn;
   #|            if (_bind$8 === undefined) {
-  #|              method = _callee.name;
+  #|              callee_fn = _callee.name;
   #|            } else {
   #|              const _Some$6 = _bind$8;
   #|              const _i = _Some$6;
-  #|              method = _M0MPC16string10StringView9to__owned(_M0MPC16string6String12view_2einner(_callee.name, _i + 2 | 0, undefined));
+  #|              callee_fn = _M0MPC16string10StringView9to__owned(_M0MPC16string6String12view_2einner(_callee.name, _i + 2 | 0, undefined));
   #|            }
   #|            if (param === "self") {
   #|              let _tmp$2;
-  #|              const _bind$9 = `${arg}.${method}`;
+  #|              const _bind$9 = `${arg}.${callee_fn}`;
   #|              if (_M0MPC16string6String8contains(text, new _M0TPC16string10StringView(_bind$9, 0, _bind$9.length))) {
   #|                _tmp$2 = true;
   #|              } else {
   #|                let _tmp$3;
-  #|                const _bind$10 = `${method}(${arg},`;
+  #|                const _bind$10 = `${callee_fn}(${arg},`;
   #|                if (_M0MPC16string6String8contains(text, new _M0TPC16string10StringView(_bind$10, 0, _bind$10.length))) {
   #|                  _tmp$3 = true;
   #|                } else {
-  #|                  const _bind$11 = `${method}(${arg})`;
+  #|                  const _bind$11 = `${callee_fn}(${arg})`;
   #|                  _tmp$3 = _M0MPC16string6String8contains(text, new _M0TPC16string10StringView(_bind$11, 0, _bind$11.length));
   #|                }
   #|                _tmp$2 = _tmp$3;
   #|              }
   #|              return _tmp$2;
   #|            }
-  #|            const _bind$9 = `${method}(`;
+  #|            const _bind$9 = `${callee_fn}(`;
   #|            const _bind$10 = _M0MPC16string6String4find(text, new _M0TPC16string10StringView(_bind$9, 0, _bind$9.length));
   #|            if (_bind$10 === undefined) {
   #|              return false;
   #|            } else {
   #|              const _Some$6 = _bind$10;
   #|              const _open = _Some$6;
-  #|              const args = _M0FP411wangzh120238moonwalk3src5trace11split__args(_M0MPC16string6String12view_2einner(text, (_open + method.length | 0) + 1 | 0, undefined));
+  #|              const args = _M0FP411wangzh120238moonwalk3src5trace11split__args(_M0MPC16string6String12view_2einner(text, (_open + callee_fn.length | 0) + 1 | 0, undefined));
   #|              const index = _M0MP411wangzh120238moonwalk3src5trace8Timeline12param__index(self, frame, param);
   #|              let shift;
   #|              let _tmp$2;
-  #|              const _bind$11 = `.${method}(`;
+  #|              const _bind$11 = `.${callee_fn}(`;
   #|              if (_M0MPC16string6String8contains(text, new _M0TPC16string10StringView(_bind$11, 0, _bind$11.length))) {
   #|                _tmp$2 = _M0MP411wangzh120238moonwalk3src5trace8Timeline12param__index(self, frame, "self") === 0;
   #|              } else {
@@ -17271,9 +17271,9 @@ let viewer_js : String =
   #|  }
   #|}
   #|function _M0MP411wangzh120238moonwalk3src5trace8Timeline11last__write(self, frame, name, before) {
-  #|  const local = _M0MP411wangzh120238moonwalk3src5trace8Timeline18last__local__write(self, frame, name, before);
+  #|  const found = _M0MP411wangzh120238moonwalk3src5trace8Timeline18last__local__write(self, frame, name, before);
   #|  let floor;
-  #|  if (local === undefined) {
+  #|  if (found === undefined) {
   #|    const _bind$3 = _M0MPC15array5Array3getGRP411wangzh120238moonwalk3src6viewer5VTestE(self.frames, frame);
   #|    if (_bind$3 === undefined) {
   #|      return undefined;
@@ -17283,7 +17283,7 @@ let viewer_js : String =
   #|      floor = _f.first;
   #|    }
   #|  } else {
-  #|    const _Some = local;
+  #|    const _Some = found;
   #|    floor = _Some;
   #|  }
   #|  const root = _M0FP411wangzh120238moonwalk3src5trace8root__of(name);
@@ -17355,7 +17355,7 @@ let viewer_js : String =
   #|      break;
   #|    }
   #|  }
-  #|  return local;
+  #|  return found;
   #|}
   #|function _M0MP411wangzh120238moonwalk3src5trace8Timeline14calls__between(self, frame, from, to) {
   #|  const out = [];
@@ -17517,15 +17517,15 @@ let viewer_js : String =
   #|            const _file = _Some$5;
   #|            const text = _M0MP411wangzh120238moonwalk3src5model10SourceText5slice(_M0MP411wangzh120238moonwalk3src5model10SourceText3new(_file.text), _call.start, _call.end);
   #|            const _bind$8 = _M0MPC16string6String9rev__find(_callee.name, new _M0TPC16string10StringView(_M0MP411wangzh120238moonwalk3src5trace8Timeline14argument__textN7_2abindS872, 0, _M0MP411wangzh120238moonwalk3src5trace8Timeline14argument__textN7_2abindS872.length));
-  #|            let method;
+  #|            let callee_fn;
   #|            if (_bind$8 === undefined) {
-  #|              method = _callee.name;
+  #|              callee_fn = _callee.name;
   #|            } else {
   #|              const _Some$6 = _bind$8;
   #|              const _i = _Some$6;
-  #|              method = _M0MPC16string10StringView9to__owned(_M0MPC16string6String12view_2einner(_callee.name, _i + 2 | 0, undefined));
+  #|              callee_fn = _M0MPC16string10StringView9to__owned(_M0MPC16string6String12view_2einner(_callee.name, _i + 2 | 0, undefined));
   #|            }
-  #|            const dotted = `.${method}(`;
+  #|            const dotted = `.${callee_fn}(`;
   #|            const method_syntax = _M0MPC16string6String8contains(text, new _M0TPC16string10StringView(dotted, 0, dotted.length));
   #|            if (param === "self" && method_syntax) {
   #|              const _bind$9 = _M0MPC16string6String4find(text, new _M0TPC16string10StringView(dotted, 0, dotted.length));
@@ -17552,14 +17552,14 @@ let viewer_js : String =
   #|                return _M0MPC16string10StringView9to__owned(_M0MPC16string6String12view_2einner(text, j, _i));
   #|              }
   #|            }
-  #|            const _bind$9 = `${method}(`;
+  #|            const _bind$9 = `${callee_fn}(`;
   #|            const _bind$10 = _M0MPC16string6String4find(text, new _M0TPC16string10StringView(_bind$9, 0, _bind$9.length));
   #|            if (_bind$10 === undefined) {
   #|              return undefined;
   #|            } else {
   #|              const _Some$6 = _bind$10;
   #|              const _open = _Some$6;
-  #|              const args = _M0FP411wangzh120238moonwalk3src5trace11split__args(_M0MPC16string6String12view_2einner(text, (_open + method.length | 0) + 1 | 0, undefined));
+  #|              const args = _M0FP411wangzh120238moonwalk3src5trace11split__args(_M0MPC16string6String12view_2einner(text, (_open + callee_fn.length | 0) + 1 | 0, undefined));
   #|              const index = _M0MP411wangzh120238moonwalk3src5trace8Timeline12param__index(self, frame, param);
   #|              const shift = method_syntax && _M0MP411wangzh120238moonwalk3src5trace8Timeline12param__index(self, frame, "self") === 0 ? 1 : 0;
   #|              const _bind$11 = args.length;

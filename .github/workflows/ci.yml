@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install MoonBit (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Toolchain
+        run: |
+          moon version --all
+          moon update
+
+      - name: Check (all backends)
+        run: moon check --target all
+
+      - name: Test (wasm-gc, wasm, js)
+        run: |
+          moon test --target wasm-gc
+          moon test --target wasm
+          moon test --target js
+
+      - name: Viewer bundle is up to date
+        if: runner.os == 'Linux'
+        shell: bash
+        run: scripts/build-viewer.sh --check
+
+      - name: Format and public interfaces are up to date
+        if: runner.os == 'Linux'
+        run: |
+          moon fmt --check
+          moon info
+          git diff --exit-code -- '*.mbti'
+
+      - name: End-to-end - record and explain the bank example
+        shell: bash
+        run: |
+          moon build cmd/moonwalk --target wasm --release
+          MW=_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm
+          moonrun "$MW" -- -C examples/bank -q record --steps 20 --html bank.html
+          moonrun "$MW" -- -C examples/bank -q why | tee why.txt
+          grep -q "self.balance = 296" why.txt
+          grep -q "fee_for" why.txt
+          test -s bank.html

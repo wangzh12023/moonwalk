@@ -13,7 +13,7 @@ pub struct ProbeText {
 
 ///|
 pub fn ProbeText::new() -> ProbeText {
-  { sb: StringBuilder(), len: 0, spans: [] }
+  { sb: StringBuilder(), len: 0, spans: [], }
 }
 
 ///|
@@ -83,7 +83,7 @@ pub struct EditSet {
 
 ///|
 pub fn EditSet::new() -> EditSet {
-  { edits: [] }
+  { edits: [], }
 }
 
 ///|
@@ -177,14 +177,14 @@ pub fn EditSet::apply(self : EditSet, src : SourceText) -> Rewrite {
     }
     let n = e.text.char_length()
     sb.write_string(e.text)
-    placements.push({ at, out_start: out, out_end: out + n })
+    placements.push({ at, out_start: out, out_end: out + n, })
     for s in e.spans {
-      probes.push({ out_start: out + s.0, out_end: out + s.1, key: s.2 })
+      probes.push({ out_start: out + s.0, out_end: out + s.1, key: s.2, })
     }
     out = out + n
   }
   sb.write_string(src.slice(cursor, src.length()))
-  { text: sb.to_string(), placements, probes }
+  { text: sb.to_string(), placements, probes, }
 }
 
 ///|
@@ -208,8 +208,9 @@ pub fn Rewrite::original_offset(self : Rewrite, out_offset : Int) -> Int {
 ///|
 /// Whether an offset of the rewritten text lies in inserted text.
 pub fn Rewrite::is_inserted(self : Rewrite, out_offset : Int) -> Bool {
-  self.placements.iter().any(p => out_offset >= p.out_start &&
-    out_offset < p.out_end)
+  self.placements
+  .iter()
+  .any(p => out_offset >= p.out_start && out_offset < p.out_end)
 }
 
 ///|

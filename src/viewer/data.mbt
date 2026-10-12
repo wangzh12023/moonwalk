@@ -158,9 +158,11 @@ pub fn decode(json : Json) -> Recording raise {
     let timeline = @trace.Timeline::build(sites, events_of(rows, output))
     let notes = match o.get("notes") {
       Some(Array(ns)) =>
-        ns.filter_map(n => match n {
-          String(s) => Some(s)
-          _ => None
+        ns.filter_map(n => {
+          match n {
+            String(s) => Some(s)
+            _ => None
+          }
         })
       _ => []
     }
@@ -190,5 +192,5 @@ pub fn decode(json : Json) -> Recording raise {
       depth_svg: depth_svg(timeline),
     })
   }
-  { sites, tests }
+  { sites, tests, }
 }

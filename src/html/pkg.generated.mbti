@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/html"
+
+// Values
+pub fn bundled_viewer() -> String
+
+pub fn escape_html(String) -> String
+
+pub fn escape_js_for_script(String) -> String
+
+pub fn escape_json_for_script(String) -> String
+
+pub fn page(String, String, script? : String) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

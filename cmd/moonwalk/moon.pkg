@@ -9,7 +9,6 @@ import {
   "moonbitlang/core/argparse",
   "moonbitlang/core/env",
   "moonbitlang/core/string",
-  "moonbitlang/core/json",
 }
 
 pkgtype(kind: "executable")

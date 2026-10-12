@@ -120,7 +120,7 @@ pub fn highlight_line(line : String) -> String {
   buf.to_string()
 }
 
-////|
+///|
 /// Split a source text into lines (handles `\n` and `\r\n`).
 pub fn split_lines(source : String) -> Array[String] {
   source

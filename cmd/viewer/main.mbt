@@ -58,7 +58,7 @@ fn clamp(x : Int, lo : Int, hi : Int) -> Int {
 
 ///|
 /// The step a test opens at: just before its failing check, else the end.
-fn initial_step(t : @viewer.VTest) -> Int {
+fn initial_step(t : @vm.VTest) -> Int {
   match t.check {
     Some(c) if c.step >= 0 => c.step
     _ => (t.timeline.length() - 1).max(0)
@@ -66,7 +66,7 @@ fn initial_step(t : @viewer.VTest) -> Int {
 }
 
 ///|
-fn initial_why(t : @viewer.VTest) -> String? {
+fn initial_why(t : @vm.VTest) -> String? {
   match t.check {
     Some(c) if c.subject != "" && c.step >= 0 => Some(c.subject)
     _ => None
@@ -74,44 +74,45 @@ fn initial_why(t : @viewer.VTest) -> String? {
 }
 
 ///|
-fn update(rec : @viewer.Recording, model : Model, msg : Msg) -> (Model, Cmd) {
+fn update(rec : @vm.Recording, model : Model, msg : Msg) -> (Model, Cmd) {
   guard rec.tests.get(model.sel) is Some(t) else { (model, @rabbita.none) }
   let tl = t.timeline
   let last = (tl.length() - 1).max(0)
   let next = match msg {
-    Go(i) => { ..model, step: clamp(i, 0, last) }
+    Go(i) => { ..model, step: clamp(i, 0, last), }
     SetStep(s) => {
       let i = @string.parse_int(s) catch { _ => model.step }
-      { ..model, step: clamp(i, 0, last) }
+      { ..model, step: clamp(i, 0, last), }
     }
     SelectTest(s) => {
       let i = @string.parse_int(s) catch { _ => model.sel }
       match rec.tests.get(i) {
-        Some(nt) => {
-          sel: i,
-          step: initial_step(nt),
-          why: initial_why(nt),
-          why_step: initial_step(nt),
-        }
+        Some(nt) =>
+          {
+            sel: i,
+            step: initial_step(nt),
+            why: initial_why(nt),
+            why_step: initial_step(nt),
+          }
         None => model
       }
     }
-    Nav(StepBack) => { ..model, step: clamp(model.step - 1, 0, last) }
-    Nav(StepForward) => { ..model, step: clamp(model.step + 1, 0, last) }
+    Nav(StepBack) => { ..model, step: clamp(model.step - 1, 0, last), }
+    Nav(StepForward) => { ..model, step: clamp(model.step + 1, 0, last), }
     Nav(OverBack) =>
-      { ..model, step: tl.step_back_over(model.step).unwrap_or(0) }
+      { ..model, step: tl.step_back_over(model.step).unwrap_or(0), }
     Nav(OverForward) =>
-      { ..model, step: tl.step_over(model.step).unwrap_or(last) }
-    Nav(Out) => { ..model, step: @viewer.step_out_or_end(tl, model.step) }
-    Nav(GoFirst) => { ..model, step: 0 }
-    Nav(GoLast) => { ..model, step: last }
+      { ..model, step: tl.step_over(model.step).unwrap_or(last), }
+    Nav(Out) => { ..model, step: @vm.step_out_or_end(tl, model.step), }
+    Nav(GoFirst) => { ..model, step: 0, }
+    Nav(GoLast) => { ..model, step: last, }
     Nav(Why) =>
       match initial_why(t) {
-        Some(w) => { ..model, why: Some(w), why_step: model.step }
+        Some(w) => { ..model, why: Some(w), why_step: model.step, }
         None => model
       }
-    Explain(name) => { ..model, why: Some(name), why_step: model.step }
-    CloseWhy => { ..model, why: None }
+    Explain(name) => { ..model, why: Some(name), why_step: model.step, }
+    CloseWhy => { ..model, why: None, }
   }
   if next == model {
     (model, @rabbita.none)
@@ -125,7 +126,7 @@ fn update(rec : @viewer.Recording, model : Model, msg : Msg) -> (Model, Cmd) {
 // ---------------------------------------------------------------------------
 
 ///|
-fn file_path(rec : @viewer.Recording, file : Int) -> String {
+fn file_path(rec : @vm.Recording, file : Int) -> String {
   match rec.sites.file(file) {
     Some(f) => f.path
     None => "(unknown file)"
@@ -133,7 +134,7 @@ fn file_path(rec : @viewer.Recording, file : Int) -> String {
 }
 
 ///|
-fn toolbar(rec : @viewer.Recording, emit : Emit[Msg], model : Model) -> Html {
+fn toolbar(rec : @vm.Recording, emit : Emit[Msg], model : Model) -> Html {
   let t = rec.tests[model.sel]
   let tl = t.timeline
   let last = (tl.length() - 1).max(0)
@@ -211,13 +212,13 @@ fn raw(cls : String, html : String) -> Html {
 ///|
 /// The scrubber: a depth chart of the whole run, failure marker, and a range
 /// input to drag through time.
-fn scrubber(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
+fn scrubber(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
   let tl = t.timeline
   let last = (tl.length() - 1).max(0)
-  let pct = @viewer.step_percent(tl, model.step)
+  let pct = @vm.step_percent(tl, model.step)
   let marker = match t.check {
     Some(c) if c.step >= 0 => {
-      let at = @viewer.step_percent(tl, c.step)
+      let at = @vm.step_percent(tl, c.step)
       div(
         class="fail-mark",
         style=["left: \{at}%"],
@@ -248,19 +249,19 @@ fn scrubber(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
 ///|
 /// Source pane of the file holding the current step, with inline values.
 fn source_view(
-  rec : @viewer.Recording,
-  t : @viewer.VTest,
+  rec : @vm.Recording,
+  t : @vm.VTest,
   cache : Map[Int, Array[String]],
   model : Model,
 ) -> Html {
   let tl = t.timeline
-  let (file, line) = @viewer.step_location(tl, model.step)
+  let (file, line) = @vm.step_location(tl, model.step)
   guard rec.sites.file(file) is Some(f) else {
     return section(class="code", p(class="empty", "no source for this step"))
   }
   let lines = cache.get_or_init(file, () => @highlight.highlight_source(f.text))
-  let hits = t.hits.get_or_init(file, () => @viewer.hit_lines(tl, file))
-  let values = @viewer.inline_values(tl, model.step, file)
+  let hits = t.hits.get_or_init(file, () => @vm.hit_lines(tl, file))
+  let values = @vm.inline_values(tl, model.step, file)
   let rows = lines.mapi((i, html) => {
     let no = i + 1
     let cls = if no == line {
@@ -283,7 +284,12 @@ fn source_view(
 }
 
 ///|
-fn stack_view(rec : @viewer.Recording, t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
+fn stack_view(
+  rec : @vm.Recording,
+  t : @vm.VTest,
+  emit : Emit[Msg],
+  model : Model,
+) -> Html {
   let tl = t.timeline
   let frames = tl.stack(model.step).rev()
   let items = frames.map(fr => {
@@ -304,7 +310,7 @@ fn stack_view(rec : @viewer.Recording, t : @viewer.VTest, emit : Emit[Msg], mode
 }
 
 ///|
-fn locals_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
+fn locals_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
   let tl = t.timeline
   let locals = tl.locals(model.step)
   let prev = if model.step > 0 { tl.locals(model.step - 1) } else { [] }
@@ -318,7 +324,7 @@ fn locals_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
       on_click=emit(Explain(b.name)),
       [
         span(class="vn", b.name),
-        span(class="vv", @viewer.shorten(b.value, 200)),
+        span(class="vv", @vm.shorten(b.value, 200)),
         span(class="ask", "why?"),
       ],
     )
@@ -332,12 +338,12 @@ fn locals_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
 }
 
 ///|
-fn why_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
+fn why_view(t : @vm.VTest, emit : Emit[Msg], model : Model) -> Html {
   guard model.why is Some(name) else { return nothing }
   let tl = t.timeline
   let body = match tl.why(model.why_step, name) {
     Some(cause) => {
-      let rows = @viewer.cause_rows(tl, cause).map(r => {
+      let rows = @vm.cause_rows(tl, cause).map(r => {
         let cls = if r.repeat { "cause repeat" } else { "cause" }
         li(
           class=cls,
@@ -346,7 +352,14 @@ fn why_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
           title=if r.step >= 0 { "jump to step \{r.step}" } else { "" },
           [
             span(class="what", r.label),
-            span(class="where", if r.step >= 0 { "#\{r.step} \{r.location}" } else { "" }),
+            span(
+              class="where",
+              if r.step >= 0 {
+                "#\{r.step} \{r.location}"
+              } else {
+                ""
+              },
+            ),
             if r.repeat {
               nothing
             } else {
@@ -370,8 +383,8 @@ fn why_view(t : @viewer.VTest, emit : Emit[Msg], model : Model) -> Html {
 }
 
 ///|
-fn output_view(t : @viewer.VTest, model : Model) -> Html {
-  let lines = @viewer.output_until(t.timeline, model.step)
+fn output_view(t : @vm.VTest, model : Model) -> Html {
+  let lines = @vm.output_until(t.timeline, model.step)
   if lines.is_empty() {
     return nothing
   }
@@ -379,7 +392,7 @@ fn output_view(t : @viewer.VTest, model : Model) -> Html {
 }
 
 ///|
-fn status_view(t : @viewer.VTest) -> Html {
+fn status_view(t : @vm.VTest) -> Html {
   let head = if t.passed {
     div(class="status ok", "✓ passed")
   } else {
@@ -393,8 +406,7 @@ fn status_view(t : @viewer.VTest) -> Html {
           text_node(", got "),
           @html.code(c.actual),
         ])
-      None =>
-        div(class="status fail", "✗ " + t.failure.unwrap_or("failed"))
+      None => div(class="status fail", "✗ " + t.failure.unwrap_or("failed"))
     }
   }
   let notes = t.notes.map(n => p(class="note", n))
@@ -402,22 +414,24 @@ fn status_view(t : @viewer.VTest) -> Html {
 }
 
 ///|
-fn app(rec : @viewer.Recording, parse_ms : Double) -> Val[Html] {
+fn app(rec : @vm.Recording, parse_ms : Double) -> Val[Html] {
   let first = match rec.tests.search_by(t => !t.passed) {
     Some(i) => i
     None => 0
   }
   let t0 = rec.tests[first]
   let (model, emit) = @rabbita.create_state_with_init(
-    init=_ => (
-      {
-        sel: first,
-        step: initial_step(t0),
-        why: initial_why(t0),
-        why_step: initial_step(t0),
-      },
-      reveal_current_line(),
-    ),
+    init=_ => {
+      (
+        {
+          sel: first,
+          step: initial_step(t0),
+          why: initial_why(t0),
+          why_step: initial_step(t0),
+        },
+        reveal_current_line(),
+      )
+    },
     update=(model, msg, _) => update(rec, model, msg),
     subscriptions=(_, emit) => on_nav_key(emit.map(k => Nav(k))),
   )
@@ -457,20 +471,28 @@ extern "js" fn now_ms() -> Double = "() => performance.now()"
 ///|
 fn error_app(message : String) -> Val[Html] {
   Val::constant(
-    div(class="mw error", [h2("MoonWalk: cannot load the recording"), pre(message)]),
+    div(class="mw error", [
+      h2("MoonWalk: cannot load the recording"),
+      pre(message),
+    ]),
   )
 }
 
 ///|
 fn main {
   let t0 = now_ms()
-  let loaded : Result[@viewer.Recording, String] = try {
+  let loaded : Result[@vm.Recording, String] = try {
     let json = @json.parse(element_text_by_id("moonwalk-data"))
-    @viewer.decode(json)
+    @vm.decode(json)
   } catch {
     e => Err("\{e}")
   } noraise {
-    r => if r.tests.is_empty() { Err("the recording has no tests") } else { Ok(r) }
+    r =>
+      if r.tests.is_empty() {
+        Err("the recording has no tests")
+      } else {
+        Ok(r)
+      }
   }
   let ms = now_ms() - t0
   match loaded {

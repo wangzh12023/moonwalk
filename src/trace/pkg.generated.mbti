@@ -1,0 +1,94 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/trace"
+
+import {
+  "moonbitlang/core/debug",
+  "wangzh12023/moonwalk/src/model",
+}
+
+// Values
+pub fn parse_event(StringView) -> Event?
+
+pub fn parse_output(String) -> Array[Event]
+
+pub let probe_prefix : String
+
+// Errors
+
+// Types and methods
+pub(all) struct Binding {
+  name : String
+  value : String
+  step : Int
+  frame : Int
+} derive(@debug.Debug)
+
+pub(all) enum Cause {
+  Assigned(step~ : Int, name~ : String, value~ : String, reads~ : Array[Cause])
+  Parameter(step~ : Int, name~ : String, value~ : String, from~ : Array[Cause])
+  Returned(step~ : Int, name~ : String, value~ : String, reads~ : Array[Cause])
+  Decided(step~ : Int, taken~ : Bool, reads~ : Array[Cause])
+  Truncated(name~ : String)
+} derive(@debug.Debug)
+
+pub(all) enum Event {
+  TestStart(site~ : Int)
+  TestEnd(site~ : Int)
+  Enter(site~ : Int)
+  Leave(site~ : Int)
+  Step(site~ : Int)
+  Branch(site~ : Int, taken~ : Bool)
+  Arm(site~ : Int)
+  Bind(site~ : Int, value~ : String)
+  Return(site~ : Int, value~ : String)
+  Output(text~ : String)
+  Cut(reason~ : String)
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Frame {
+  id : Int
+  site : Int
+  parent : Int
+  first : Int
+  mut last : Int
+  mut result : String?
+  mut unwound : Bool
+} derive(@debug.Debug)
+
+pub(all) struct Step {
+  index : Int
+  site : Int
+  event : Event
+  frame : Int
+  depth : Int
+} derive(@debug.Debug)
+
+pub struct Timeline {
+  sites : @model.SiteTable
+  steps : Array[Step]
+  frames : Array[Frame]
+  output : Array[(Int, String)]
+  cut : String?
+}
+pub fn Timeline::build(@model.SiteTable, Array[Event]) -> Self
+pub fn Timeline::cut(Self) -> String?
+pub fn Timeline::frames(Self) -> Array[Frame]
+pub fn Timeline::history(Self, Int, String) -> Array[(Int, String)]
+pub fn Timeline::length(Self) -> Int
+pub fn Timeline::locals(Self, Int) -> Array[Binding]
+pub fn Timeline::location(Self, Int) -> (Int, Int, Int)?
+pub fn Timeline::output(Self) -> Array[(Int, String)]
+pub fn Timeline::render_cause(Self, Cause) -> String
+pub fn Timeline::sites(Self) -> @model.SiteTable
+pub fn Timeline::source_line(Self, Int) -> String
+pub fn Timeline::stack(Self, Int) -> Array[Frame]
+pub fn Timeline::step_back_over(Self, Int) -> Int?
+pub fn Timeline::step_out(Self, Int) -> Int?
+pub fn Timeline::step_over(Self, Int) -> Int?
+pub fn Timeline::steps(Self) -> Array[Step]
+pub fn Timeline::where_(Self, Int) -> String
+pub fn Timeline::why(Self, Int, String, depth? : Int) -> Cause?
+
+// Type aliases
+
+// Traits

@@ -22,7 +22,6 @@ test "package qualifiers and strings" {
     @highlight.highlight_line("@json.parse(\"a\\\"b\")"),
     content=(
       #|<span class="p">@json</span>.parse(<span class="s">&quot;a\&quot;b&quot;</span>)
-
     ),
   )
 }

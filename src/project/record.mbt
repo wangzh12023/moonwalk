@@ -90,9 +90,9 @@ pub fn select_tests(
       }
       if line > 0 {
         // The test whose `test` keyword is the last one at or before `line`.
-        let candidates = tests.filter(t => (file.has_suffix("/" + t.file) ||
-          file == t.file) &&
-          t.line <= line)
+        let candidates = tests.filter(t => {
+          (file.has_suffix("/" + t.file) || file == t.file) && t.line <= line
+        })
         let mut best : TestCase? = None
         for t in candidates {
           match best {
@@ -155,7 +155,9 @@ pub async fn prepare(
       return (shadow, notes)
     }
     if errors.is_empty() {
-      raise RecordError("`moon check` failed on the instrumented project:\n\{out}")
+      raise RecordError(
+        "`moon check` failed on the instrumented project:\n\{out}",
+      )
     }
     guard round < options.max_repairs else {
       raise RecordError(describe_errors(errors))
@@ -196,8 +198,18 @@ pub async fn record_test(
     "MOONWALK_VALUE_DEPTH": options.value_depth.to_string(),
   }
   let args = [
-    "test", "--target", options.target, "-p", tc.pkg, "--file", tc.file, "-i",
-    tc.index.to_string(), "--test-failure-json", "--warn-list", shadow_warnings,
+    "test",
+    "--target",
+    options.target,
+    "-p",
+    tc.pkg,
+    "--file",
+    tc.file,
+    "-i",
+    tc.index.to_string(),
+    "--test-failure-json",
+    "--warn-list",
+    shadow_warnings,
   ]
   let result = @async.with_timeout_opt(options.timeout_ms, () => {
     run_moon(shadow.root, args, env~)

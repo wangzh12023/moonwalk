@@ -1,0 +1,13 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/embedded"
+
+// Values
+pub fn runtime() -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

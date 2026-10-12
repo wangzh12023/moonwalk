@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/runtime"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn arm(Int) -> Unit
+
+pub fn bind(Int, String) -> Unit
+
+pub fn branch(Int, Bool) -> Unit
+
+pub fn enter(Int) -> Unit
+
+pub fn hidden() -> String
+
+pub fn leave(Int) -> Unit
+
+pub fn[T : @debug.Debug] ret(Int, T) -> T
+
+pub fn step(Int) -> Unit
+
+pub fn test_enter(Int) -> Unit
+
+pub fn test_leave(Int) -> Unit
+
+pub fn[T : @debug.Debug] v(T) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

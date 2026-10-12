@@ -38,7 +38,7 @@ pub fn parse_outline(text : String) -> Array[TestCase] {
     let name = match rest.find("name=") {
       Some(i) => {
         let quoted = rest.view(start_offset=i + 5)
-        @json.parse(quoted) catch {
+        try @json.parse(quoted) catch {
           _ => quoted.trim(chars="\"").to_owned()
         } noraise {
           String(s) => s
@@ -47,7 +47,7 @@ pub fn parse_outline(text : String) -> Array[TestCase] {
       }
       None => ""
     }
-    out.push({ pkg, file, index, name, line: line_no })
+    out.push({ pkg, file, index, name, line: line_no, })
   }
   out
 }
@@ -94,7 +94,7 @@ pub fn parse_diagnostics(text : String, root : String) -> Array[CompileError] {
       Some(String(m)) => m
       _ => ""
     }
-    out.push({ file, line: l1, col: c1, end_line: l2, end_col: c2, message })
+    out.push({ file, line: l1, col: c1, end_line: l2, end_col: c2, message, })
   }
   out
 }

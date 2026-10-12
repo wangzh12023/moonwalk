@@ -105,7 +105,7 @@ test "timeline builds frames and locals" {
   )
   let stack = tl.stack(12).map(f => tl.sites().sites()[f.site].name)
   debug_inspect(stack, content="[\"withdraw\", \"Account::withdraw\"]")
-  inspect(tl.frames()[1].result, content="Some(true)")
+  debug_inspect(tl.frames()[1].result, content="Some(\"true\")")
 }
 
 ///|
@@ -119,12 +119,14 @@ test "why: trace a wrong balance back to the fee decision" {
   inspect(name, content="self.balance")
   inspect(value, content="298")
   // It read `self.balance` (the old value, a parameter), `amount` and `fee`.
-  let read_names = reads.map(c => match c {
-    Assigned(name~, ..)
-    | Parameter(name~, ..)
-    | Returned(name~, ..)
-    | Truncated(name~) => name
-    Decided(..) => "<decision>"
+  let read_names = reads.map(c => {
+    match c {
+      Assigned(name~, ..)
+      | Parameter(name~, ..)
+      | Returned(name~, ..)
+      | Truncated(name~) => name
+      Decided(..) => "<decision>"
+    }
   })
   debug_inspect(read_names, content="[\"self\", \"amount\", \"fee\"]")
   // `fee` was 1 because the branch `amount > 100` was taken.
@@ -141,10 +143,10 @@ test "why: trace a wrong balance back to the fee decision" {
 test "stepping over, back and out" {
   let tl = replay(bank_source, with_prefix(bank_stdout))
   // From the call statement in the test, step over the whole call.
-  inspect(tl.step_over(3), content="Some(19)")
-  inspect(tl.step_back_over(19), content="Some(3)")
+  debug_inspect(tl.step_over(3), content="Some(19)")
+  debug_inspect(tl.step_back_over(19), content="Some(3)")
   // From inside withdraw, step out lands after the frame's last step.
-  inspect(tl.step_out(10), content="Some(18)")
+  debug_inspect(tl.step_out(10), content="Some(18)")
 }
 
 ///|
@@ -165,6 +167,5 @@ test "truncated traces close open frames" {
     with_prefix("MWT 15\nMWS 16\nMWE 0\nMWS 4\nMWX \"budget\"\n"),
   )
   debug_inspect(tl.cut(), content="Some(\"budget\")")
-  inspect(tl.frames().map(f => f.unwound), content="[true, true]")
+  debug_inspect(tl.frames().map(f => f.unwound), content="[true, true]")
 }
-

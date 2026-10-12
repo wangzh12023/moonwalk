@@ -20,7 +20,7 @@ pub fn SourceText::new(text : String) -> SourceText {
       line_starts.push(i + 1)
     }
   }
-  { chars, line_starts }
+  { chars, line_starts, }
 }
 
 ///|
@@ -123,4 +123,3 @@ pub fn SourceText::after_closing_brace(self : SourceText, offset : Int) -> Int {
     offset
   }
 }
-

@@ -24,10 +24,9 @@ pub fn escape_json_for_script(json : String) -> String {
 /// `</script` and `<!--` can only occur inside string/regex literals or
 /// comments, where `<\/script` and `<\x21--` mean the same thing.
 pub fn escape_js_for_script(js : String) -> String {
-  js.replace_all(old="</script", new="<\\/script").replace_all(
-    old="<!--",
-    new="<\\x21--",
-  )
+  js
+  .replace_all(old="</script", new="<\\/script")
+  .replace_all(old="<!--", new="<\\x21--")
 }
 
 ///|
@@ -55,7 +54,11 @@ pub fn escape_html(s : String) -> String {
 ///   with `--target js --release`); the bundled copy by default.
 ///
 /// The result has no external references and works from `file://`.
-pub fn page(title : String, recording : String, script? : String = viewer_js) -> String {
+pub fn page(
+  title : String,
+  recording : String,
+  script? : String = viewer_js,
+) -> String {
   let sb = StringBuilder()
   sb.write_string(
     "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n",

@@ -65,9 +65,14 @@ pub fn decode_failed_check(
   guard o.get("loc") is Some(Object(loc)) else { return None }
   let file = json_text(loc.get("filename"))
   let line = json_num(loc.get("start_line"))
-  let subject = match (o.get("args_loc"), module_path(shadow.sites, pkg, file)) {
+  let subject = match
+    (o.get("args_loc"), module_path(shadow.sites, pkg, file)) {
     (Some(Array([Object(a), ..])), Some(path)) =>
-      match (shadow.rewrites.get(path), shadow.sites.files().search_by(f => f.path == path)) {
+      match
+        (
+          shadow.rewrites.get(path),
+          shadow.sites.files().search_by(f => f.path == path),
+        ) {
         (Some(rw), Some(fi)) => {
           let out = @instrument.SourceText::new(rw.text)
           let start = rw.original_offset(

@@ -65,8 +65,8 @@ fn Timeline::call_statement(self : Timeline, frame : Int) -> Int? {
 
 ///|
 /// Last step before `before` that changed what `name` (read in `frame`)
-/// observes. Besides local assignments, this follows mutations made by
-/// callees: when a statement passed `x` to a method (`x.m(...)` or
+/// observes. Besides found assignments, this follows mutations made by
+/// callees: when a statement passed `x` to a callee_fn (`x.m(...)` or
 /// `f(x)`), a write to the corresponding parameter's fields inside the
 /// callee (e.g. `self.balance = ...`) is a write to `x.balance`.
 fn Timeline::last_write(
@@ -75,8 +75,8 @@ fn Timeline::last_write(
   name : String,
   before : Int,
 ) -> Int? {
-  let local = self.last_local_write(frame, name, before)
-  let floor = match local {
+  let found = self.last_local_write(frame, name, before)
+  let floor = match found {
     Some(l) => l
     None =>
       match self.frames.get(frame) {
@@ -114,7 +114,7 @@ fn Timeline::last_write(
       return Some(i)
     }
   }
-  local
+  found
 }
 
 ///|
@@ -134,23 +134,23 @@ fn Timeline::param_bound_to(
   }
   guard self.sites.file(call.file) is Some(file) else { return false }
   let text = @model.SourceText::new(file.text).slice(call.start, call.end)
-  // Unqualified method or function name: `withdraw` for `Account::withdraw`.
-  let method = match callee.name.rev_find("::") {
+  // Unqualified callee_fn or function name: `withdraw` for `Account::withdraw`.
+  let callee_fn = match callee.name.rev_find("::") {
     Some(i) => callee.name.view(start_offset=i + 2).to_owned()
     None => callee.name
   }
   if param == "self" {
     // `acc.withdraw(...)`, `Account::withdraw(acc, ...)`, `withdraw(acc, ...)`
-    return text.contains(arg + "." + method) ||
-      text.contains(method + "(" + arg + ",") ||
-      text.contains(method + "(" + arg + ")")
+    return text.contains(arg + "." + callee_fn) ||
+      text.contains(callee_fn + "(" + arg + ",") ||
+      text.contains(callee_fn + "(" + arg + ")")
   }
   // Positional argument: `f(.., arg, ..)` for the parameter's index.
-  guard text.find(method + "(") is Some(open) else { return false }
-  let args = split_args(text.view(start_offset=open + method.length() + 1))
+  guard text.find(callee_fn + "(") is Some(open) else { return false }
+  let args = split_args(text.view(start_offset=open + callee_fn.length() + 1))
   let index = self.param_index(frame, param)
   // Method-call syntax passes the receiver outside the parentheses.
-  let shift = if text.contains("." + method + "(") &&
+  let shift = if text.contains("." + callee_fn + "(") &&
     self.param_index(frame, "self") == 0 {
     1
   } else {
@@ -468,7 +468,7 @@ fn is_ident_char(c : UInt16) -> Bool {
 
 ///|
 /// Source text of the argument passed for parameter `param` of `frame`, or
-/// the receiver expression for `self` in method-call syntax.
+/// the receiver expression for `self` in callee_fn-call syntax.
 fn Timeline::argument_text(
   self : Timeline,
   frame : Int,
@@ -477,19 +477,17 @@ fn Timeline::argument_text(
   guard self.frames.get(frame) is Some(f) else { return None }
   guard self.sites.get(f.site) is Some(callee) else { return None }
   guard self.call_statement(frame) is Some(stmt) else { return None }
-  guard self.sites.get(self.steps[stmt].site) is Some(call) else {
-    return None
-  }
+  guard self.sites.get(self.steps[stmt].site) is Some(call) else { return None }
   guard self.sites.file(call.file) is Some(file) else { return None }
   let text = @model.SourceText::new(file.text).slice(call.start, call.end)
-  let method = match callee.name.rev_find("::") {
+  let callee_fn = match callee.name.rev_find("::") {
     Some(i) => callee.name.view(start_offset=i + 2).to_owned()
     None => callee.name
   }
-  let dotted = "." + method + "("
+  let dotted = "." + callee_fn + "("
   let method_syntax = text.contains(dotted)
   if param == "self" && method_syntax {
-    // The receiver: the identifier path right before `.method(`.
+    // The receiver: the identifier path right before `.callee_fn(`.
     guard text.find(dotted) is Some(i) else { return None }
     let mut j = i
     while j > 0 {
@@ -502,8 +500,8 @@ fn Timeline::argument_text(
     }
     return Some(text.view(start_offset=j, end_offset=i).to_owned())
   }
-  guard text.find(method + "(") is Some(open) else { return None }
-  let args = split_args(text.view(start_offset=open + method.length() + 1))
+  guard text.find(callee_fn + "(") is Some(open) else { return None }
+  let args = split_args(text.view(start_offset=open + callee_fn.length() + 1))
   let index = self.param_index(frame, param)
   let shift = if method_syntax && self.param_index(frame, "self") == 0 {
     1
@@ -628,7 +626,10 @@ pub fn Timeline::source_line(self : Timeline, step : Int) -> String {
   }
   guard self.sites.get(site_id) is Some(site) else { return "" }
   guard self.sites.file(site.file) is Some(f) else { return "" }
-  @model.SourceText::new(f.text).line_text(site.line).trim(chars=" 	").to_owned()
+  @model.SourceText::new(f.text)
+  .line_text(site.line)
+  .trim(chars=" 	")
+  .to_owned()
 }
 
 ///|
@@ -709,8 +710,7 @@ pub fn Timeline::render_cause(self : Timeline, cause : Cause) -> String {
         line(indent, "because this condition was \{which}", step)
         reads.each(r => go(r, indent + 1))
       }
-      Truncated(name~) =>
-        sb.write_string("\{"  ".repeat(indent)}\{name} ...\n")
+      Truncated(name~) => sb.write_string("\{"  ".repeat(indent)}\{name} ...\n")
     }
   }
 

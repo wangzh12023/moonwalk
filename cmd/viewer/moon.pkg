@@ -1,5 +1,5 @@
 import {
-  "wangzh12023/moonwalk/src/viewer",
+  "wangzh12023/moonwalk/src/viewer" @vm,
   "wangzh12023/moonwalk/src/highlight",
   "moonbit-community/rabbita",
   "moonbit-community/rabbita/cmd",

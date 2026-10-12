@@ -43,7 +43,9 @@ pub fn render_text(rec : @project.Recording, limit? : Int = 200) -> String {
             None => ""
           },
         )
-        src.slice(site.start, site.end.min(site.start + 70)).replace_all(old="\n", new=" ")
+        src
+        .slice(site.start, site.end.min(site.start + 70))
+        .replace_all(old="\n", new=" ")
       }
       Branch(taken~, ..) => if taken { "-> then" } else { "-> else" }
       Arm(..) => "-> arm"
@@ -67,8 +69,13 @@ pub fn failure_summary(rec : @project.Recording) -> String? {
   let prefix = "@EXPECT_FAILED "
   if msg.has_prefix(prefix) {
     let body = msg.view(start_offset=prefix.length())
-    match (try? @json.parse(body)) {
-      Ok(Object(o)) => {
+    let parsed : Json? = try @json.parse(body) catch {
+      _ => None
+    } noraise {
+      j => Some(j)
+    }
+    match parsed {
+      Some(Object(o)) => {
         let expect = match o.get("expect") {
           Some(String(s)) => s
           _ => "?"

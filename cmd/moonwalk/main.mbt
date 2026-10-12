@@ -39,11 +39,9 @@ fn cli() -> @argparse.Command {
       ),
     ],
     subcommands=[
-      @argparse.Command(
-        "list",
-        about="List the tests of the project",
-        options=[common_opts[0]],
-      ),
+      @argparse.Command("list", about="List the tests of the project", options=[
+        common_opts[0],
+      ]),
       @argparse.Command(
         "record",
         about="Record tests and print their execution history",
@@ -57,11 +55,9 @@ fn cli() -> @argparse.Command {
             "html",
             about="Also write a standalone time-travel viewer to this HTML file",
           ),
-          @argparse.OptionArg(
-            "steps",
-            about="Number of steps to print",
-            default_values=["200"],
-          ),
+          @argparse.OptionArg("steps", about="Number of steps to print", default_values=[
+            "200",
+          ]),
         ],
         positionals=[
           @argparse.PositionArg(
@@ -118,7 +114,7 @@ fn int_value(m : @argparse.Matches, key : String, default : Int) -> Int {
 ///|
 async fn main {
   let argv = @env.args()
-  let args = if argv.length() > 0 { argv[1:].to_array() } else { [] }
+  let args = if argv.length() > 0 { argv[1:].to_owned() } else { [] }
   let matches = cli().parse(argv=args, env=@env.get_env_vars()) catch {
     e => {
       println(e)

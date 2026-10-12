@@ -1,0 +1,82 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/model"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Site {
+  id : Int
+  kind : SiteKind
+  file : Int
+  start : Int
+  end : Int
+  line : Int
+  col : Int
+  end_line : Int
+  end_col : Int
+  name : String
+  func : Int
+  reads : Array[String]
+  region_start : Int
+  region_end : Int
+} derive(@debug.Debug)
+pub fn Site::to_json(Self) -> Json
+
+pub(all) enum SiteKind {
+  Step
+  Enter
+  Param
+  Bind
+  Branch
+  Arm
+  Return
+  Test
+} derive(Eq, @debug.Debug)
+pub fn SiteKind::from_tag(String) -> Self?
+pub fn SiteKind::tag(Self) -> String
+
+pub struct SiteTable {
+  files : Array[SourceFile]
+  sites : Array[Site]
+}
+pub fn SiteTable::add(Self, SiteKind, Int, SourceText, Int, Int, name~ : String, func~ : Int, reads? : Array[String], region? : (Int, Int)) -> Int
+pub fn SiteTable::add_file(Self, String, String, String) -> Int
+pub fn SiteTable::file(Self, Int) -> SourceFile?
+pub fn SiteTable::files(Self) -> Array[SourceFile]
+pub fn SiteTable::from_json(Json) -> Self?
+pub fn SiteTable::get(Self, Int) -> Site?
+pub fn SiteTable::new() -> Self
+pub fn SiteTable::sites(Self) -> Array[Site]
+pub fn SiteTable::to_json(Self) -> Json
+
+pub(all) struct SourceFile {
+  id : Int
+  path : String
+  pkg : String
+  text : String
+} derive(@debug.Debug)
+
+pub struct SourceText {
+  chars : Array[Char]
+  line_starts : Array[Int]
+}
+pub fn SourceText::after_closing_brace(Self, Int) -> Int
+pub fn SourceText::char_at(Self, Int) -> Char
+pub fn SourceText::length(Self) -> Int
+pub fn SourceText::line_count(Self) -> Int
+pub fn SourceText::line_of(Self, Int) -> Int
+pub fn SourceText::line_text(Self, Int) -> String
+pub fn SourceText::new(String) -> Self
+pub fn SourceText::offset_of(Self, Int, Int) -> Int
+pub fn SourceText::skip_trivia(Self, Int) -> Int
+pub fn SourceText::slice(Self, Int, Int) -> String
+
+// Type aliases
+
+// Traits

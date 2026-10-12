@@ -1,0 +1,76 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wangzh12023/moonwalk/src/viewer"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/set",
+  "wangzh12023/moonwalk/src/model",
+  "wangzh12023/moonwalk/src/trace",
+}
+
+// Values
+pub fn cause_rows(@trace.Timeline, @trace.Cause) -> Array[CauseRow]
+
+pub fn decode(Json) -> Recording raise
+
+pub fn depth_svg(@trace.Timeline, width? : Int, height? : Int) -> String
+
+pub fn files_used(@trace.Timeline) -> Array[Int]
+
+pub fn hit_lines(@trace.Timeline, Int) -> @set.Set[Int]
+
+pub fn inline_values(@trace.Timeline, Int, Int, max_len? : Int) -> Map[Int, String]
+
+pub fn output_until(@trace.Timeline, Int) -> Array[String]
+
+pub fn shorten(String, Int) -> String
+
+pub fn step_location(@trace.Timeline, Int) -> (Int, Int)
+
+pub fn step_out_or_end(@trace.Timeline, Int) -> Int
+
+pub fn step_percent(@trace.Timeline, Int) -> Double
+
+// Errors
+
+// Types and methods
+pub(all) struct CauseRow {
+  indent : Int
+  label : String
+  step : Int
+  location : String
+  source : String
+  repeat : Bool
+} derive(Eq, @debug.Debug)
+
+pub struct Recording {
+  sites : @model.SiteTable
+  tests : Array[VTest]
+}
+
+pub(all) struct VCheck {
+  file : String
+  line : Int
+  subject : String
+  expected : String
+  actual : String
+  step : Int
+} derive(Eq, @debug.Debug)
+
+pub struct VTest {
+  name : String
+  pkg : String
+  file : String
+  line : Int
+  passed : Bool
+  failure : String?
+  check : VCheck?
+  notes : Array[String]
+  timeline : @trace.Timeline
+  hits : Map[Int, @set.Set[Int]]
+  depth_svg : String
+}
+
+// Type aliases
+
+// Traits

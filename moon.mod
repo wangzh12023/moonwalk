@@ -8,7 +8,14 @@ repository = "https://github.com/wangzh12023/moonwalk"
 
 license = "Apache-2.0"
 
-keywords = [ "debugger", "time-travel", "omniscient-debugging", "tracing", "testing", "developer-tools" ]
+keywords = [
+  "debugger",
+  "time-travel",
+  "omniscient-debugging",
+  "tracing",
+  "testing",
+  "developer-tools",
+]
 
 preferred_target = "wasm-gc"
 
@@ -22,3 +29,9 @@ import {
   "moonbitlang/x@0.5.5",
   "moonbit-community/rabbita@0.16.4",
 }
+
+// Derived Debug/Eq implementations are only used through their traits
+// (`Repr(x)`, `==`), never as `x.to_repr()`, so the deprecated implicit
+// promotion of trait methods to regular methods does not apply here.
+
+warnings = "-implicit_impl_as_method"
