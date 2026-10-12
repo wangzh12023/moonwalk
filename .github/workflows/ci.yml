@@ -70,3 +70,16 @@ jobs:
           grep -q "self.balance = 296" why.txt
           grep -q "fee_for" why.txt
           test -s bank.html
+
+      - name: End-to-end - every regression test records and still passes
+        shell: bash
+        run: |
+          MW=_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm
+          moon -C examples/regressions test --target wasm-gc
+          moonrun "$MW" -- -C examples/regressions -q record --steps 0 --json reg.json
+          node -e '
+            const r = JSON.parse(require("fs").readFileSync("reg.json", "utf8"));
+            const bad = r.tests.filter(t => !t.passed || t.steps.length === 0);
+            for (const t of r.tests) console.log(t.passed ? "PASS" : "FAIL", t.steps.length, t.name);
+            if (r.tests.length < 10 || bad.length) process.exit(1);
+          '
