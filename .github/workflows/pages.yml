@@ -50,6 +50,7 @@ jobs:
         run: |
           MW="$PWD/_build/wasm/release/build/cmd/moonwalk/moonwalk.wasm"
           mkdir -p site/demos
+          cp docs/images/demo.gif site/demo.gif
           moonrun "$MW" -- -C examples/bank -q record --steps 0 --html site/demos/bank.html
           moonrun "$MW" -- -C examples/inventory -q record --steps 0 --html site/demos/inventory.html
           git init -q "$RUNNER_TEMP/starlark"

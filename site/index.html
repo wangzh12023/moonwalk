@@ -18,7 +18,9 @@ main { max-width: 64rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
 header h1 { font-size: 2.4rem; margin: 0 0 .25rem; letter-spacing: .01em; }
 header h1 .moon { color: var(--moon); }
 header p.tag { font-size: 1.2rem; color: var(--muted); margin: 0 0 1.5rem; max-width: 46rem; }
-.links { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.links { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+img.hero { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px;
+           box-shadow: 0 12px 40px #0008; margin-bottom: 1rem; }
 .links a { text-decoration: none; padding: .45rem .9rem; border: 1px solid #2f384c; border-radius: 8px;
            background: #1a2030; color: var(--fg); }
 .links a:hover { border-color: var(--accent); }
@@ -53,6 +55,7 @@ footer { margin-top: 3rem; color: var(--muted); font-size: .85rem; }
     <a href="https://github.com/wangzh12023/moonwalk/blob/main/docs/ARCHITECTURE.md">How it works</a>
     <a href="https://github.com/wangzh12023/moonwalk/blob/main/docs/case-study-starlark.md">Case study</a>
   </div>
+  <img class="hero" src="demo.gif" width="960" height="576" alt="The MoonWalk viewer following the cause of a wrong total, stepping back in time and asking why a variable has its value">
 </header>
 
 <h2>Try it: real recordings, no install</h2>

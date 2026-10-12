@@ -7,7 +7,7 @@
 
 [English](README.md) · [架构设计](docs/ARCHITECTURE.md) · [真实案例：starlark-mbt 的跨平台 bug](docs/case-study-starlark.md) · [开发日志](docs/DEVLOG.md) · [示例](examples/)
 
-![MoonWalk 浏览器查看器：解释一个失败的测试](docs/images/viewer-inventory.png)
+![MoonWalk 查看器：沿因果链追查错误的总价，在时间上后退，追问“为什么”](docs/images/demo.gif)
 
 ## 痛点
 

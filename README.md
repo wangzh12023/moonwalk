@@ -10,7 +10,7 @@ Record a failing test once, then move backwards and forwards through every step 
 
 [中文说明](README.zh.md) · [Architecture](docs/ARCHITECTURE.md) · [Case study: a real bug in starlark-mbt](docs/case-study-starlark.md) · [Development log](docs/DEVLOG.md) · [Examples](examples/)
 
-![MoonWalk viewer explaining a failing test](docs/images/viewer-inventory.png)
+![MoonWalk viewer: following the cause of a wrong total, stepping back in time, asking why](docs/images/demo.gif)
 
 ```text
 $ moonwalk why -C examples/bank
