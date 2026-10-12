@@ -66,6 +66,32 @@ fn cli() -> @argparse.Command {
           ),
         ],
       ),
+      @argparse.Command(
+        "why",
+        about="Explain how a value was computed (default: the value a failing inspect checked)",
+        options=[
+          ..common_opts,
+          @argparse.OptionArg(
+            "var",
+            about="Variable or field path to explain, e.g. acc.balance",
+          ),
+          @argparse.OptionArg(
+            "step",
+            about="Step at which to read the variable (default: the failing check)",
+          ),
+          @argparse.OptionArg(
+            "depth",
+            about="Maximum depth of the explanation",
+            default_values=["6"],
+          ),
+        ],
+        positionals=[
+          @argparse.PositionArg(
+            "test",
+            about="Test name (substring) or file:line",
+          ),
+        ],
+      ),
     ],
   )
 }
@@ -116,6 +142,23 @@ async fn main {
         quiet~,
       )
     }
+    Some(("why", m)) => {
+      let options : @project.RecordOptions = {
+        ..@project.RecordOptions::default(),
+        target: first(m, "target", "wasm-gc"),
+        max_events: int_value(m, "max-events", 200_000),
+        timeout_ms: int_value(m, "timeout", 60) * 1000,
+      }
+      cmd_why(
+        root,
+        first(m, "test", ""),
+        options,
+        variable=first(m, "var", ""),
+        step=int_value(m, "step", -1),
+        depth=int_value(m, "depth", 6),
+        quiet~,
+      )
+    }
     _ => println(cli().render_help())
   }
 }
@@ -129,14 +172,14 @@ async fn cmd_list(root : String, target : String) -> Unit {
 }
 
 ///|
-async fn cmd_record(
+/// Instrument the project and record the tests matching `filter`.
+/// Exits the process with a message on errors.
+async fn record_all(
   root : String,
   filter : String,
   options : @project.RecordOptions,
-  json_out~ : String,
-  steps~ : Int,
   quiet~ : Bool,
-) -> Unit {
+) -> Array[@project.Recording] {
   let project = @project.load_project(root)
   let tests = @project.select_tests(
     @project.list_tests(root, options.target),
@@ -161,23 +204,37 @@ async fn cmd_record(
     @project.RecordError(msg) => {
       println("moonwalk: \{msg}")
       @sys.exit(1)
-      return
+      return []
     }
     e => {
       println("moonwalk: \{e}")
       @sys.exit(1)
-      return
+      return []
     }
   }
-  for n in notes {
-    if !quiet {
+  if !quiet {
+    for n in notes {
       println("note: \{n}")
     }
   }
   let recordings = []
   for t in tests {
-    let rec = @project.record_test(shadow, t, options)
-    recordings.push(rec)
+    recordings.push(@project.record_test(shadow, t, options))
+  }
+  recordings
+}
+
+///|
+async fn cmd_record(
+  root : String,
+  filter : String,
+  options : @project.RecordOptions,
+  json_out~ : String,
+  steps~ : Int,
+  quiet~ : Bool,
+) -> Unit {
+  let recordings = record_all(root, filter, options, quiet~)
+  for rec in recordings {
     println(@report.render_text(rec, limit=steps))
   }
   if json_out != "" {
@@ -186,5 +243,65 @@ async fn cmd_record(
     if !quiet {
       println("moonwalk: wrote \{json_out}")
     }
+  }
+}
+
+///|
+async fn cmd_why(
+  root : String,
+  filter : String,
+  options : @project.RecordOptions,
+  variable~ : String,
+  step~ : Int,
+  depth~ : Int,
+  quiet~ : Bool,
+) -> Unit {
+  let recordings = record_all(root, filter, options, quiet~)
+  guard recordings is [rec, ..] else { return }
+  if recordings.length() > 1 && !quiet {
+    println(
+      "note: \{recordings.length()} tests match; explaining \"\{rec.case_.name}\"",
+    )
+  }
+  let tl = rec.timeline
+  let check = rec.check
+  // Default variable: the expression checked by the failing inspect.
+  let name = if variable != "" {
+    variable
+  } else {
+    match check {
+      Some(c) => c.subject
+      None => {
+        println(
+          "moonwalk: test \"\{rec.case_.name}\" did not fail an inspect; pass --var to choose a variable",
+        )
+        return
+      }
+    }
+  }
+  let at = if step >= 0 {
+    step
+  } else {
+    match check {
+      Some(c) => @project.check_step(rec, c).unwrap_or(tl.length() - 1)
+      None => tl.length() - 1
+    }
+  }
+  match check {
+    Some(c) =>
+      println(
+        "\{c.file}:\{c.line}: inspect(\{c.subject}) expected \{Json::string(c.expected).stringify()}, got \{Json::string(c.actual).stringify()}\n",
+      )
+    None => ()
+  }
+  match tl.why(at, name, depth~) {
+    Some(cause) => {
+      println("why is \{name} what it is at step #\{at}?\n")
+      println(tl.render_cause(cause))
+    }
+    None =>
+      println(
+        "moonwalk: no recorded assignment of \{name} before step #\{at} in this frame",
+      )
   }
 }

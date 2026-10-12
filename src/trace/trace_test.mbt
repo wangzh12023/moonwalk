@@ -120,7 +120,10 @@ test "why: trace a wrong balance back to the fee decision" {
   inspect(value, content="298")
   // It read `self.balance` (the old value, a parameter), `amount` and `fee`.
   let read_names = reads.map(c => match c {
-    Assigned(name~, ..) | Parameter(name~, ..) | Truncated(name~) => name
+    Assigned(name~, ..)
+    | Parameter(name~, ..)
+    | Returned(name~, ..)
+    | Truncated(name~) => name
     Decided(..) => "<decision>"
   })
   debug_inspect(read_names, content="[\"self\", \"amount\", \"fee\"]")

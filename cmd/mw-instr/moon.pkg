@@ -1,0 +1,7 @@
+import {
+  "wangzh12023/moonwalk/src/instrument",
+  "moonbitlang/x/fs",
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")

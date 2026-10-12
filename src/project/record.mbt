@@ -32,6 +32,8 @@ pub(all) struct Recording {
   passed : Bool
   /// Failure report from `moon test --test-failure-json`, if any.
   failure : Json?
+  /// The failing `inspect`, decoded from `failure`, if that is the cause.
+  check : FailedCheck?
   timeline : @trace.Timeline
   /// Raw standard output of the test run.
   stdout : String
@@ -231,6 +233,7 @@ pub async fn record_test(
     case_: tc,
     passed: code == 0 && failure is None,
     failure,
+    check: decode_failed_check(failure, tc.pkg, shadow),
     timeline,
     stdout: out,
     notes,
