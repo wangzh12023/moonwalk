@@ -6,7 +6,7 @@ Record a failing test once, then move backwards and forwards through every step 
 [![CI](https://github.com/wangzh12023/moonwalk/actions/workflows/ci.yml/badge.svg)](https://github.com/wangzh12023/moonwalk/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-[中文说明](README.zh.md) · [Architecture](docs/ARCHITECTURE.md) · [Case study: a real bug in starlark-mbt](docs/case-study-starlark.md) · [Examples](examples/)
+[中文说明](README.zh.md) · [Architecture](docs/ARCHITECTURE.md) · [Case study: a real bug in starlark-mbt](docs/case-study-starlark.md) · [Development log](docs/DEVLOG.md) · [Examples](examples/)
 
 ![MoonWalk viewer explaining a failing test](docs/images/viewer-inventory.png)
 

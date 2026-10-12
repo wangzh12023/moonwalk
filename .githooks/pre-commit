@@ -1,5 +1,6 @@
 #!/bin/sh
-# Run with: git config core.hooksPath .githooks
+# Enable with: git config core.hooksPath .githooks
 set -e
+[ -d "$HOME/.moon/bin" ] && PATH="$HOME/.moon/bin:$PATH"
 moon check --target all
 moon fmt --check
