@@ -22,13 +22,13 @@ MoonWalk records the execution of a MoonBit test and answers questions about it.
 | `src/model` | — | `SourceText` (code-point indexed source), `SiteTable` (probe sites and their source ranges, JSON round-trip). |
 | `src/instrument` | model, `moonbitlang/parser` | Parses a file and produces the instrumented text plus the sites it created. |
 | `src/trace` | model | Parses probe events, builds the `Timeline`, implements navigation and `why`. |
-| `src/project` | instrument, trace, `moon_config`, `moonbitlang/async` | Module discovery, the shadow module, the compile/repair loop, running one test. Runs on the wasm backend (async file and process I/O). |
+| `src/project` | instrument, trace, `moon_config`, `moonbitlang/async` | Module discovery, the shadow module, the compile/repair loop, running one test. Runs on the native and wasm backends (async file and process I/O). |
 | `src/report` | trace, project | Text transcript, JSON export, text views for agents. |
 | `src/viewer` | model, trace | Pure view model for the browser: decoding recordings, inline values, cause rows, depth chart. |
 | `src/highlight` | — | Line-oriented MoonBit syntax highlighter. |
 | `src/html` | — | Assembles the standalone page; embeds the CSS and the compiled viewer with `:embed`. |
 | `cmd/viewer` | viewer, highlight, `rabbita` | The browser app (JS backend). |
-| `cmd/moonwalk` | project, report, html | CLI and MCP server (wasm backend, run by `moonrun`). |
+| `cmd/moonwalk` | project, report, html | CLI and MCP server (native, or wasm run by `moonrun`). |
 | `runtime` | — | The probe runtime copied into every instrumented module. |
 
 The parser dependency stops at `src/instrument`. The timeline and `why` engine therefore compile to every backend and are shared, unchanged, by the CLI and the browser viewer.

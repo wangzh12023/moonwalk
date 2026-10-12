@@ -1,13 +1,14 @@
 // MCP smoke test: start `moonwalk mcp` the way an AI agent does, perform the
 // JSON-RPC handshake over stdio and call every tool once.
 //
-//   node scripts/mcp-smoke.mjs <moonwalk.wasm> <module-root> <test-name>
+//   node scripts/mcp-smoke.mjs <moonwalk.wasm | moonwalk executable> <module-root> <test-name>
 import { spawn } from "node:child_process";
 
-const [wasm, root, testName] = process.argv.slice(2);
-const child = spawn("moonrun", [wasm, "--", "-C", root, "mcp"], {
-  stdio: ["pipe", "pipe", "inherit"],
-});
+const [bin, root, testName] = process.argv.slice(2);
+const args = ["-C", root, "mcp"];
+const child = bin.endsWith(".wasm")
+  ? spawn("moonrun", [bin, "--", ...args], { stdio: ["pipe", "pipe", "inherit"] })
+  : spawn(bin, args, { stdio: ["pipe", "pipe", "inherit"] });
 let buffer = "";
 const pending = new Map();
 child.stdout.on("data", (chunk) => {

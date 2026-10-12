@@ -47,15 +47,26 @@ self.balance = 296
 
 ## 安装
 
-需要先安装 [MoonBit 工具链](https://www.moonbitlang.cn/download)。
+需要先安装 [MoonBit 工具链](https://www.moonbitlang.cn/download)。一条命令即可原生编译安装，`moonwalk` 会被放到 `~/.moon/bin`：
+
+```bash
+moon install https://github.com/wangzh12023/moonwalk.git cmd/moonwalk --branch main
+moonwalk --help
+```
+
+和其他原生 MoonBit 程序一样，这需要 C 编译器：Linux 和 macOS 用系统自带的，Windows 用 MSVC（在 *Developer Command Prompt* 里运行）。
+
+没有 C 编译器时，可以用 WebAssembly 版本，由工具链自带的 `moonrun` 运行：
 
 ```bash
 git clone https://github.com/wangzh12023/moonwalk
 export PATH="$PWD/moonwalk/bin:$PATH"     # Windows：把 moonwalk\bin 加入 PATH
-moonwalk --help                           # 首次运行时自动编译
+moonwalk --help                           # 首次运行时自动编译 moonwalk.wasm
 ```
 
-MoonWalk 本身也是用 MoonBit 写的，编译成 WebAssembly 后由工具链自带的 `moonrun` 运行。Linux、macOS 和 Windows 都能用。
+两种版本行为一致，CI 在 Linux、macOS 和 Windows 上对两者都跑端到端测试。
+
+接入 AI 编码代理（以 Claude Code 为例）：`claude mcp add moonwalk -- moonwalk mcp`。
 
 ## 用法
 

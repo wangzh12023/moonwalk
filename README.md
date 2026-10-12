@@ -47,15 +47,24 @@ MoonWalk answers the second question directly:
 
 ## Install
 
-Requires the [MoonBit toolchain](https://www.moonbitlang.com/download).
+Requires the [MoonBit toolchain](https://www.moonbitlang.com/download). One command builds MoonWalk natively and puts `moonwalk` in `~/.moon/bin`:
+
+```bash
+moon install https://github.com/wangzh12023/moonwalk.git cmd/moonwalk --branch main
+moonwalk --help
+```
+
+As for any native MoonBit program, this needs a C compiler: the system compiler on Linux and macOS, MSVC on Windows (run it from a *Developer Command Prompt*).
+
+Without a C compiler, use the WebAssembly build. It is run by `moonrun`, which ships with the toolchain:
 
 ```bash
 git clone https://github.com/wangzh12023/moonwalk
 export PATH="$PWD/moonwalk/bin:$PATH"     # Windows: add moonwalk\bin to PATH
-moonwalk --help                           # builds the CLI on first use
+moonwalk --help                           # builds moonwalk.wasm on first use
 ```
 
-MoonWalk is a MoonBit program compiled to WebAssembly and run by `moonrun`, which ships with the toolchain. It runs on Linux, macOS and Windows. The launchers `bin/moonwalk` and `bin/moonwalk.cmd` build it on first use. You can also build it yourself with `moon build cmd/moonwalk --target wasm --release`.
+Both builds behave the same. CI runs the end-to-end checks with both, on Linux, macOS and Windows.
 
 ## Usage
 
@@ -91,13 +100,12 @@ The viewer is itself written in MoonBit with [rabbita](https://github.com/moonbi
 // Claude Code: .mcp.json in your project
 {
   "mcpServers": {
-    "moonwalk": {
-      "command": "moonrun",
-      "args": ["/path/to/moonwalk.wasm", "--", "mcp"]
-    }
+    "moonwalk": { "command": "moonwalk", "args": ["mcp"] }
   }
 }
 ```
+
+Or run `claude mcp add moonwalk -- moonwalk mcp`. With the WebAssembly build, the command is `moonrun` with the arguments `["/path/to/moonwalk.wasm", "--", "mcp"]`.
 
 The server provides these tools:
 

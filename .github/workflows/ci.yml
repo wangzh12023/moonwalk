@@ -97,3 +97,60 @@ jobs:
             for (const t of r.tests) console.log(t.passed ? "PASS" : "FAIL", t.steps.length, t.name);
             if (r.tests.length < 10 || bad.length) process.exit(1);
           '
+
+  # The install path the README recommends: `moon install` builds a native
+  # executable. Exercise it end to end on every system.
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install MoonBit (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Install MoonBit (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$env:USERPROFILE\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      # Native MoonBit programs are compiled with MSVC on Windows.
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+
+      - name: moon install
+        shell: bash
+        run: |
+          moon update
+          moon install ./cmd/moonwalk --bin "$RUNNER_TEMP/bin"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: End-to-end - native CLI and MCP server
+        shell: bash
+        run: |
+          moonwalk --help
+          moonwalk -C examples/bank -q why | tee why.txt
+          grep -q "self.balance = 296" why.txt
+          moonwalk -C examples/regressions -q record --steps 0 --json reg.json
+          node -e '
+            const r = JSON.parse(require("fs").readFileSync("reg.json", "utf8"));
+            const bad = r.tests.filter(t => !t.passed || t.steps.length === 0);
+            console.log(r.tests.length, "tests recorded,", bad.length, "bad");
+            if (r.tests.length < 10 || bad.length) process.exit(1);
+          '
+          node scripts/mcp-smoke.mjs "$(command -v moonwalk)" examples/inventory partially

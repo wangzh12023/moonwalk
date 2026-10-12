@@ -25,7 +25,7 @@ Before writing the tool, a throwaway spike (not in this repository) checked each
 * **Edits, not AST printing** (`5f10a5e`, `43e1228`). The official parser has a printer, but printing a modified AST loses comments and changes line numbers. MoonWalk inserts text at AST-derived offsets and **never inserts a line break**. Compiler diagnostics in the instrumented copy then point at the user's lines, and `Rewrite::original_offset` maps columns back exactly.
 * **Nested-bracket edit ordering.** At one offset, closing edits are emitted innermost first and opening edits outermost first. Wrappers such as `ret(R, ({ … } : T))` stay balanced when several constructs start or end at the same character.
 * **Repair loop instead of type inference** (`0143641`). Whether a value implements `Debug` is a type question the parser cannot answer. The shadow copy is compiled. Each type error is located inside the probe that caused it, using spans recorded when the probe was written. That probe becomes `<hidden>`, and the copy is rebuilt.
-* **One timeline, many front ends** (`56313cb`, `57c7d59`). The trace engine depends only on the model package. The same `Timeline` and `why` code runs in the CLI (wasm), in the browser viewer (JS), and in the MCP server.
+* **One timeline, many front ends** (`56313cb`, `57c7d59`). The trace engine depends only on the model package. The same `Timeline` and `why` code runs in the CLI (native or wasm), in the browser viewer (JS), and in the MCP server.
 
 ## 4. Dynamic slicing
 
@@ -68,7 +68,10 @@ After the first end-to-end version, MoonWalk was run on real repositories, with 
   * a freshness check of the embedded viewer bundle;
   * end-to-end recordings;
   * the MCP server, driven over stdio by a client that speaks JSON-RPC like an agent (`scripts/mcp-smoke.mjs`);
-  * the generated viewer, driven in headless Chrome over the DevTools protocol (`scripts/viewer-check.mjs`): it opens at the failing check with its explanation, the keys step through time, clicking a cause or a variable explains it, switching tests works, and the page makes no network request and logs no error.
+  * the generated viewer, driven in headless Chrome over the DevTools protocol (`scripts/viewer-check.mjs`): it opens at the failing check with its explanation, the keys step through time, clicking a cause or a variable explains it, switching tests works, and the page makes no network request and logs no error;
+  * the native build, installed with `moon install` from the repository, recording the bank example, the regression suite and answering MCP requests.
+* The CLI was first wasm-only, run by `moonrun`. A probe branch showed that `moonbitlang/async` builds natively on all three systems (MSVC on Windows), so the CLI now also builds natively and installs with one `moon install` command.
+* Exported recordings keep only the source files the recorded tests went through. A 22-package module (starlark-mbt) went from 5.4 MB to 1.1 MB per recording.
 * The viewer bundle is normalised because moonc prints float literals with a platform-dependent exponent format (`1e+012` on Windows), which made CI's freshness check fail on Linux (`5aef3cd`).
 * A pre-commit hook runs `moon check` and `moon fmt --check` (`0bdd105`).
 * At the time of writing there are 60 tests, and line coverage is about 80% over the pure packages (`moon coverage`).
