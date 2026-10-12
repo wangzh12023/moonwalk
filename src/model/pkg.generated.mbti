@@ -54,6 +54,7 @@ pub fn SiteTable::files(Self) -> Array[SourceFile]
 pub fn SiteTable::from_json(Json) -> Self?
 pub fn SiteTable::get(Self, Int) -> Site?
 pub fn SiteTable::new() -> Self
+pub fn SiteTable::restrict_to(Self, Array[Int]) -> Self
 pub fn SiteTable::sites(Self) -> Array[Site]
 pub fn SiteTable::to_json(Self) -> Json
 

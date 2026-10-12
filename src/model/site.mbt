@@ -216,28 +216,92 @@ pub fn SiteTable::to_json(self : SiteTable) -> Json {
     }
   }
 
-  let rows : Array[Json] = self.sites.map(s => {
-    Json::array([
-      s.kind.code().to_json(),
-      s.file.to_json(),
-      s.start.to_json(),
-      s.end.to_json(),
-      s.line.to_json(),
-      s.col.to_json(),
-      s.end_line.to_json(),
-      s.end_col.to_json(),
-      intern(s.name).to_json(),
-      s.func.to_json(),
-      Json::array(s.reads.map(r => intern(r).to_json())),
-      (s.region_start - s.start).to_json(),
-      (s.region_end - s.end).to_json(),
-    ])
-  })
+  // Placeholder sites (see `restrict_to`) are written as runs: a negative
+  // number `-n` stands for `n` consecutive placeholders.
+  let rows : Array[Json] = []
+  let mut skipped = 0
+  for s in self.sites {
+    if s.file < 0 {
+      skipped += 1
+      continue
+    }
+    if skipped > 0 {
+      rows.push(Json::number((-skipped).to_double()))
+      skipped = 0
+    }
+    rows.push(
+      Json::array([
+        s.kind.code().to_json(),
+        s.file.to_json(),
+        s.start.to_json(),
+        s.end.to_json(),
+        s.line.to_json(),
+        s.col.to_json(),
+        s.end_line.to_json(),
+        s.end_col.to_json(),
+        intern(s.name).to_json(),
+        s.func.to_json(),
+        Json::array(s.reads.map(r => intern(r).to_json())),
+        (s.region_start - s.start).to_json(),
+        (s.region_end - s.end).to_json(),
+      ]),
+    )
+  }
+  if skipped > 0 {
+    rows.push(Json::number((-skipped).to_double()))
+  }
   {
     "version": (2).to_json(),
     "files": Json::array(files),
     "strings": Json::array(strings),
     "sites": Json::array(rows),
+  }
+}
+
+///|
+/// Stand-in for a site left out of a restricted table: it belongs to no file.
+fn placeholder(id : Int) -> Site {
+  {
+    id,
+    kind: Step,
+    file: -1,
+    start: 0,
+    end: 0,
+    line: 0,
+    col: 0,
+    end_line: 0,
+    end_col: 0,
+    name: "",
+    func: -1,
+    reads: [],
+    region_start: 0,
+    region_end: 0,
+  }
+}
+
+///|
+/// A copy of the table that only keeps the files containing one of the
+/// `used` sites, with their text and their sites. Site ids and file ids are
+/// unchanged; the other files keep their path and package but lose their
+/// text, and their sites become placeholders with no file.
+///
+/// A recording only refers to the sites its tests reached, often a handful
+/// of files in a large module, so this keeps exported recordings small.
+pub fn SiteTable::restrict_to(self : SiteTable, used : Array[Int]) -> SiteTable {
+  let keep = Array::make(self.files.length(), false)
+  for id in used {
+    match self.sites.get(id) {
+      Some(s) =>
+        if s.file >= 0 && s.file < keep.length() {
+          keep[s.file] = true
+        }
+      None => ()
+    }
+  }
+  let kept = (file : Int) => file >= 0 && file < keep.length() && keep[file]
+  {
+    files: self.files.map(f => if kept(f.id) { f } else { { ..f, text: "", } }),
+    sites: self.sites.map(s => if kept(s.file) { s } else { placeholder(s.id) }),
   }
 }
 
@@ -314,6 +378,18 @@ pub fn SiteTable::from_json(json : Json) -> SiteTable? {
         }
       }
       for row in sites {
+        if row is Number(n, ..) && n < 0 {
+          // A run of placeholders; bounded so a corrupt file cannot make us
+          // allocate without limit.
+          let count = (-n).to_int()
+          if count > 10_000_000 {
+            return None
+          }
+          for _ in 0..<count {
+            table.sites.push(placeholder(table.sites.length()))
+          }
+          continue
+        }
         guard row is Array(r) && r.length() >= 13 else { return None }
         guard SiteKind::from_code(json_int(Some(r[0]), -1)) is Some(kind) else {
           return None

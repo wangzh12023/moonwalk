@@ -3,8 +3,19 @@
 /// once, then each test's timeline. Consumed by the HTML viewer and by
 /// tools such as AI agents.
 pub fn to_json(recordings : Array[@project.Recording]) -> Json {
+  // Only the files the recorded tests went through are kept: a large
+  // module has thousands of probe sites the tests never reach.
+  let used : Array[Int] = []
+  for r in recordings {
+    for s in r.timeline.steps() {
+      used.push(s.site)
+    }
+    for f in r.timeline.frames() {
+      used.push(f.site)
+    }
+  }
   let sites = match recordings.get(0) {
-    Some(r) => r.timeline.sites().to_json()
+    Some(r) => r.timeline.sites().restrict_to(used).to_json()
     None => Json::null()
   }
   let tests : Array[Json] = recordings.map(r => {

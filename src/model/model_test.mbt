@@ -134,3 +134,44 @@ test "malformed site tables are rejected" {
     )
   }
 }
+
+///|
+test "restricted site tables keep ids and drop unused files" {
+  let a = @model.SourceText::new("fn a() -> Unit {\n  ()\n}\n")
+  let b = @model.SourceText::new("fn b() -> Unit {\n  ()\n}\n")
+  let table = @model.SiteTable::new()
+  let fa = table.add_file("a.mbt", "demo", a.slice(0, a.length()))
+  let fb = table.add_file("b.mbt", "demo", b.slice(0, b.length()))
+  let _ = table.add(Enter, fb, b, 3, 4, name="b", func=-1)
+  let _ = table.add(Step, fb, b, 19, 21, name="", func=0)
+  let ea = table.add(Enter, fa, a, 3, 4, name="a", func=-1)
+  let sa = table.add(Step, fa, a, 19, 21, name="", func=ea)
+  let small = table.restrict_to([sa])
+  // File `b.mbt` lost its text and its sites, but every id still resolves.
+  debug_inspect(
+    small.files().map(f => (f.path, f.text.length())),
+    content=(
+      #|[("a.mbt", 24), ("b.mbt", 0)]
+    ),
+  )
+  inspect(small.sites().length(), content="4")
+  debug_inspect(small.get(0).map(s => s.file), content="Some(-1)")
+  debug_inspect(
+    small.get(sa).map(s => (s.name, s.line)),
+    content="Some((\"\", 2))",
+  )
+  // Runs of dropped sites are written compactly and decoded back in place.
+  let json = small.to_json()
+  guard json is Object(o) && o.get("sites") is Some(Array(rows)) else {
+    fail("rows")
+  }
+  inspect(rows.length(), content="3")
+  guard @model.SiteTable::from_json(json) is Some(back) else { fail("decode") }
+  assert_eq(back.to_json().stringify(), json.stringify())
+  debug_inspect(
+    back.sites().map(s => (s.id, s.file, s.name)),
+    content=(
+      #|[(0, -1, ""), (1, -1, ""), (2, 0, "a"), (3, 0, "")]
+    ),
+  )
+}
