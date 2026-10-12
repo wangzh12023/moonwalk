@@ -180,9 +180,15 @@ async fn main {
 
 ///|
 async fn cmd_list(root : String, target : String) -> Unit {
-  let tests = @project.list_tests(root, target)
+  let project = @project.load_project(root)
+  let tests = @project.select_tests(
+    @project.list_tests(project.root, target),
+    "",
+    module_name=project.name,
+  )
   for t in tests {
-    println("\{t.pkg} \{t.file}:\{t.line} \{Json::string(t.name).stringify()}")
+    let name = if t.name == "" { "(anonymous test)" } else { t.name }
+    println("\{t.pkg} \{t.file}:\{t.line} \{Json::string(name).stringify()}")
   }
 }
 
@@ -197,8 +203,9 @@ async fn record_all(
 ) -> Array[@project.Recording] {
   let project = @project.load_project(root)
   let tests = @project.select_tests(
-    @project.list_tests(root, options.target),
+    @project.list_tests(project.root, options.target),
     filter,
+    module_name=project.name,
   )
   if tests.is_empty() {
     println("moonwalk: no test matches \{Json::string(filter).stringify()}")

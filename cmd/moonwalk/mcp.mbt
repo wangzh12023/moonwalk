@@ -125,9 +125,11 @@ async fn Session::recording(
   self : Session,
   filter : String,
 ) -> Result[@project.Recording, String] {
+  let project = @project.load_project(self.root)
   let tests = @project.select_tests(
-    @project.list_tests(self.root, self.options.target),
+    @project.list_tests(project.root, self.options.target),
     filter,
+    module_name=project.name,
   )
   guard tests is [tc, ..] else {
     return Err("no test matches \{quote(filter)}")
@@ -143,7 +145,6 @@ async fn Session::recording(
     Some(r) => return Ok(r)
     None => ()
   }
-  let project = @project.load_project(self.root)
   let shadow_dir = @project.join([project.root, "_build", "moonwalk", "shadow"])
   let (shadow, _) = @project.prepare(
     project,
