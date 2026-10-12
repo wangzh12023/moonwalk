@@ -77,6 +77,25 @@ pub fn add_runtime_import(text : String, module_name : String) -> String {
 }
 
 ///|
+/// Add the runtime import to a legacy `moon.pkg.json`.
+///
+/// Returns `None` when the manifest is not a JSON object.
+pub fn add_runtime_import_json(text : String, module_name : String) -> String? {
+  let json = @json.parse(text) catch { _ => return None }
+  guard json is Object(obj) else { return None }
+  let entry : Json = {
+    "path": Json::string("\{module_name}/\{runtime_dir}"),
+    "alias": Json::string(runtime_alias),
+  }
+  let imports = match obj.get("import") {
+    Some(Array(xs)) => [..xs, entry]
+    _ => [entry]
+  }
+  obj["import"] = Json::array(imports)
+  Some(Json::object(obj).stringify(indent=2))
+}
+
+///|
 /// Text of the runtime package's `moon.pkg`.
 pub let runtime_pkg : String =
   #|import {
@@ -167,11 +186,21 @@ pub async fn build_shadow(
       }
     }
     // Wire the runtime into the package.
-    let manifest = join([root, pkg.dir, "moon.pkg"])
-    let original = join([project.root, pkg.dir, "moon.pkg"])
-    if @fs.exists(original) {
-      let text = @fs.read_file(original).text()
-      sync_file(manifest, @utf8.encode(add_runtime_import(text, project.name)))
+    let dsl = join([project.root, pkg.dir, "moon.pkg"])
+    let legacy = join([project.root, pkg.dir, "moon.pkg.json"])
+    if @fs.exists(dsl) {
+      let text = @fs.read_file(dsl).text()
+      sync_file(
+        join([root, pkg.dir, "moon.pkg"]),
+        @utf8.encode(add_runtime_import(text, project.name)),
+      )
+    } else if @fs.exists(legacy) {
+      let text = @fs.read_file(legacy).text()
+      match add_runtime_import_json(text, project.name) {
+        Some(patched) =>
+          sync_file(join([root, pkg.dir, "moon.pkg.json"]), @utf8.encode(patched))
+        None => skipped.push(join([pkg.dir, "moon.pkg.json"]))
+      }
     }
   }
   let rt = join([root, project.source, runtime_dir])

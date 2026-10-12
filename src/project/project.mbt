@@ -73,6 +73,19 @@ pub fn parse_module_manifest(text : String) -> (String, String)? {
 }
 
 ///|
+/// Read a module's name and source directory from legacy `moon.mod.json`.
+pub fn parse_module_json(text : String) -> (String, String)? {
+  let json = @json.parse(text) catch { _ => return None }
+  guard json is Object(obj) else { return None }
+  guard obj.get("name") is Some(String(name)) else { return None }
+  let source = match obj.get("source") {
+    Some(String(s)) => slashes(s).trim(chars="/").to_owned()
+    _ => ""
+  }
+  Some((name, source))
+}
+
+///|
 /// Kinds of import declared by a `moon.pkg`.
 pub(all) enum ImportKind {
   Normal
@@ -115,9 +128,20 @@ pub fn parse_package_imports(text : String) -> Array[(ImportKind, String)] {
 /// Discover the packages of the module rooted at `root`.
 pub async fn load_project(root : String) -> Project {
   let root = slashes(root)
-  let manifest = @fs.read_file(join([root, "moon.mod"])).text()
-  guard parse_module_manifest(manifest) is Some((name, source)) else {
-    fail("cannot read the module name from \{root}/moon.mod")
+  let (name, source) = if @fs.exists(join([root, "moon.mod"])) {
+    let manifest = @fs.read_file(join([root, "moon.mod"])).text()
+    guard parse_module_manifest(manifest) is Some(r) else {
+      fail("cannot read the module name from \{root}/moon.mod")
+    }
+    r
+  } else if @fs.exists(join([root, "moon.mod.json"])) {
+    let manifest = @fs.read_file(join([root, "moon.mod.json"])).text()
+    guard parse_module_json(manifest) is Some(r) else {
+      fail("cannot read the module name from \{root}/moon.mod.json")
+    }
+    r
+  } else {
+    fail("\{root} is not a MoonBit module (no moon.mod or moon.mod.json)")
   }
   let packages = []
   async fn scan(rel : String) -> Unit {
